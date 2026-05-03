@@ -1,30 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>App Firebase</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WMS Mobile</title>
 
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<h2>Login</h2>
-<input type="email" id="email" placeholder="Email">
-<input type="password" id="password" placeholder="Password">
-<button onclick="login()">Login</button>
+<!-- LOGIN -->
+<div id="loginPage">
+  <h2>Login</h2>
+  <input type="email" id="email" placeholder="Email">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="login()">Login</button>
+</div>
 
-<h2>Data</h2>
-<input type="text" id="dataInput" placeholder="Input data">
-<button onclick="saveData()">Simpan</button>
+<!-- DASHBOARD -->
+<div id="dashboard" style="display:none;">
+  <h2>WMS Mobile</h2>
 
-<ul id="dataList"></ul>
+  <!-- SCAN -->
+  <button onclick="startScan()">Scan Barcode</button>
+  <video id="preview" width="100%"></video>
 
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+  <!-- FORM -->
+  <input type="text" id="barcode" placeholder="Barcode">
+  <input type="text" id="nama" placeholder="Nama Barang">
+  <input type="number" id="qty" placeholder="Qty">
 
-<script src="app.js"></script>
+  <button onclick="saveItem()">Simpan</button>
+
+  <h3>List Barang</h3>
+  <ul id="itemList"></ul>
+
+  <button onclick="logout()">Logout</button>
+</div>
+
+<!-- LIBRARY SCANNER -->
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+<script type="module" src="app.js"></script>
 </body>
 </html>

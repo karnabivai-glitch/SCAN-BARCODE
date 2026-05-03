@@ -1,52 +1,75 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { app, firebaseConfig } from "./firebase.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDpcYIgpUhU2kKnZiHCc1fVJmVjDx_VzXo",
-  authDomain: "scan-barcode-7bb05.firebaseapp.com",
-  projectId: "scan-barcode-7bb05",
-};
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } 
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-const app = initializeApp(firebaseConfig);
+import { getFirestore, collection, addDoc, getDocs } 
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// LOGIN
-window.login = async function () {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-    alert("Login berhasil");
-    loadData();
-  } catch (err) {
-    alert(err.message);
+// LOGIN STATE
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("dashboard").style.display = "block";
+    loadItems();
+  } else {
+    document.getElementById("loginPage").style.display = "block";
+    document.getElementById("dashboard").style.display = "none";
   }
+});
+
+// LOGIN
+window.login = async () => {
+  const email = email.value;
+  const password = password.value;
+  await signInWithEmailAndPassword(auth, email, password);
 };
 
-// SIMPAN DATA
-window.saveData = async function () {
-  const input = document.getElementById("dataInput").value;
+// LOGOUT
+window.logout = async () => {
+  await signOut(auth);
+};
 
-  await addDoc(collection(db, "data"), {
-    text: input,
+// SCAN BARCODE
+window.startScan = function () {
+  const html5QrCode = new Html5Qrcode("preview");
+
+  html5QrCode.start(
+    { facingMode: "environment" },
+    { fps: 10, qrbox: 250 },
+    (decodedText) => {
+      document.getElementById("barcode").value = decodedText;
+      html5QrCode.stop();
+    }
+  );
+};
+
+// SIMPAN ITEM
+window.saveItem = async () => {
+  const data = {
+    barcode: barcode.value,
+    nama: nama.value,
+    qty: parseInt(qty.value),
     created: new Date()
-  });
+  };
 
-  loadData();
+  await addDoc(collection(db, "items"), data);
+  loadItems();
 };
 
 // LOAD DATA
-async function loadData() {
-  const querySnapshot = await getDocs(collection(db, "data"));
-  const list = document.getElementById("dataList");
+async function loadItems() {
+  const snapshot = await getDocs(collection(db, "items"));
+  const list = document.getElementById("itemList");
   list.innerHTML = "";
 
-  querySnapshot.forEach(doc => {
+  snapshot.forEach(doc => {
+    const d = doc.data();
     const li = document.createElement("li");
-    li.textContent = doc.data().text;
+    li.textContent = `${d.barcode} - ${d.nama} (${d.qty})`;
     list.appendChild(li);
   });
 }
