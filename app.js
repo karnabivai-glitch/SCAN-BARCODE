@@ -1,31 +1,50 @@
-import { app, firebaseConfig } from "./firebase.js";
+import { app } from "./firebase.js";
 
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { 
+  getAuth, 
+  signInWithEmailAndPassword, 
+  onAuthStateChanged, 
+  signOut 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-import { getFirestore, collection, addDoc, getDocs } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { 
+  getFirestore, 
+  collection, 
+  addDoc, 
+  getDocs 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// LOGIN STATE
+// HANDLE LOGIN STATE
 onAuthStateChanged(auth, (user) => {
+  const loginPage = document.getElementById("loginPage");
+  const dashboard = document.getElementById("dashboard");
+
+  if (!loginPage || !dashboard) return;
+
   if (user) {
-    document.getElementById("loginPage").style.display = "none";
-    document.getElementById("dashboard").style.display = "block";
+    loginPage.style.display = "none";
+    dashboard.style.display = "block";
     loadItems();
   } else {
-    document.getElementById("loginPage").style.display = "block";
-    document.getElementById("dashboard").style.display = "none";
+    loginPage.style.display = "block";
+    dashboard.style.display = "none";
   }
 });
 
 // LOGIN
 window.login = async () => {
-  const email = email.value;
-  const password = password.value;
-  await signInWithEmailAndPassword(auth, email, password);
+  const emailInput = document.getElementById("email").value;
+  const passwordInput = document.getElementById("password").value;
+
+  try {
+    await signInWithEmailAndPassword(auth, emailInput, passwordInput);
+  } catch (err) {
+    alert(err.message);
+    console.error(err);
+  }
 };
 
 // LOGOUT
@@ -43,33 +62,62 @@ window.startScan = function () {
     (decodedText) => {
       document.getElementById("barcode").value = decodedText;
       html5QrCode.stop();
+    },
+    (error) => {
+      // ignore scan error
     }
   );
 };
 
 // SIMPAN ITEM
 window.saveItem = async () => {
-  const data = {
-    barcode: barcode.value,
-    nama: nama.value,
-    qty: parseInt(qty.value),
-    created: new Date()
-  };
+  const barcode = document.getElementById("barcode").value;
+  const nama = document.getElementById("nama").value;
+  const qty = parseInt(document.getElementById("qty").value);
 
-  await addDoc(collection(db, "items"), data);
-  loadItems();
+  if (!barcode || !nama || !qty) {
+    alert("Lengkapi data!");
+    return;
+  }
+
+  try {
+    await addDoc(collection(db, "items"), {
+      barcode,
+      nama,
+      qty,
+      created: new Date()
+    });
+
+    document.getElementById("barcode").value = "";
+    document.getElementById("nama").value = "";
+    document.getElementById("qty").value = "";
+
+    loadItems();
+  } catch (err) {
+    console.error(err);
+    alert("Gagal simpan data");
+  }
 };
 
-// LOAD DATA
+// LOAD DATA (FIX ERROR NULL)
 async function loadItems() {
-  const snapshot = await getDocs(collection(db, "items"));
   const list = document.getElementById("itemList");
+
+  if (!list) {
+    console.error("Element itemList tidak ditemukan");
+    return;
+  }
+
   list.innerHTML = "";
+
+  const snapshot = await getDocs(collection(db, "items"));
 
   snapshot.forEach(doc => {
     const d = doc.data();
+
     const li = document.createElement("li");
     li.textContent = `${d.barcode} - ${d.nama} (${d.qty})`;
+
     list.appendChild(li);
   });
 }

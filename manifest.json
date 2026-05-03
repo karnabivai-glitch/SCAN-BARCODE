@@ -1,9 +1,8 @@
 {
-  "name": "App Firebase",
-  "short_name": "App",
+  "name": "WMS Mobile",
+  "short_name": "WMS",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#000000",
-  "icons": []
+  "theme_color": "#000000"
 }
