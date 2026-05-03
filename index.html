@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<meta name="theme-color" content="#007bff">
+<link rel="apple-touch-icon" href="icon.png">
   <title>WMS Mobile</title>
 
   <link rel="manifest" href="manifest.json">
@@ -12,32 +15,40 @@
 
 <!-- LOGIN -->
 <div id="loginPage">
-  <h2>Login</h2>
-  <input type="email" id="email" placeholder="Email">
-  <input type="password" id="password" placeholder="Password">
-  <button onclick="login()">Login</button>
+  <div class="card">
+    <h2>Login</h2>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+  </div>
 </div>
 
 <!-- DASHBOARD -->
 <div id="dashboard" style="display:none;">
+
   <h2>WMS Mobile</h2>
 
-  <!-- SCAN -->
-  <button onclick="startScan()">Scan Barcode</button>
-  <video id="preview" width="100%"></video>
+  <div class="card">
+    <button onclick="startScan()">📷 Scan Barcode</button>
+    <video id="preview"></video>
+  </div>
 
-  <!-- FORM -->
-  <input type="text" id="barcode" placeholder="Barcode">
-  <input type="text" id="nama" placeholder="Nama Barang">
-  <input type="number" id="qty" placeholder="Qty">
+  <div class="card">
+    <input type="text" id="barcode" placeholder="Barcode">
+    <input type="text" id="nama" placeholder="Nama Barang">
+    <input type="number" id="qty" placeholder="Qty">
+    <button onclick="saveItem()">💾 Simpan</button>
+  </div>
 
-  <button onclick="saveItem()">Simpan</button>
+  <div class="card">
+    <h3>📦 List Barang</h3>
+    <ul id="itemList"></ul>
+  </div>
 
-  <h3>List Barang</h3>
-  <ul id="itemList"></ul>
+  <button class="secondary" onclick="logout()">Logout</button>
 
-  <button onclick="logout()">Logout</button>
 </div>
+
 
 <!-- LIBRARY SCANNER -->
 <script src="https://unpkg.com/html5-qrcode"></script>
