@@ -17,7 +17,24 @@ import {
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// HANDLE LOGIN STATE
+// LOGIN (GLOBAL FIX)
+window.login = async () => {
+  const emailInput = document.getElementById("email").value;
+  const passwordInput = document.getElementById("password").value;
+
+  try {
+    await signInWithEmailAndPassword(auth, emailInput, passwordInput);
+  } catch (err) {
+    alert(err.message);
+  }
+};
+
+// LOGOUT
+window.logout = async () => {
+  await signOut(auth);
+};
+
+// STATE LOGIN
 onAuthStateChanged(auth, (user) => {
   const loginPage = document.getElementById("loginPage");
   const dashboard = document.getElementById("dashboard");
@@ -34,25 +51,7 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-// LOGIN
-window.login = async () => {
-  const emailInput = document.getElementById("email").value;
-  const passwordInput = document.getElementById("password").value;
-
-  try {
-    await signInWithEmailAndPassword(auth, emailInput, passwordInput);
-  } catch (err) {
-    alert(err.message);
-    console.error(err);
-  }
-};
-
-// LOGOUT
-window.logout = async () => {
-  await signOut(auth);
-};
-
-// SCAN BARCODE
+// SCAN
 window.startScan = function () {
   const html5QrCode = new Html5Qrcode("preview");
 
@@ -62,14 +61,11 @@ window.startScan = function () {
     (decodedText) => {
       document.getElementById("barcode").value = decodedText;
       html5QrCode.stop();
-    },
-    (error) => {
-      // ignore scan error
     }
   );
 };
 
-// SIMPAN ITEM
+// SIMPAN
 window.saveItem = async () => {
   const barcode = document.getElementById("barcode").value;
   const nama = document.getElementById("nama").value;
@@ -80,33 +76,21 @@ window.saveItem = async () => {
     return;
   }
 
-  try {
-    await addDoc(collection(db, "items"), {
-      barcode,
-      nama,
-      qty,
-      created: new Date()
-    });
+  await addDoc(collection(db, "items"), {
+    barcode,
+    nama,
+    qty,
+    created: new Date()
+  });
 
-    document.getElementById("barcode").value = "";
-    document.getElementById("nama").value = "";
-    document.getElementById("qty").value = "";
-
-    loadItems();
-  } catch (err) {
-    console.error(err);
-    alert("Gagal simpan data");
-  }
+  loadItems();
 };
 
-// LOAD DATA (FIX ERROR NULL)
+// LOAD DATA
 async function loadItems() {
   const list = document.getElementById("itemList");
 
-  if (!list) {
-    console.error("Element itemList tidak ditemukan");
-    return;
-  }
+  if (!list) return;
 
   list.innerHTML = "";
 
@@ -114,10 +98,8 @@ async function loadItems() {
 
   snapshot.forEach(doc => {
     const d = doc.data();
-
     const li = document.createElement("li");
     li.textContent = `${d.barcode} - ${d.nama} (${d.qty})`;
-
     list.appendChild(li);
   });
 }
