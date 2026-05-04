@@ -3,543 +3,1095 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="theme-color" content="#0f172a">
+  <meta name="theme-color" content="#ffffff">
   <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📦</text></svg>">
-  <title>WMS Mobile Scan</title>
-  <link rel="manifest" href="data:application/json,{ 'name': 'WMS Mobile', 'short_name': 'WMS', 'start_url': '/', 'display': 'standalone', 'background_color': '#0f172a', 'theme_color': '#0f172a' }">
+  <title>WMS Mobile Pro - Complete</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    :root {
+      --bg: #f0f9ff;
+      --card: #ffffff;
+      --text: #1e293b;
+      --subtext: #64748b;
+      --border: #e2e8f0;
+      --primary: #3b82f6;
+      --primary-dark: #2563eb;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --success: #10b981;
+      --shadow: 0 10px 30px rgba(0,0,0,0.06);
+      --radius: 20px;
     }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-      background: #0f172a;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 30%, #f8fafc 100%);
       min-height: 100vh;
-      padding: 16px;
-      margin: 0;
+      padding: 12px;
+      display: flex;
+      justify-content: center;
     }
 
-    /* Main container - phone frame feel */
     .app-container {
       width: 100%;
-      max-width: 420px;
-      margin: 0 auto;
+      max-width: 450px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 12px;
+      padding-bottom: 80px;
     }
 
-    /* Glassmorphism cards */
+    /* Cards */
     .card {
-      background: rgba(30, 41, 59, 0.85);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-radius: 28px;
-      padding: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 20px 35px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 18px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    /* Typography */
+    h2 { font-size: 1.4rem; font-weight: 700; color: var(--text); }
+    h3 { font-size: 1.1rem; font-weight: 600; color: var(--text); }
+    .subtitle { color: var(--subtext); font-size: 0.85rem; }
+
+    /* Input */
+    input, select, textarea {
       width: 100%;
-    }
-
-    h2 {
-      color: #f1f5f9;
-      font-weight: 600;
-      font-size: 1.7rem;
-      letter-spacing: -0.5px;
-      text-align: center;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .app-title {
-      font-size: 2rem;
-      font-weight: 700;
-      background: linear-gradient(to right, #a5f3fc, #67e8f9);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 6px;
-    }
-
-    .input-group {
-      margin-bottom: 14px;
-    }
-
-    input {
-      width: 100%;
-      padding: 14px 18px;
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 18px;
-      font-size: 16px;
-      color: #f8fafc;
+      padding: 12px 14px;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      font-size: 15px;
+      color: var(--text);
+      background: #fff;
       outline: none;
-      transition: all 0.2s ease;
-      margin-bottom: 10px;
+      transition: 0.2s;
+      margin-bottom: 8px;
+    }
+    input:focus, select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(59,130,246,0.1);
     }
 
-    input::placeholder {
-      color: #94a3b8;
-      font-weight: 400;
-    }
-
-    input:focus {
-      border-color: #38bdf8;
-      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
-      background: rgba(15, 23, 42, 0.9);
-    }
-
+    /* Buttons */
     button {
       width: 100%;
-      padding: 16px 20px;
-      border-radius: 18px;
+      padding: 13px;
+      border-radius: 14px;
       border: none;
       font-weight: 600;
-      font-size: 1rem;
-      letter-spacing: 0.3px;
-      background: #2563eb;
-      color: white;
+      font-size: 0.9rem;
       cursor: pointer;
-      transition: all 0.25s ease;
+      transition: 0.2s;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      box-shadow: 0 10px 20px -8px rgba(37, 99, 235, 0.5);
-      margin-top: 5px;
-    }
-
-    button:active {
-      transform: scale(0.97);
-      background: #1d4ed8;
-    }
-
-    button.secondary {
-      background: rgba(255, 255, 255, 0.08);
-      color: #cbd5e1;
-      box-shadow: none;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      margin-top: 12px;
-      font-weight: 500;
-    }
-
-    button.scan-btn {
-      background: #0f172a;
-      border: 1px solid #334155;
-      color: #facc15;
-      font-weight: 600;
-      box-shadow: 0 0 15px rgba(250, 204, 21, 0.2);
-    }
-
-    #preview {
-      width: 100%;
-      border-radius: 20px;
-      margin: 12px 0 8px;
-      background: #000;
-      aspect-ratio: 1/1;
-      object-fit: cover;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-      margin-top: 12px;
-      max-height: 280px;
-      overflow-y: auto;
-    }
-
-    li {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(5px);
-      padding: 14px 16px;
-      border-radius: 16px;
-      margin-bottom: 10px;
-      color: #e2e8f0;
-      font-size: 0.95rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      border-left: 4px solid #38bdf8;
-      font-weight: 500;
-      transition: 0.2s;
-    }
-
-    li::before {
-      content: "📦";
-      font-size: 1.2rem;
-    }
-
-    .dashboard-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-
-    .user-badge {
-      background: #1e293b;
-      color: #cbd5e1;
-      padding: 6px 14px;
-      border-radius: 30px;
-      font-size: 0.8rem;
-      display: flex;
-      align-items: center;
       gap: 6px;
     }
+    button:active { transform: scale(0.97); }
+    .btn-primary { background: linear-gradient(135deg, #3b82f6, #2563eb); color: #fff; }
+    .btn-warning { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; }
+    .btn-danger { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .btn-success { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; }
+    .btn-outline { background: #fff; color: #3b82f6; border: 2px solid #bfdbfe; }
+    .btn-sm { width: auto; padding: 8px 14px; font-size: 0.8rem; }
+    .btn-icon { width: 38px; height: 38px; padding: 0; border-radius: 12px; font-size: 1.1rem; }
 
-    .empty-message {
-      color: #64748b;
-      text-align: center;
-      padding: 24px;
-      font-style: italic;
-    }
-
-    #loginPage, #dashboard {
-      transition: opacity 0.3s ease;
-    }
-
-    .flex-row {
+    /* Navigation */
+    .nav-tabs {
       display: flex;
+      gap: 6px;
+      background: #fff;
+      padding: 6px;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+    }
+    .nav-tabs button {
+      flex: 1;
+      padding: 10px;
+      font-size: 0.8rem;
+      background: transparent;
+      color: #64748b;
+    }
+    .nav-tabs button.active {
+      background: #eff6ff;
+      color: #2563eb;
+      font-weight: 700;
+    }
+
+    /* Bottom Nav */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fff;
+      display: flex;
+      border-top: 1px solid #e2e8f0;
+      padding: 8px 16px 12px;
+      gap: 8px;
+      z-index: 100;
+      max-width: 450px;
+      margin: 0 auto;
+      border-radius: 24px 24px 0 0;
+      box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+    }
+    .bottom-nav button {
+      flex: 1;
+      padding: 8px 6px;
+      font-size: 0.7rem;
+      background: transparent;
+      color: #64748b;
+      flex-direction: column;
+      gap: 4px;
+      border-radius: 12px;
+    }
+    .bottom-nav button.active {
+      background: #eff6ff;
+      color: #2563eb;
+    }
+    .bottom-nav button .nav-icon { font-size: 1.3rem; }
+
+    /* Lists */
+    .item-list {
+      list-style: none;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .item-list li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: #f8fafc;
+      border-radius: 14px;
+      margin-bottom: 8px;
+      border: 1px solid #f1f5f9;
+      transition: 0.2s;
+      position: relative;
+      animation: slideIn 0.3s ease;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .item-list li:active { background: #eff6ff; }
+    .item-icon {
+      width: 44px; height: 44px;
+      background: #eff6ff;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+    .item-info { flex: 1; }
+    .item-name { font-weight: 600; color: #1e293b; font-size: 0.9rem; }
+    .item-meta { font-size: 0.75rem; color: #64748b; }
+    .item-qty {
+      background: #eff6ff;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 700;
+      color: #2563eb;
+      font-size: 0.85rem;
+    }
+    .item-actions {
+      display: flex;
+      gap: 4px;
+    }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal {
+      background: #fff;
+      border-radius: 24px;
+      padding: 24px;
+      width: 100%;
+      max-width: 400px;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    }
+
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 10px;
     }
+    .stat-card {
+      background: #fff;
+      padding: 16px;
+      border-radius: 16px;
+      text-align: center;
+      border: 1px solid #e2e8f0;
+    }
+    .stat-value { font-size: 1.8rem; font-weight: 700; color: #2563eb; }
+    .stat-label { font-size: 0.75rem; color: #64748b; }
 
-    .flex-row input {
+    /* Scanner */
+    #preview {
+      width: 100%;
+      border-radius: 16px;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      border: 2px solid #e2e8f0;
+    }
+
+    /* Notification */
+    .toast {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1e293b;
+      color: #fff;
+      padding: 14px 24px;
+      border-radius: 30px;
+      z-index: 300;
+      font-weight: 500;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      animation: toastIn 0.3s ease;
+    }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    /* Search */
+    .search-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .search-bar input {
+      flex: 1;
       margin-bottom: 0;
     }
 
-    /* custom scroll */
-    ul::-webkit-scrollbar {
-      width: 5px;
+    /* Badge */
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
     }
-    ul::-webkit-scrollbar-track {
-      background: transparent;
+    .badge-low { background: #fef2f2; color: #dc2626; }
+    .badge-ok { background: #ecfdf5; color: #059669; }
+
+    /* Page */
+    .page { display: none; flex-direction: column; gap: 12px; }
+    .page.active { display: flex; }
+
+    /* PIN pad */
+    .pin-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
     }
-    ul::-webkit-scrollbar-thumb {
-      background: #475569;
-      border-radius: 10px;
+    .pin-grid button {
+      aspect-ratio: 1;
+      font-size: 1.4rem;
+      border-radius: 16px;
+      background: #f1f5f9;
+    }
+
+    .flex-row { display: flex; gap: 8px; }
+    .flex-row input { margin-bottom: 0; }
+    .text-center { text-align: center; }
+    .mt-2 { margin-top: 8px; }
+    .mb-2 { margin-bottom: 8px; }
+
+    /* Scrollbar */
+    .item-list::-webkit-scrollbar { width: 4px; }
+    .item-list::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+    /* Image preview */
+    .img-preview {
+      width: 60px; height: 60px;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 2px solid #e2e8f0;
     }
   </style>
 </head>
 <body>
-<div class="app-container" id="appRoot">
-  <!-- Login Page -->
-  <div id="loginPage">
-    <div class="card">
-      <div style="text-align: center; margin-bottom: 10px;">
-        <span style="font-size: 3rem;">📲</span>
-        <h2 class="app-title">WMS Mobile</h2>
-        <p style="color: #94a3b8; margin-bottom: 18px;">Scan & kelola stok barang</p>
-      </div>
-      <div class="input-group">
-        <input type="email" id="email" placeholder="Email" autocomplete="email">
-      </div>
-      <div class="input-group">
+  <div class="app-container" id="appRoot">
+    <!-- LOGIN PAGE -->
+    <div id="loginPage" class="page active">
+      <div class="card text-center">
+        <div style="font-size:4rem;">📦</div>
+        <h2>WMS Mobile Pro</h2>
+        <p class="subtitle">Scan, Kelola & Analisis Stok</p>
+        <input type="email" id="email" placeholder="Email" style="margin-top:16px;">
         <input type="password" id="password" placeholder="Password">
+        <button class="btn-primary" id="loginBtn">🔐 Masuk</button>
+        <p class="subtitle mt-2" style="font-size:0.7rem;">v2.0 • 19 Fitur Premium</p>
       </div>
-      <button id="loginButton">🔐 Masuk</button>
-      <p style="color: #475569; font-size: 0.7rem; text-align: center; margin-top: 16px;">Gunakan akun Firebase Anda</p>
+    </div>
+
+    <!-- MAIN DASHBOARD -->
+    <div id="mainPage" class="page">
+      <div class="flex-row" style="justify-content:space-between;align-items:center;">
+        <h2>📋 Dashboard</h2>
+        <div class="flex-row">
+          <span class="badge badge-ok" id="onlineStatus">🟢 Online</span>
+          <button class="btn-icon btn-outline" id="logoutBtn" title="Logout">🚪</button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-value" id="totalItems">0</div><div class="stat-label">Total Barang</div></div>
+        <div class="stat-card"><div class="stat-value" id="totalQty">0</div><div class="stat-label">Total Qty</div></div>
+        <div class="stat-card"><div class="stat-value" id="lowStock">0</div><div class="stat-label">⚠️ Stok Rendah</div></div>
+        <div class="stat-card"><div class="stat-value" id="todayIn">0</div><div class="stat-label">📥 Hari Ini</div></div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="nav-tabs">
+        <button class="active" data-page="scanPage">📸 Scan</button>
+        <button data-page="dataPage">📦 Data</button>
+        <button data-page="historyPage">📜 Riwayat</button>
+        <button data-page="settingsPage">⚙️</button>
+      </div>
+
+      <!-- SCAN PAGE -->
+      <div id="scanPage" class="page active">
+        <div class="card">
+          <h3>📷 Scanner Barcode</h3>
+          <button class="btn-warning" id="scanToggleBtn">📸 Buka Kamera</button>
+          <button class="btn-outline btn-sm" id="batchScanBtn" style="margin-top:6px;">📚 Mode Batch Scan</button>
+          <div id="scannerContainer" style="display:none;margin-top:10px;">
+            <div id="preview"></div>
+            <button class="btn-danger btn-sm" id="stopScanBtn">❌ Tutup</button>
+          </div>
+          <div id="batchList" style="margin-top:8px;"></div>
+        </div>
+        <div class="card">
+          <h3>📝 Input Barang</h3>
+          <input type="text" id="barcode" placeholder="Kode Barcode">
+          <div class="flex-row">
+            <input type="text" id="nama" placeholder="Nama Barang" style="flex:2;">
+            <input type="number" id="qty" placeholder="Qty" value="1" style="flex:1;">
+          </div>
+          <select id="kategori" style="margin-bottom:8px;">
+            <option value="">Pilih Kategori</option>
+            <option value="Elektronik">🔌 Elektronik</option>
+            <option value="Makanan">🍔 Makanan</option>
+            <option value="Minuman">🥤 Minuman</option>
+            <option value="Pakaian">👕 Pakaian</option>
+            <option value="Lainnya">📦 Lainnya</option>
+          </select>
+          <select id="lokasi" style="margin-bottom:8px;">
+            <option value="">Pilih Lokasi</option>
+            <option value="Rak A">📍 Rak A</option>
+            <option value="Rak B">📍 Rak B</option>
+            <option value="Gudang 1">🏭 Gudang 1</option>
+          </select>
+          <div class="flex-row">
+            <button class="btn-outline btn-sm" id="takePhotoBtn">📷 Foto</button>
+            <button class="btn-outline btn-sm" id="generateQRBtn">🔳 Generate QR</button>
+          </div>
+          <img id="photoPreview" class="img-preview" style="display:none;margin-top:8px;">
+          <button class="btn-primary" id="saveItemBtn">💾 Simpan Barang</button>
+        </div>
+      </div>
+
+      <!-- DATA PAGE -->
+      <div id="dataPage" class="page">
+        <div class="card">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="🔍 Cari barcode/nama...">
+            <button class="btn-outline btn-sm" id="filterBtn">🔽 Filter</button>
+          </div>
+          <div id="filterOptions" style="display:none;margin-bottom:8px;">
+            <select id="filterKategori"><option value="">Semua Kategori</option></select>
+            <select id="filterLokasi"><option value="">Semua Lokasi</option></select>
+            <select id="sortBy">
+              <option value="newest">Terbaru</option>
+              <option value="oldest">Terlama</option>
+              <option value="az">A-Z</option>
+              <option value="za">Z-A</option>
+              <option value="qtyHigh">Qty Tertinggi</option>
+              <option value="qtyLow">Qty Terendah</option>
+            </select>
+          </div>
+          <button class="btn-success btn-sm mb-2" id="exportCSVBtn">📥 Export CSV</button>
+          <ul class="item-list" id="itemList"></ul>
+        </div>
+      </div>
+
+      <!-- HISTORY PAGE -->
+      <div id="historyPage" class="page">
+        <div class="card">
+          <h3>📜 Riwayat Transaksi</h3>
+          <div class="search-bar">
+            <input type="text" id="historySearch" placeholder="🔍 Cari riwayat...">
+          </div>
+          <ul class="item-list" id="historyList"></ul>
+        </div>
+      </div>
+
+      <!-- SETTINGS PAGE -->
+      <div id="settingsPage" class="page">
+        <div class="card">
+          <h3>⚙️ Pengaturan</h3>
+          <button class="btn-outline mb-2" id="backupBtn">💾 Backup Data</button>
+          <button class="btn-outline mb-2" id="restoreBtn">📥 Restore Data</button>
+          <button class="btn-outline mb-2" id="exportJSONBtn">📄 Export Full JSON</button>
+          <button class="btn-warning mb-2" id="pinLockBtn">🔒 Aktifkan PIN Lock</button>
+          <button class="btn-outline mb-2" id="logActivityBtn">📋 Lihat Log Aktivitas</button>
+          <button class="btn-danger" id="clearDataBtn">🗑️ Hapus Semua Data</button>
+        </div>
+        <div class="card">
+          <h3>👤 Info Pengguna</h3>
+          <p id="userInfo" class="subtitle"></p>
+          <select id="userRole" class="mb-2">
+            <option value="admin">Admin</option>
+            <option value="operator">Operator</option>
+            <option value="viewer">Viewer</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav" id="bottomNav" style="display:none;">
+      <button class="active" data-page="scanPage"><span class="nav-icon">📸</span>Scan</button>
+      <button data-page="dataPage"><span class="nav-icon">📦</span>Data</button>
+      <button data-page="historyPage"><span class="nav-icon">📜</span>Riwayat</button>
+      <button data-page="settingsPage"><span class="nav-icon">⚙️</span>Setelan</button>
+    </div>
+
+    <!-- EDIT MODAL -->
+    <div class="modal-overlay" id="editModal">
+      <div class="modal">
+        <h3>✏️ Edit Barang</h3>
+        <input type="text" id="editNama" placeholder="Nama Barang">
+        <input type="number" id="editQty" placeholder="Qty">
+        <input type="text" id="editBarcode" placeholder="Barcode">
+        <select id="editKategori"><option value="">Kategori</option></select>
+        <select id="editLokasi"><option value="">Lokasi</option></select>
+        <div class="flex-row mt-2">
+          <button class="btn-primary" id="saveEditBtn">💾 Simpan</button>
+          <button class="btn-outline" id="cancelEditBtn">Batal</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PIN MODAL -->
+    <div class="modal-overlay" id="pinModal">
+      <div class="modal text-center">
+        <h3>🔒 Masukkan PIN</h3>
+        <div id="pinDisplay" style="font-size:2rem;letter-spacing:10px;margin:16px 0;">••••</div>
+        <div class="pin-grid" id="pinPad"></div>
+        <button class="btn-outline mt-2" id="cancelPinBtn">Batal</button>
+      </div>
+    </div>
+
+    <!-- QR MODAL -->
+    <div class="modal-overlay" id="qrModal">
+      <div class="modal text-center">
+        <h3>🔳 QR Code</h3>
+        <canvas id="qrCanvas"></canvas>
+        <p id="qrText" class="subtitle mt-2"></p>
+        <button class="btn-outline mt-2" id="closeQrBtn">Tutup</button>
+      </div>
     </div>
   </div>
 
-  <!-- Dashboard -->
-  <div id="dashboard" style="display: none;">
-    <div class="dashboard-header">
-      <h2 style="margin-bottom:0; font-size:1.5rem;">📋 Dashboard</h2>
-      <span class="user-badge" id="userEmailDisplay">👤 User</span>
-    </div>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
 
-    <div class="card">
-      <button class="scan-btn" id="scanToggleBtn">📷 Buka Scanner</button>
-      <div id="scannerContainer" style="display: none;">
-        <div id="preview"></div>
-        <button class="secondary" id="stopScanBtn" style="margin-top: 8px;">❌ Tutup Scanner</button>
-      </div>
-    </div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, collection, addDoc, getDocs, query, orderBy, doc, updateDoc, deleteDoc, where, serverTimestamp, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    <div class="card">
-      <div class="input-group">
-        <input type="text" id="barcode" placeholder="Kode Barcode">
-      </div>
-      <div class="flex-row">
-        <input type="text" id="nama" placeholder="Nama Barang" style="flex:2;">
-        <input type="number" id="qty" placeholder="Jumlah" style="flex:1;" value="1" min="1">
-      </div>
-      <button id="saveItemBtn">💾 Simpan Barang</button>
-    </div>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDpcYIgpUhU2kKnZiHCc1fVJmVjDx_VzXo",
+      authDomain: "scan-barcode-7bb05.firebaseapp.com",
+      projectId: "scan-barcode-7bb05",
+    };
 
-    <div class="card">
-      <h3 style="color: #f1f5f9; margin-bottom: 12px; font-weight: 500;">📦 Inventaris Terbaru</h3>
-      <ul id="itemList">
-        <li class="empty-message" style="border-left:0;">Memuat data...</li>
-      </ul>
-    </div>
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-    <button class="secondary" id="logoutButton">🚪 Keluar</button>
-    <div style="color:#475569; text-align:center; font-size:0.7rem; margin-top:12px;">v1.0 • Modern WMS</div>
-  </div>
-</div>
+    // ============ GLOBAL STATE ============
+    let currentUser = null;
+    let html5QrCode = null;
+    let allItems = [];
+    let editingDocId = null;
+    let pinCode = localStorage.getItem('wms_pin') || null;
+    let pinEnabled = localStorage.getItem('wms_pin_enabled') === 'true';
+    let batchScanItems = [];
+    let logActivities = JSON.parse(localStorage.getItem('wms_logs') || '[]');
 
-<!-- Firebase & Html5Qrcode -->
-<script type="module">
-  // ---------- FIREBASE CONFIG & INIT ----------
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { 
-    getAuth, 
-    signInWithEmailAndPassword, 
-    onAuthStateChanged, 
-    signOut 
-  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-  import { 
-    getFirestore, 
-    collection, 
-    addDoc, 
-    getDocs,
-    query,
-    orderBy,
-    serverTimestamp 
-  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    // ============ DOM REFS ============
+    const loginPage = document.getElementById('loginPage');
+    const mainPage = document.getElementById('mainPage');
+    const bottomNav = document.getElementById('bottomNav');
+    const itemList = document.getElementById('itemList');
+    const historyList = document.getElementById('historyList');
+    const scanToggleBtn = document.getElementById('scanToggleBtn');
+    const stopScanBtn = document.getElementById('stopScanBtn');
+    const scannerContainer = document.getElementById('scannerContainer');
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyDpcYIgpUhU2kKnZiHCc1fVJmVjDx_VzXo",
-    authDomain: "scan-barcode-7bb05.firebaseapp.com",
-    projectId: "scan-barcode-7bb05",
-  };
+    // ============ NOTIFICATION ============
+    function showToast(msg) {
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = msg;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 2500);
+    }
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+    // ============ ACTIVITY LOG ============
+    function addLog(action, detail) {
+      const log = {
+        timestamp: new Date().toISOString(),
+        user: currentUser?.email || 'unknown',
+        action,
+        detail
+      };
+      logActivities.unshift(log);
+      if (logActivities.length > 100) logActivities.pop();
+      localStorage.setItem('wms_logs', JSON.stringify(logActivities));
+    }
 
-  // ---------- GLOBAL DOM REFERENCES ----------
-  const loginPage = document.getElementById("loginPage");
-  const dashboard = document.getElementById("dashboard");
-  const emailInput = document.getElementById("email");
-  const passwordInput = document.getElementById("password");
-  const loginBtn = document.getElementById("loginButton");
-  const logoutBtn = document.getElementById("logoutButton");
-  const userEmailDisplay = document.getElementById("userEmailDisplay");
-  
-  const barcodeInput = document.getElementById("barcode");
-  const namaInput = document.getElementById("nama");
-  const qtyInput = document.getElementById("qty");
-  const saveItemBtn = document.getElementById("saveItemBtn");
-  const itemList = document.getElementById("itemList");
+    // ============ OFFLINE DETECTION ============
+    function updateOnlineStatus() {
+      const status = navigator.onLine ? '🟢 Online' : '🔴 Offline';
+      document.getElementById('onlineStatus').textContent = status;
+    }
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+    updateOnlineStatus();
 
-  const scanToggleBtn = document.getElementById("scanToggleBtn");
-  const stopScanBtn = document.getElementById("stopScanBtn");
-  const scannerContainer = document.getElementById("scannerContainer");
-  const previewDiv = document.getElementById("preview");
-
-  let html5QrCode = null;
-  let currentUser = null;
-
-  // ---------- AUTH STATE HANDLER ----------
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      currentUser = user;
-      if (loginPage) loginPage.style.display = "none";
-      if (dashboard) dashboard.style.display = "block";
-      if (userEmailDisplay) userEmailDisplay.textContent = `👤 ${user.email}`;
-      loadItems();
-    } else {
-      currentUser = null;
-      if (loginPage) loginPage.style.display = "block";
-      if (dashboard) dashboard.style.display = "none";
-      // Stop scanner if running
-      if (html5QrCode && html5QrCode.isScanning) {
-        html5QrCode.stop().then(() => {
-          scannerContainer.style.display = "none";
-          scanToggleBtn.textContent = "📷 Buka Scanner";
-        }).catch(e => console.warn);
+    // ============ AUTH ============
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        currentUser = user;
+        loginPage.classList.remove('active');
+        mainPage.classList.add('active');
+        bottomNav.style.display = 'flex';
+        document.getElementById('userInfo').textContent = `Email: ${user.email} | Role: ${localStorage.getItem('wms_role') || 'admin'}`;
+        loadAllData();
+        if (pinEnabled && pinCode) showPinModal();
+      } else {
+        currentUser = null;
+        loginPage.classList.add('active');
+        mainPage.classList.remove('active');
+        bottomNav.style.display = 'none';
       }
-    }
-  });
+    });
 
-  // ---------- LOGIN / LOGOUT ----------
-  loginBtn.addEventListener("click", async () => {
-    const email = emailInput.value.trim();
-    const password = passwordInput.value;
-    if (!email || !password) {
-      alert("Email dan password harus diisi.");
-      return;
-    }
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-    } catch (err) {
-      alert("Login gagal: " + err.message);
-    }
-  });
-
-  logoutBtn.addEventListener("click", async () => {
-    try {
-      await signOut(auth);
-    } catch (err) {
-      alert("Logout error: " + err.message);
-    }
-  });
-
-  // ---------- SCANNER LOGIC (Html5Qrcode) ----------
-  function initScanner() {
-    if (!html5QrCode) {
-      html5QrCode = new Html5Qrcode("preview");
-    }
-  }
-
-  async function startScanner() {
-    initScanner();
-    if (!html5QrCode) return;
-    try {
-      scannerContainer.style.display = "block";
-      scanToggleBtn.textContent = "📷 Scan Berjalan...";
-      
-      await html5QrCode.start(
-        { facingMode: "environment" },
-        { fps: 10, qrbox: { width: 250, height: 250 } },
-        (decodedText) => {
-          // Sukses scan
-          if (barcodeInput) {
-            barcodeInput.value = decodedText;
-          }
-          // Stop scanner otomatis setelah dapat
-          stopScanner();
-          // Fokus ke input nama
-          namaInput.focus();
-        },
-        (errorMessage) => {
-          // Scan error diabaikan (sering terjadi frame kosong)
-        }
-      );
-    } catch (err) {
-      alert("Gagal membuka kamera: " + err.message);
-      scannerContainer.style.display = "none";
-      scanToggleBtn.textContent = "📷 Buka Scanner";
-    }
-  }
-
-  async function stopScanner() {
-    if (html5QrCode && html5QrCode.isScanning) {
+    document.getElementById('loginBtn').addEventListener('click', async () => {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      if (!email || !password) return showToast('⚠️ Isi email & password');
       try {
-        await html5QrCode.stop();
-      } catch (err) {
-        console.warn("Stop scanner error:", err);
+        await signInWithEmailAndPassword(auth, email, password);
+        addLog('Login', 'User logged in');
+        showToast('✅ Login berhasil!');
+      } catch (e) {
+        showToast('❌ ' + e.message);
+      }
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      addLog('Logout', 'User logged out');
+      await signOut(auth);
+    });
+
+    // ============ NAVIGATION ============
+    function switchPage(pageName) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(pageName)?.classList.add('active');
+      document.querySelectorAll('.nav-tabs button, .bottom-nav button').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll(`[data-page="${pageName}"]`).forEach(b => b.classList.add('active'));
+    }
+
+    document.querySelectorAll('.nav-tabs button, .bottom-nav button').forEach(btn => {
+      btn.addEventListener('click', () => switchPage(btn.dataset.page));
+    });
+
+    // ============ PIN LOCK ============
+    function showPinModal() {
+      let inputPin = '';
+      const pinModal = document.getElementById('pinModal');
+      const pinDisplay = document.getElementById('pinDisplay');
+      const pinPad = document.getElementById('pinPad');
+      pinModal.classList.add('show');
+      pinDisplay.textContent = '••••';
+      inputPin = '';
+      
+      pinPad.innerHTML = '';
+      for (let i = 1; i <= 9; i++) {
+        const btn = document.createElement('button');
+        btn.textContent = i;
+        btn.addEventListener('click', () => {
+          inputPin += i;
+          pinDisplay.textContent = '•'.repeat(inputPin.length);
+          if (inputPin.length >= 4) {
+            if (inputPin === pinCode) {
+              pinModal.classList.remove('show');
+              showToast('✅ PIN benar');
+            } else {
+              showToast('❌ PIN salah');
+              inputPin = '';
+              pinDisplay.textContent = '••••';
+            }
+          }
+        });
+        pinPad.appendChild(btn);
+      }
+      const btn0 = document.createElement('button'); btn0.textContent = '0';
+      btn0.addEventListener('click', () => {
+        inputPin += '0';
+        pinDisplay.textContent = '•'.repeat(inputPin.length);
+        if (inputPin.length >= 4) {
+          if (inputPin === pinCode) {
+            pinModal.classList.remove('show');
+            showToast('✅ PIN benar');
+          } else {
+            showToast('❌ PIN salah');
+            inputPin = '';
+            pinDisplay.textContent = '••••';
+          }
+        }
+      });
+      pinPad.appendChild(btn0);
+      const btnClr = document.createElement('button'); btnClr.textContent = '⌫';
+      btnClr.addEventListener('click', () => {
+        inputPin = inputPin.slice(0, -1);
+        pinDisplay.textContent = '•'.repeat(inputPin.length) || '••••';
+      });
+      pinPad.appendChild(btnClr);
+    }
+
+    document.getElementById('cancelPinBtn')?.addEventListener('click', () => {
+      document.getElementById('pinModal').classList.remove('show');
+    });
+
+    document.getElementById('pinLockBtn')?.addEventListener('click', () => {
+      const newPin = prompt('Masukkan PIN 4 digit baru:');
+      if (newPin && newPin.length === 4 && /^\d+$/.test(newPin)) {
+        pinCode = newPin;
+        pinEnabled = true;
+        localStorage.setItem('wms_pin', newPin);
+        localStorage.setItem('wms_pin_enabled', 'true');
+        showToast('🔒 PIN Lock diaktifkan!');
+      } else {
+        showToast('❌ PIN harus 4 digit angka');
+      }
+    });
+
+    // ============ SCANNER ============
+    function initScanner() {
+      if (!html5QrCode) html5QrCode = new Html5Qrcode("preview");
+    }
+
+    async function startScanner() {
+      initScanner();
+      try {
+        scannerContainer.style.display = 'block';
+        scanToggleBtn.textContent = '📸 Scan Berjalan...';
+        await html5QrCode.start(
+          { facingMode: "environment" },
+          { fps: 10, qrbox: { width: 250, height: 250 } },
+          (decoded) => {
+            if (document.getElementById('batchScanBtn').textContent.includes('Stop')) {
+              batchScanItems.push(decoded);
+              updateBatchList();
+            } else {
+              document.getElementById('barcode').value = decoded;
+              stopScanner();
+              document.getElementById('nama').focus();
+            }
+          },
+          () => {}
+        );
+      } catch (e) {
+        showToast('⚠️ ' + e.message);
+        scannerContainer.style.display = 'none';
+        scanToggleBtn.textContent = '📸 Buka Kamera';
       }
     }
-    if (scannerContainer) scannerContainer.style.display = "none";
-    if (scanToggleBtn) scanToggleBtn.textContent = "📷 Buka Scanner";
-  }
 
-  scanToggleBtn.addEventListener("click", async () => {
-    // Jika scanner sedang berjalan, hentikan; jika tidak, mulai
-    if (html5QrCode && html5QrCode.isScanning) {
-      await stopScanner();
-    } else {
-      await startScanner();
-    }
-  });
-
-  stopScanBtn.addEventListener("click", async () => {
-    await stopScanner();
-  });
-
-  // ---------- SAVE ITEM TO FIRESTORE ----------
-  saveItemBtn.addEventListener("click", async () => {
-    if (!currentUser) {
-      alert("Silakan login terlebih dahulu.");
-      return;
+    async function stopScanner() {
+      if (html5QrCode?.isScanning) {
+        await html5QrCode.stop().catch(() => {});
+      }
+      scannerContainer.style.display = 'none';
+      scanToggleBtn.textContent = '📸 Buka Kamera';
     }
 
-    const barcode = barcodeInput.value.trim();
-    const nama = namaInput.value.trim();
-    const qty = parseInt(qtyInput.value, 10);
+    scanToggleBtn?.addEventListener('click', () => {
+      html5QrCode?.isScanning ? stopScanner() : startScanner();
+    });
+    stopScanBtn?.addEventListener('click', stopScanner);
 
-    if (!barcode || !nama || isNaN(qty) || qty < 1) {
-      alert("Lengkapi data dengan benar! Barcode, nama, dan jumlah (min 1) wajib diisi.");
-      return;
+    // Batch scan
+    document.getElementById('batchScanBtn')?.addEventListener('click', function() {
+      if (this.textContent.includes('Stop')) {
+        this.textContent = '📚 Mode Batch Scan';
+        batchScanItems = [];
+        updateBatchList();
+        stopScanner();
+      } else {
+        this.textContent = '⏹ Stop Batch';
+        batchScanItems = [];
+        updateBatchList();
+        if (!html5QrCode?.isScanning) startScanner();
+      }
+    });
+
+    function updateBatchList() {
+      const div = document.getElementById('batchList');
+      div.innerHTML = batchScanItems.map((b,i) => `<span class="badge badge-ok">${b}</span>`).join(' ');
     }
 
-    try {
-      await addDoc(collection(db, "items"), {
-        barcode: barcode,
-        nama: nama,
-        qty: qty,
-        created: new Date(),
-        userId: currentUser.uid
-      });
-
-      // Reset form
-      barcodeInput.value = "";
-      namaInput.value = "";
-      qtyInput.value = "1";
+    // ============ CRUD OPERATIONS ============
+    async function saveItem() {
+      if (!currentUser) return showToast('⚠️ Login dulu');
+      const barcode = document.getElementById('barcode').value.trim();
+      const nama = document.getElementById('nama').value.trim();
+      const qty = parseInt(document.getElementById('qty').value) || 1;
+      const kategori = document.getElementById('kategori').value;
+      const lokasi = document.getElementById('lokasi').value;
       
-      // Refresh list
+      if (!barcode || !nama) return showToast('⚠️ Barcode & nama wajib diisi');
+
+      const itemsToSave = batchScanItems.length > 0 
+        ? batchScanItems.map(b => ({ barcode: b, nama, qty, kategori, lokasi }))
+        : [{ barcode, nama, qty, kategori, lokasi }];
+
+      for (const item of itemsToSave) {
+        await addDoc(collection(db, "items"), {
+          ...item,
+          created: new Date(),
+          userId: currentUser.uid,
+          userEmail: currentUser.email,
+          photo: document.getElementById('photoPreview').src || ''
+        });
+        await addDoc(collection(db, "history"), {
+          type: 'IN',
+          ...item,
+          timestamp: new Date(),
+          userId: currentUser.uid
+        });
+        addLog('Tambah', `Menambah ${item.nama} (${item.barcode})`);
+      }
+
+      document.getElementById('barcode').value = '';
+      document.getElementById('nama').value = '';
+      document.getElementById('qty').value = '1';
+      document.getElementById('photoPreview').style.display = 'none';
+      batchScanItems = [];
+      updateBatchList();
+      await loadAllData();
+      showToast('✅ Berhasil disimpan!');
+    }
+
+    document.getElementById('saveItemBtn')?.addEventListener('click', saveItem);
+
+    // Edit
+    async function openEditModal(docId, data) {
+      editingDocId = docId;
+      document.getElementById('editNama').value = data.nama || '';
+      document.getElementById('editQty').value = data.qty || 1;
+      document.getElementById('editBarcode').value = data.barcode || '';
+      document.getElementById('editKategori').value = data.kategori || '';
+      document.getElementById('editLokasi').value = data.lokasi || '';
+      document.getElementById('editModal').classList.add('show');
+    }
+
+    document.getElementById('saveEditBtn')?.addEventListener('click', async () => {
+      if (!editingDocId) return;
+      const data = {
+        nama: document.getElementById('editNama').value,
+        qty: parseInt(document.getElementById('editQty').value) || 1,
+        barcode: document.getElementById('editBarcode').value,
+        kategori: document.getElementById('editKategori').value,
+        lokasi: document.getElementById('editLokasi').value,
+        updatedAt: new Date()
+      };
+      await updateDoc(doc(db, "items", editingDocId), data);
+      addLog('Edit', `Edit item ${data.nama}`);
+      document.getElementById('editModal').classList.remove('show');
+      await loadAllData();
+      showToast('✅ Data diperbarui!');
+    });
+
+    document.getElementById('cancelEditBtn')?.addEventListener('click', () => {
+      document.getElementById('editModal').classList.remove('show');
+    });
+
+    // Delete
+    async function deleteItem(docId, nama) {
+      if (!confirm(`Hapus "${nama}"?`)) return;
+      await deleteDoc(doc(db, "items", docId));
+      addLog('Hapus', `Menghapus ${nama}`);
+      await loadAllData();
+      showToast('🗑️ Dihapus!');
+    }
+
+    // ============ LOAD DATA ============
+    async function loadAllData() {
       await loadItems();
-      
-      // Feedback kecil
-      alert("✅ Barang berhasil disimpan!");
-    } catch (err) {
-      alert("Gagal menyimpan: " + err.message);
+      await loadHistory();
+      updateStats();
     }
-  });
 
-  // ---------- LOAD ITEMS FROM FIRESTORE ----------
-  async function loadItems() {
-    if (!itemList) return;
-    
-    itemList.innerHTML = "<li class='empty-message' style='border-left:0;'>Memuat...</li>";
-    
-    try {
+    async function loadItems() {
+      const searchTerm = document.getElementById('searchInput')?.value.toLowerCase() || '';
+      const filterKategori = document.getElementById('filterKategori')?.value || '';
+      const filterLokasi = document.getElementById('filterLokasi')?.value || '';
+      const sortBy = document.getElementById('sortBy')?.value || 'newest';
+
       const q = query(collection(db, "items"), orderBy("created", "desc"));
       const snapshot = await getDocs(q);
-      
-      if (snapshot.empty) {
-        itemList.innerHTML = "<li class='empty-message' style='border-left:0;'>Belum ada barang.</li>";
+      allItems = [];
+      snapshot.forEach(doc => allItems.push({ id: doc.id, ...doc.data() }));
+
+      // Filter
+      let filtered = allItems.filter(item => {
+        const matchSearch = !searchTerm || 
+          (item.nama?.toLowerCase().includes(searchTerm) || item.barcode?.toLowerCase().includes(searchTerm));
+        const matchKat = !filterKategori || item.kategori === filterKategori;
+        const matchLok = !filterLokasi || item.lokasi === filterLokasi;
+        return matchSearch && matchKat && matchLok;
+      });
+
+      // Sort
+      if (sortBy === 'az') filtered.sort((a,b) => (a.nama||'').localeCompare(b.nama||''));
+      else if (sortBy === 'za') filtered.sort((a,b) => (b.nama||'').localeCompare(a.nama||''));
+      else if (sortBy === 'qtyHigh') filtered.sort((a,b) => (b.qty||0) - (a.qty||0));
+      else if (sortBy === 'qtyLow') filtered.sort((a,b) => (a.qty||0) - (b.qty||0));
+      else if (sortBy === 'oldest') filtered.reverse();
+
+      renderItems(filtered);
+      updateFilterOptions();
+    }
+
+    function renderItems(items) {
+      if (!itemList) return;
+      if (items.length === 0) {
+        itemList.innerHTML = '<li class="text-center" style="padding:30px;color:#94a3b8;">📭 Tidak ada data</li>';
         return;
       }
+      itemList.innerHTML = items.map(item => `
+        <li>
+          ${item.photo ? `<img src="${item.photo}" class="img-preview" style="width:40px;height:40px;">` : '<div class="item-icon">📦</div>'}
+          <div class="item-info">
+            <div class="item-name">${escapeHtml(item.nama||'')}</div>
+            <div class="item-meta">🔢 ${escapeHtml(item.barcode||'')} | 📍 ${item.lokasi||'-'} | 🏷️ ${item.kategori||'-'}</div>
+          </div>
+          <span class="item-qty ${(item.qty||0) < 5 ? 'badge-low' : ''}">${item.qty||0}</span>
+          <div class="item-actions">
+            <button class="btn-icon btn-outline btn-sm" onclick="window._editItem('${item.id}')">✏️</button>
+            <button class="btn-icon btn-danger btn-sm" onclick="window._deleteItem('${item.id}','${escapeHtml(item.nama||'')}')">🗑️</button>
+          </div>
+        </li>
+      `).join('');
+    }
+
+    window._editItem = (id) => {
+      const item = allItems.find(i => i.id === id);
+      if (item) openEditModal(id, item);
+    };
+    window._deleteItem = (id, nama) => deleteItem(id, nama);
+
+    function updateFilterOptions() {
+      const kats = [...new Set(allItems.map(i => i.kategori).filter(Boolean))];
+      const loks = [...new Set(allItems.map(i => i.lokasi).filter(Boolean))];
+      const katSelect = document.getElementById('filterKategori');
+      const lokSelect = document.getElementById('filterLokasi');
+      const editKat = document.getElementById('editKategori');
+      const editLok = document.getElementById('editLokasi');
       
-      let html = "";
-      snapshot.forEach(doc => {
-        const d = doc.data();
-        const barcode = d.barcode || "-";
-        const nama = d.nama || "Tanpa Nama";
-        const qty = d.qty || 0;
-        html += `<li><span style="flex:1;"><strong>${escapeHtml(nama)}</strong><br><span style="color:#94a3b8; font-size:0.8rem;">${escapeHtml(barcode)} • Qty: ${qty}</span></span></li>`;
+      if (katSelect) katSelect.innerHTML = '<option value="">Semua</option>' + kats.map(k => `<option>${k}</option>`).join('');
+      if (lokSelect) lokSelect.innerHTML = '<option value="">Semua</option>' + loks.map(l => `<option>${l}</option>`).join('');
+      if (editKat) editKat.innerHTML = '<option value="">Kategori</option>' + kats.map(k => `<option>${k}</option>`).join('');
+      if (editLok) editLok.innerHTML = '<option value="">Lokasi</option>' + loks.map(l => `<option>${l}</option>`).join('');
+    }
+
+    function updateStats() {
+      document.getElementById('totalItems').textContent = allItems.length;
+      document.getElementById('totalQty').textContent = allItems.reduce((s,i) => s + (i.qty||0), 0);
+      document.getElementById('lowStock').textContent = allItems.filter(i => (i.qty||0) < 5).length;
+      const today = new Date().toDateString();
+      document.getElementById('todayIn').textContent = allItems.filter(i => {
+        const d = i.created?.toDate?.() || new Date(i.created);
+        return d.toDateString() === today;
+      }).length;
+    }
+
+    // History
+    async function loadHistory() {
+      if (!historyList) return;
+      const q = query(collection(db, "history"), orderBy("timestamp", "desc"));
+      const snapshot = await getDocs(q);
+      const items = [];
+      snapshot.forEach(doc => items.push(doc.data()));
+      
+      const search = document.getElementById('historySearch')?.value.toLowerCase() || '';
+      const filtered = items.filter(i => 
+        !search || (i.nama||'').toLowerCase().includes(search) || (i.barcode||'').toLowerCase().includes(search)
+      );
+
+      historyList.innerHTML = filtered.length === 0 
+        ? '<li class="text-center" style="padding:30px;color:#94a3b8;">📜 Belum ada riwayat</li>'
+        : filtered.map(i => `
+          <li>
+            <div class="item-icon">${i.type === 'IN' ? '📥' : '📤'}</div>
+            <div class="item-info">
+              <div class="item-name">${escapeHtml(i.nama||'')} (${i.qty})</div>
+              <div class="item-meta">${i.barcode} | ${new Date(i.timestamp?.toDate?.()||i.timestamp).toLocaleString()}</div>
+            </div>
+          </li>
+        `).join('');
+    }
+
+    // ============ SEARCH & FILTER ============
+    document.getElementById('searchInput')?.addEventListener('input', loadItems);
+    document.getElementById('filterBtn')?.addEventListener('click', () => {
+      const opt = document.getElementById('filterOptions');
+      opt.style.display = opt.style.display === 'none' ? 'block' : 'none';
+    });
+    document.getElementById('filterKategori')?.addEventListener('change', loadItems);
+    document.getElementById('filterLokasi')?.addEventListener('change', loadItems);
+    document.getElementById('sortBy')?.addEventListener('change', loadItems);
+    document.getElementById('historySearch')?.addEventListener('input', loadHistory);
+
+    // ============ EXPORT ============
+    document.getElementById('exportCSVBtn')?.addEventListener('click', () => {
+      let csv = 'Barcode,Nama,Qty,Kategori,Lokasi,Tanggal\n';
+      allItems.forEach(i => {
+        csv += `"${i.barcode}","${i.nama}",${i.qty},"${i.kategori||''}","${i.lokasi||''}","${new Date(i.created?.toDate?.()||i.created).toLocaleDateString()}"\n`;
       });
-      
-      itemList.innerHTML = html;
-    } catch (err) {
-      console.error(err);
-      itemList.innerHTML = "<li class='empty-message' style='border-left:0; color:#f87171;'>Gagal memuat data.</li>";
+      downloadFile('wms_data.csv', csv, 'text/csv');
+      addLog('Export', 'Export CSV');
+      showToast('📥 CSV terdownload!');
+    });
+
+    document.getElementById('exportJSONBtn')?.addEventListener('click', () => {
+      downloadFile('wms_backup.json', JSON.stringify(allItems, null, 2), 'application/json');
+      addLog('Export', 'Export JSON');
+      showToast('📄 JSON terdownload!');
+    });
+
+    function downloadFile(filename, content, type) {
+      const blob = new Blob([content], { type });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
     }
-  }
 
-  // simple escape
-  function escapeHtml(text) {
-    return String(text)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;");
-  }
+    // ============ BACKUP & RESTORE ============
+    document.getElementById('backupBtn')?.addEventListener('click', () => {
+      localStorage.setItem('wms_backup', JSON.stringify(allItems));
+      addLog('Backup', 'Backup data lokal');
+      showToast('💾 Data dibackup ke lokal!');
+    });
 
-  // Cleanup scanner saat halaman ditutup (best effort)
-  window.addEventListener("beforeunload", () => {
-    if (html5QrCode && html5QrCode.isScanning) {
-      html5QrCode.stop().catch(() => {});
-    }
-  });
+    document.getElementById('restoreBtn')?.addEventListener('click', async () => {
+      const backup = localStorage.getItem('wms_backup');
+      if (!backup) return showToast('⚠️ Tidak ada backup');
+      if (!confirm('Restore data dari backup?')) return;
+      const data = JSON.parse(backup);
+      for (const item of data) {
+        const { id, ...rest } = item;
+        await addDoc(collection(db, "items"), rest);
+      }
+      addLog('Restore', 'Restore data');
+      await loadAllData();
+      showToast('✅ Data direstore!');
+    });
 
-  // Initial load jika user sudah login (dipanggil oleh onAuthStateChanged)
-</script>
+    // ============ CLEAR DATA ============
+    document.getElementById('clearDataBtn')?.addEventListener('click', async () => {
+      if (!confirm('⚠️ Hapus SEMUA data? Ini tidak bisa dibatalkan!')) return;
+      if (!confirm('Yakin? Ketik YA untuk lanjut')) return;
+      for (const item of allItems) {
+        await deleteDoc(doc(db, "items", item.id));
+      }
+      addLog('Clear', 'Hapus semua data');
+      await loadAllData();
+      showToast('🗑️ Semua data dihapus');
+    });
 
-<!-- Html5Qrcode library -->
-<script src="https://unpkg.com/html5-qrcode"></script>
+    // ============ LOG ACTIVITY ============
+    document.getElementById('logActivityBtn')?.addEventListener('click', () => {
+      const logs = logActivities.slice(0, 20).map(l => 
+        `[${new Date(l.timestamp).toLocaleString()}] ${l.user} - ${l.action}: ${l.detail}`
+      ).join('\n');
+      alert('📋 20 Log Terakhir:\n\n' + (logs || 'Belum ada log'));
+    });
+
+    // ============ PHOTO ============
+    document.getElementById('takePhotoBtn')?.addEventListener('click', () => {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.capture = 'environment';
+      input.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            const img = document.getElementById('photoPreview');
+            img.src = ev.target.result;
+            img.style.display = 'block';
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+      input.click();
+    });
+
+    // ============ QR GENERATE ============
+    document.getElementById('generateQRBtn')?.addEventListener('click', () => {
+      const barcode = document.getElementById('barcode').value.trim();
+      if (!barcode) return showToast('⚠️ Isi barcode dulu');
+      const canvas = document.getElementById('qrCanvas');
+      QRCode.toCanvas(canvas, barcode, { width: 200 });
+      document.getElementById('qrText').textContent = barcode;
+      document.getElementById('qrModal').classList.add('show');
+    });
+    document.getElementById('closeQrBtn')?.addEventListener('click', () => {
+      document.getElementById('qrModal').classList.remove('show');
+    });
+
+    // ============ USER ROLE ============
+    document.getElementById('userRole')?.addEventListener('change', function() {
+      localStorage.setItem('wms_role', this.value);
+      showToast('👤 Role: ' + this.value);
+    });
+    if (!localStorage.getItem('wms_role')) localStorage.setItem('wms_role', 'admin');
+
+    // Init
+    loadAllData();
+  </script>
 </body>
 </html>
