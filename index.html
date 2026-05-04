@@ -3,1660 +3,1184 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="theme-color" content="#ffffff">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📦</text></svg>">
-  <title>WMS Mobile Pro</title>
+  <meta name="theme-color" content="#1e40af">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏭</text></svg>">
+  <title>InventoryPro - Sistem Inventory</title>
   <style>
     :root {
-      --bg: #f0f9ff;
+      --primary: #1e40af;
+      --primary-light: #3b82f6;
+      --success: #059669;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --bg: #f1f5f9;
       --card: #ffffff;
       --text: #1e293b;
       --subtext: #64748b;
       --border: #e2e8f0;
-      --primary: #3b82f6;
-      --primary-dark: #2563eb;
-      --warning: #f59e0b;
-      --danger: #ef4444;
-      --success: #10b981;
-      --shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-      --radius: 20px;
+      --radius: 16px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 30%, #f8fafc 100%);
+      background: #f1f5f9;
       min-height: 100vh;
-      padding: 12px;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
+      padding: 0;
+      margin: 0;
     }
 
-    .app-container {
+    .app {
       width: 100%;
-      max-width: 450px;
+      max-width: 480px;
+      min-height: 100vh;
+      background: #fff;
+      position: relative;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      color: white;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 2px 10px rgba(30,64,175,0.2);
+    }
+    .header h1 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .header-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .header-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      border: none;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Content */
+    .content {
+      flex: 1;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
       padding-bottom: 80px;
+      overflow-y: auto;
     }
 
     /* Cards */
     .card {
-      background: var(--card);
+      background: white;
       border-radius: var(--radius);
-      padding: 18px;
+      padding: 16px;
       border: 1px solid var(--border);
       box-shadow: var(--shadow);
     }
-
-    /* Typography */
-    h2 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--text);
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
     }
-    h3 {
-      font-size: 1.1rem;
+    .card-title {
       font-weight: 600;
+      font-size: 0.95rem;
       color: var(--text);
-    }
-    .subtitle {
-      color: var(--subtext);
-      font-size: 0.85rem;
-    }
-
-    /* Input */
-    input,
-    select,
-    textarea {
-      width: 100%;
-      padding: 12px 14px;
-      border: 2px solid var(--border);
-      border-radius: 14px;
-      font-size: 15px;
-      color: var(--text);
-      background: #fff;
-      outline: none;
-      transition: 0.2s;
-      margin-bottom: 8px;
-    }
-    input:focus,
-    select:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-    }
-
-    /* Buttons */
-    button {
-      width: 100%;
-      padding: 13px;
-      border-radius: 14px;
-      border: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: 0.2s;
       display: flex;
       align-items: center;
-      justify-content: center;
       gap: 6px;
-      background: #f1f5f9;
-      color: #1e293b;
-    }
-    button:active {
-      transform: scale(0.97);
-    }
-    .btn-primary {
-      background: linear-gradient(135deg, #3b82f6, #2563eb);
-      color: #fff;
-    }
-    .btn-warning {
-      background: linear-gradient(135deg, #f59e0b, #d97706);
-      color: #fff;
-    }
-    .btn-danger {
-      background: #fef2f2;
-      color: #dc2626;
-      border: 1px solid #fecaca;
-    }
-    .btn-success {
-      background: #ecfdf5;
-      color: #059669;
-      border: 1px solid #a7f3d0;
-    }
-    .btn-outline {
-      background: #fff;
-      color: #3b82f6;
-      border: 2px solid #bfdbfe;
-    }
-    .btn-sm {
-      width: auto;
-      padding: 8px 14px;
-      font-size: 0.8rem;
-    }
-    .btn-icon {
-      width: 38px;
-      height: 38px;
-      padding: 0;
-      border-radius: 12px;
-      font-size: 1.1rem;
     }
 
-    /* Navigation */
-    .nav-tabs {
-      display: flex;
-      gap: 6px;
-      background: #fff;
-      padding: 6px;
-      border-radius: 16px;
-      box-shadow: var(--shadow);
-      overflow-x: auto;
-    }
-    .nav-tabs button {
-      flex: 1;
-      min-width: 70px;
-      padding: 10px 8px;
-      font-size: 0.78rem;
-      background: transparent;
-      color: #64748b;
-      white-space: nowrap;
-    }
-    .nav-tabs button.active {
-      background: #eff6ff;
-      color: #2563eb;
-      font-weight: 700;
-    }
-
-    /* Bottom Nav */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: #fff;
-      display: flex;
-      border-top: 1px solid #e2e8f0;
-      padding: 8px 16px 12px;
-      gap: 8px;
-      z-index: 100;
-      max-width: 450px;
-      margin: 0 auto;
-      border-radius: 24px 24px 0 0;
-      box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
-    }
-    .bottom-nav button {
-      flex: 1;
-      padding: 8px 6px;
-      font-size: 0.7rem;
-      background: transparent;
-      color: #64748b;
-      flex-direction: column;
-      gap: 4px;
-      border-radius: 12px;
-    }
-    .bottom-nav button.active {
-      background: #eff6ff;
-      color: #2563eb;
-    }
-    .bottom-nav button .nav-icon {
-      font-size: 1.3rem;
-    }
-
-    /* Lists */
-    .item-list {
-      list-style: none;
-      max-height: 350px;
-      overflow-y: auto;
-      padding: 0;
-    }
-    .item-list li {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px;
-      background: #f8fafc;
-      border-radius: 14px;
-      margin-bottom: 8px;
-      border: 1px solid #f1f5f9;
-      transition: 0.2s;
-      animation: slideIn 0.3s ease;
-    }
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateX(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-    .item-icon {
-      width: 44px;
-      height: 44px;
-      background: #eff6ff;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
-      flex-shrink: 0;
-    }
-    .item-info {
-      flex: 1;
-      min-width: 0;
-    }
-    .item-name {
-      font-weight: 600;
-      color: #1e293b;
-      font-size: 0.9rem;
-      word-break: break-word;
-    }
-    .item-meta {
-      font-size: 0.75rem;
-      color: #64748b;
-    }
-    .item-qty {
-      background: #eff6ff;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-weight: 700;
-      color: #2563eb;
-      font-size: 0.85rem;
-      flex-shrink: 0;
-    }
-    .item-actions {
-      display: flex;
-      gap: 4px;
-      flex-shrink: 0;
-    }
-
-    /* Modals */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 200;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .modal-overlay.show {
-      display: flex;
-    }
-    .modal {
-      background: #fff;
-      border-radius: 24px;
-      padding: 24px;
-      width: 100%;
-      max-width: 400px;
-      max-height: 80vh;
-      overflow-y: auto;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Stats */
+    /* Stats Grid */
     .stats-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
     }
     .stat-card {
-      background: #fff;
-      padding: 16px;
-      border-radius: 16px;
-      text-align: center;
+      padding: 14px;
+      border-radius: 14px;
       border: 1px solid #e2e8f0;
+      text-align: center;
     }
-    .stat-value {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: #2563eb;
+    .stat-card.blue { background: #eff6ff; border-color: #bfdbfe; }
+    .stat-card.green { background: #ecfdf5; border-color: #a7f3d0; }
+    .stat-card.orange { background: #fffbeb; border-color: #fde68a; }
+    .stat-card.red { background: #fef2f2; border-color: #fecaca; }
+    .stat-value { font-size: 1.6rem; font-weight: 700; }
+    .stat-label { font-size: 0.72rem; color: #64748b; margin-top: 2px; }
+    .blue .stat-value { color: #1e40af; }
+    .green .stat-value { color: #059669; }
+    .orange .stat-value { color: #d97706; }
+    .red .stat-value { color: #dc2626; }
+
+    /* Form */
+    .form-group { margin-bottom: 10px; }
+    .form-label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 4px;
     }
-    .stat-label {
-      font-size: 0.75rem;
-      color: #64748b;
+    input, select, textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 14px;
+      color: #1e293b;
+      background: #fff;
+      outline: none;
+      transition: 0.15s;
+    }
+    input:focus, select:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+    }
+    .input-row {
+      display: flex;
+      gap: 8px;
+    }
+    .input-row > * { flex: 1; }
+
+    /* Buttons */
+    .btn {
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: none;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: 0.15s;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary { background: #1e40af; color: white; }
+    .btn-success { background: #059669; color: white; }
+    .btn-warning { background: #d97706; color: white; }
+    .btn-danger { background: #dc2626; color: white; }
+    .btn-outline { background: white; color: #1e40af; border: 2px solid #bfdbfe; }
+    .btn-sm { padding: 8px 12px; font-size: 0.78rem; width: auto; }
+    .btn-block { width: 100%; }
+    .btn-icon {
+      width: 34px; height: 34px; padding: 0;
+      border-radius: 10px; font-size: 1rem;
     }
 
-    /* Scanner */
-    #preview {
+    /* Lists */
+    .list {
+      list-style: none;
+      max-height: 350px;
+      overflow-y: auto;
+    }
+    .list-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border-bottom: 1px solid #f1f5f9;
+      transition: 0.15s;
+    }
+    .list-item:active { background: #f8fafc; }
+    .item-avatar {
+      width: 42px; height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .avatar-blue { background: #eff6ff; }
+    .avatar-green { background: #ecfdf5; }
+    .avatar-orange { background: #fffbeb; }
+    .item-detail { flex: 1; min-width: 0; }
+    .item-name { font-weight: 600; font-size: 0.9rem; color: #1e293b; }
+    .item-info { font-size: 0.75rem; color: #64748b; }
+    .item-stock {
+      font-weight: 700; font-size: 0.85rem;
+      padding: 4px 10px; border-radius: 20px;
+    }
+    .stock-high { background: #ecfdf5; color: #059669; }
+    .stock-mid { background: #fffbeb; color: #d97706; }
+    .stock-low { background: #fef2f2; color: #dc2626; }
+
+    /* Bottom Nav */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: white;
+      display: flex;
+      border-top: 1px solid #e2e8f0;
+      z-index: 100;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 6px 12px 10px;
+      gap: 4px;
+    }
+    .nav-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      padding: 8px 4px;
+      border-radius: 12px;
+      border: none;
+      background: transparent;
+      color: #94a3b8;
+      font-size: 0.68rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .nav-item .icon { font-size: 1.3rem; }
+    .nav-item.active { background: #eff6ff; color: #1e40af; font-weight: 600; }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal {
+      background: white;
+      border-radius: 20px 20px 0 0;
+      padding: 20px;
       width: 100%;
-      border-radius: 16px;
-      aspect-ratio: 1/1;
-      object-fit: cover;
-      border: 2px solid #e2e8f0;
-      background: #000;
+      max-width: 480px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
+    }
+    .modal-handle {
+      width: 40px; height: 4px;
+      background: #cbd5e1; border-radius: 2px;
+      margin: 0 auto 16px;
     }
 
     /* Toast */
     .toast {
       position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #1e293b;
-      color: #fff;
-      padding: 14px 24px;
+      top: 16px; left: 50%; transform: translateX(-50%);
+      background: #1e293b; color: white;
+      padding: 12px 20px;
       border-radius: 30px;
-      z-index: 999;
+      z-index: 300;
+      font-size: 0.85rem;
       font-weight: 500;
-      font-size: 0.9rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      animation: toastIn 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      animation: slideDown 0.3s ease;
       pointer-events: none;
     }
-    @keyframes toastIn {
-      from {
-        opacity: 0;
-        transform: translateX(-50%) translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-      }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateX(-50%) translateY(-30px); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
     }
 
     /* Badge */
     .badge {
       display: inline-block;
-      padding: 3px 10px;
-      border-radius: 20px;
+      padding: 3px 8px;
+      border-radius: 12px;
       font-size: 0.7rem;
       font-weight: 600;
     }
-    .badge-low {
-      background: #fef2f2;
-      color: #dc2626;
-    }
-    .badge-ok {
-      background: #ecfdf5;
-      color: #059669;
-    }
+    .badge-blue { background: #eff6ff; color: #1e40af; }
+    .badge-green { background: #ecfdf5; color: #059669; }
+    .badge-red { background: #fef2f2; color: #dc2626; }
 
-    /* Page */
-    .page {
-      display: none;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .page.active {
-      display: flex;
-    }
-
-    .flex-row {
-      display: flex;
-      gap: 8px;
-    }
-    .flex-row input {
-      margin-bottom: 0;
-    }
-    .text-center {
-      text-align: center;
-    }
-    .mt-2 {
-      margin-top: 8px;
-    }
-    .mb-2 {
-      margin-bottom: 8px;
-    }
-
-    /* Scrollbar */
-    .item-list::-webkit-scrollbar {
-      width: 4px;
-    }
-    .item-list::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 10px;
-    }
-
-    .img-preview {
-      width: 60px;
-      height: 60px;
+    /* Scanner */
+    #scannerView {
+      width: 100%;
       border-radius: 12px;
-      object-fit: cover;
-      border: 2px solid #e2e8f0;
+      overflow: hidden;
+      background: #000;
+    }
+    #scannerView video {
+      width: 100%;
+      border-radius: 12px;
     }
 
-    .search-bar {
+    .tabs {
       display: flex;
-      gap: 8px;
+      gap: 4px;
+      background: #f1f5f9;
+      padding: 4px;
+      border-radius: 12px;
       margin-bottom: 12px;
     }
-    .search-bar input {
+    .tab {
       flex: 1;
-      margin-bottom: 0;
+      padding: 8px;
+      text-align: center;
+      border-radius: 10px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: #64748b;
     }
-
-    .pin-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 8px;
-    }
-    .pin-grid button {
-      aspect-ratio: 1;
-      font-size: 1.4rem;
-      border-radius: 16px;
-      background: #f1f5f9;
+    .tab.active {
+      background: white;
+      color: #1e40af;
+      font-weight: 600;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
   </style>
 </head>
 <body>
-  <div class="app-container" id="appRoot">
-    <!-- LOGIN PAGE -->
-    <div id="loginPage" class="page active">
-      <div class="card text-center">
-        <div style="font-size:4rem;">📦</div>
-        <h2>WMS Mobile Pro</h2>
-        <p class="subtitle">Scan, Kelola & Analisis Stok</p>
-        <input type="email" id="email" placeholder="Email" style="margin-top:16px;" autocomplete="email">
-        <input type="password" id="password" placeholder="Password">
-        <button class="btn-primary" id="loginBtn">🔐 Masuk</button>
-        <p class="subtitle mt-2" style="font-size:0.7rem;">v2.1 • Fixed Version</p>
+  <div class="app">
+    <!-- HEADER -->
+    <div class="header">
+      <h1>🏭 InventoryPro</h1>
+      <div class="header-actions">
+        <button class="header-btn" id="syncBtn" title="Sync">🔄</button>
+        <button class="header-btn" id="logoutBtn" title="Logout">🚪</button>
       </div>
     </div>
 
-    <!-- MAIN DASHBOARD -->
-    <div id="mainPage" class="page">
-      <div class="flex-row" style="justify-content:space-between;align-items:center;">
-        <h2>📋 Dashboard</h2>
-        <div class="flex-row" style="gap:6px;">
-          <span class="badge badge-ok" id="onlineStatus">🟢 Online</span>
-          <button class="btn-icon btn-outline" id="logoutBtn" title="Logout">🚪</button>
-        </div>
-      </div>
-
-      <!-- Stats -->
-      <div class="stats-grid">
-        <div class="stat-card"><div class="stat-value" id="totalItems">0</div><div class="stat-label">Total Barang</div></div>
-        <div class="stat-card"><div class="stat-value" id="totalQty">0</div><div class="stat-label">Total Qty</div></div>
-        <div class="stat-card"><div class="stat-value" id="lowStock">0</div><div class="stat-label">⚠️ Stok Rendah</div></div>
-        <div class="stat-card"><div class="stat-value" id="todayIn">0</div><div class="stat-label">📥 Hari Ini</div></div>
-      </div>
-
-      <!-- Navigation -->
-      <div class="nav-tabs" id="navTabs">
-        <button class="active" data-page="scanPage">📸 Scan</button>
-        <button data-page="dataPage">📦 Data</button>
-        <button data-page="historyPage">📜 Riwayat</button>
-        <button data-page="settingsPage">⚙️ Setelan</button>
-      </div>
-
-      <!-- SCAN PAGE -->
-      <div id="scanPage" class="page active">
-        <div class="card">
-          <h3>📷 Scanner Barcode</h3>
-          <button class="btn-warning" id="scanToggleBtn">📸 Buka Kamera</button>
-          <button class="btn-outline btn-sm" id="batchScanBtn" style="margin-top:6px;">📚 Mode Batch Scan</button>
-          <div id="scannerContainer" style="display:none;margin-top:10px;">
-            <div id="preview"></div>
-            <button class="btn-danger btn-sm" id="stopScanBtn" style="margin-top:8px;">❌ Tutup Kamera</button>
-          </div>
-          <div id="batchList" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:4px;"></div>
-        </div>
-        <div class="card">
-          <h3>📝 Input Barang</h3>
-          <input type="text" id="barcode" placeholder="Kode Barcode">
-          <div class="flex-row">
-            <input type="text" id="nama" placeholder="Nama Barang" style="flex:2;">
-            <input type="number" id="qty" placeholder="Qty" value="1" style="flex:1;" min="1">
-          </div>
-          <select id="kategori">
-            <option value="">Pilih Kategori</option>
-            <option value="Elektronik">🔌 Elektronik</option>
-            <option value="Makanan">🍔 Makanan</option>
-            <option value="Minuman">🥤 Minuman</option>
-            <option value="Pakaian">👕 Pakaian</option>
-            <option value="Lainnya">📦 Lainnya</option>
-          </select>
-          <select id="lokasi">
-            <option value="">Pilih Lokasi</option>
-            <option value="Rak A">📍 Rak A</option>
-            <option value="Rak B">📍 Rak B</option>
-            <option value="Gudang 1">🏭 Gudang 1</option>
-          </select>
-          <div class="flex-row">
-            <button class="btn-outline btn-sm" id="takePhotoBtn">📷 Foto</button>
-            <button class="btn-outline btn-sm" id="generateQRBtn">🔳 Generate QR</button>
-          </div>
-          <img id="photoPreview" class="img-preview" style="display:none;margin-top:8px;" alt="Preview">
-          <button class="btn-primary" id="saveItemBtn" style="margin-top:10px;">💾 Simpan Barang</button>
-        </div>
-      </div>
-
-      <!-- DATA PAGE -->
-      <div id="dataPage" class="page">
-        <div class="card">
-          <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="🔍 Cari barcode/nama...">
-            <button class="btn-outline btn-sm" id="filterBtn">🔽 Filter</button>
-          </div>
-          <div id="filterOptions" style="display:none;margin-bottom:8px;">
-            <select id="filterKategori"><option value="">Semua Kategori</option></select>
-            <select id="filterLokasi"><option value="">Semua Lokasi</option></select>
-            <select id="sortBy">
-              <option value="newest">Terbaru</option>
-              <option value="oldest">Terlama</option>
-              <option value="az">A-Z</option>
-              <option value="za">Z-A</option>
-              <option value="qtyHigh">Qty Tertinggi</option>
-              <option value="qtyLow">Qty Terendah</option>
-            </select>
-          </div>
-          <button class="btn-success btn-sm mb-2" id="exportCSVBtn">📥 Export CSV</button>
-          <ul class="item-list" id="itemList">
-            <li class="text-center" style="padding:30px;color:#94a3b8;">Memuat data...</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- HISTORY PAGE -->
-      <div id="historyPage" class="page">
-        <div class="card">
-          <h3>📜 Riwayat Transaksi</h3>
-          <input type="text" id="historySearch" placeholder="🔍 Cari riwayat..." style="margin-bottom:12px;">
-          <ul class="item-list" id="historyList">
-            <li class="text-center" style="padding:30px;color:#94a3b8;">Memuat...</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- SETTINGS PAGE -->
-      <div id="settingsPage" class="page">
-        <div class="card">
-          <h3>⚙️ Pengaturan</h3>
-          <button class="btn-outline mb-2" id="backupBtn">💾 Backup Data ke Lokal</button>
-          <button class="btn-outline mb-2" id="restoreBtn">📥 Restore Data</button>
-          <button class="btn-outline mb-2" id="exportJSONBtn">📄 Export Full JSON</button>
-          <button class="btn-warning mb-2" id="pinLockBtn">🔒 Aktifkan PIN Lock</button>
-          <button class="btn-outline mb-2" id="logActivityBtn">📋 Lihat Log Aktivitas</button>
-          <button class="btn-danger" id="clearDataBtn">🗑️ Hapus Semua Data</button>
-        </div>
-        <div class="card">
-          <h3>👤 Info Pengguna</h3>
-          <p id="userInfo" class="subtitle"></p>
-          <select id="userRole">
-            <option value="admin">👑 Admin</option>
-            <option value="operator">🔧 Operator</option>
-            <option value="viewer">👁️ Viewer</option>
-          </select>
-        </div>
-      </div>
+    <!-- CONTENT -->
+    <div class="content" id="contentArea">
+      <!-- Halaman akan dirender di sini -->
     </div>
 
-    <!-- Bottom Navigation -->
-    <div class="bottom-nav" id="bottomNav" style="display:none;">
-      <button class="active" data-page="scanPage"><span class="nav-icon">📸</span>Scan</button>
-      <button data-page="dataPage"><span class="nav-icon">📦</span>Data</button>
-      <button data-page="historyPage"><span class="nav-icon">📜</span>Riwayat</button>
-      <button data-page="settingsPage"><span class="nav-icon">⚙️</span>Setelan</button>
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav" id="bottomNav">
+      <button class="nav-item active" data-page="dashboard">
+        <span class="icon">📊</span> Dashboard
+      </button>
+      <button class="nav-item" data-page="stockIn">
+        <span class="icon">📥</span> Stock In
+      </button>
+      <button class="nav-item" data-page="stockOut">
+        <span class="icon">📤</span> Stock Out
+      </button>
+      <button class="nav-item" data-page="products">
+        <span class="icon">📦</span> Produk
+      </button>
+      <button class="nav-item" data-page="reports">
+        <span class="icon">📋</span> Laporan
+      </button>
     </div>
 
-    <!-- EDIT MODAL -->
-    <div class="modal-overlay" id="editModal">
-      <div class="modal">
-        <h3>✏️ Edit Barang</h3>
-        <input type="text" id="editNama" placeholder="Nama Barang">
-        <input type="number" id="editQty" placeholder="Qty" min="1">
-        <input type="text" id="editBarcode" placeholder="Barcode">
-        <select id="editKategori"><option value="">Kategori</option></select>
-        <select id="editLokasi"><option value="">Lokasi</option></select>
-        <div class="flex-row mt-2">
-          <button class="btn-primary" id="saveEditBtn">💾 Simpan</button>
-          <button class="btn-outline" id="cancelEditBtn">Batal</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PIN MODAL -->
-    <div class="modal-overlay" id="pinModal">
-      <div class="modal text-center">
-        <h3>🔒 Masukkan PIN</h3>
-        <div id="pinDisplay" style="font-size:2rem;letter-spacing:10px;margin:16px 0;">••••</div>
-        <div class="pin-grid" id="pinPad"></div>
-        <button class="btn-outline mt-2" id="cancelPinBtn">Batal</button>
-      </div>
-    </div>
-
-    <!-- QR MODAL -->
-    <div class="modal-overlay" id="qrModal">
-      <div class="modal text-center">
-        <h3>🔳 QR Code</h3>
-        <canvas id="qrCanvas" style="max-width:200px;"></canvas>
-        <p id="qrText" class="subtitle mt-2"></p>
-        <button class="btn-outline mt-2" id="closeQrBtn">Tutup</button>
-      </div>
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal" id="modalContent"></div>
     </div>
   </div>
 
+  <!-- Toast container -->
+  <div id="toastContainer"></div>
+
   <!-- Libraries -->
-  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js">
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js">
-  </script>
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 
   <script type="module">
-    // ============ FIREBASE IMPORTS ============
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import {
-      getAuth,
-      signInWithEmailAndPassword,
-      onAuthStateChanged,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import {
-      getFirestore,
-      collection,
-      addDoc,
-      getDocs,
-      query,
-      orderBy,
-      doc,
-      updateDoc,
-      deleteDoc,
-      serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, collection, addDoc, getDocs, query, orderBy, doc, updateDoc, deleteDoc, where, serverTimestamp, limit, Timestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    // ============ FIREBASE CONFIG ============
     const firebaseConfig = {
       apiKey: "AIzaSyDpcYIgpUhU2kKnZiHCc1fVJmVjDx_VzXo",
       authDomain: "scan-barcode-7bb05.firebaseapp.com",
       projectId: "scan-barcode-7bb05",
     };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+    const firebaseApp = initializeApp(firebaseConfig);
+    const auth = getAuth(firebaseApp);
+    const db = getFirestore(firebaseApp);
 
-    // ============ GLOBAL STATE ============
+    // ==================== STATE ====================
     let currentUser = null;
+    let currentPage = 'dashboard';
+    let products = [];
+    let transactions = [];
     let html5QrCode = null;
-    let allItems = [];
-    let editingDocId = null;
-    let pinCode = localStorage.getItem('wms_pin') || null;
-    let pinEnabled = localStorage.getItem('wms_pin_enabled') === 'true';
-    let batchScanItems = [];
-    let logActivities = JSON.parse(localStorage.getItem('wms_logs') || '[]');
-    let isScannerInitialized = false;
-    let currentPage = 'scanPage';
 
-    // ============ UTILITY FUNCTIONS ============
-    function showToast(msg) {
-      const existing = document.querySelector('.toast');
-      if (existing) existing.remove();
-      const toast = document.createElement('div');
-      toast.className = 'toast';
-      toast.textContent = msg;
-      document.body.appendChild(toast);
-      setTimeout(() => {
-        if (toast.parentNode) toast.remove();
-      }, 2500);
+    // ==================== UTILS ====================
+    function toast(msg, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const t = document.createElement('div');
+      t.className = 'toast';
+      t.textContent = msg;
+      container.appendChild(t);
+      setTimeout(() => t.remove(), 2500);
     }
 
-    function escapeHtml(text) {
-      if (!text) return '';
-      return String(text)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-    function addLog(action, detail) {
-      const log = {
-        timestamp: new Date().toISOString(),
-        user: currentUser?.email || 'unknown',
-        action,
-        detail
-      };
-      logActivities.unshift(log);
-      if (logActivities.length > 100) logActivities.pop();
+    function formatDate(d) {
+      if (!d) return '-';
       try {
-        localStorage.setItem('wms_logs', JSON.stringify(logActivities));
-      } catch (e) {
-        console.warn('Log storage full');
-      }
+        const date = d.toDate ? d.toDate() : new Date(d);
+        return date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+      } catch { return '-'; }
     }
 
-    function updateOnlineStatus() {
-      const statusEl = document.getElementById('onlineStatus');
-      if (statusEl) {
-        statusEl.textContent = navigator.onLine ? '🟢 Online' : '🔴 Offline';
-        statusEl.className = navigator.onLine ? 'badge badge-ok' : 'badge badge-low';
-      }
+    function formatRupiah(n) {
+      return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(n || 0);
     }
 
-    window.addEventListener('online', updateOnlineStatus);
-    window.addEventListener('offline', updateOnlineStatus);
-    updateOnlineStatus();
+    function showModal(html) {
+      document.getElementById('modalContent').innerHTML = `
+        <div class="modal-handle"></div>
+        ${html}
+      `;
+      document.getElementById('modalOverlay').classList.add('show');
+    }
 
-    // ============ AUTH ============
-    function handleAuthState(user) {
-      const loginPage = document.getElementById('loginPage');
-      const mainPage = document.getElementById('mainPage');
-      const bottomNav = document.getElementById('bottomNav');
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('show');
+      if (html5QrCode?.isScanning) html5QrCode.stop().catch(() => {});
+    }
 
+    document.getElementById('modalOverlay').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    // ==================== AUTH ====================
+    onAuthStateChanged(auth, (user) => {
       if (user) {
         currentUser = user;
-        if (loginPage) loginPage.classList.remove('active');
-        if (mainPage) mainPage.classList.add('active');
-        if (bottomNav) bottomNav.style.display = 'flex';
-
-        const userInfo = document.getElementById('userInfo');
-        if (userInfo) {
-          const role = localStorage.getItem('wms_role') || 'admin';
-          userInfo.textContent = `Email: ${user.email} | Role: ${role}`;
-        }
-
-        const roleSelect = document.getElementById('userRole');
-        if (roleSelect) {
-          roleSelect.value = localStorage.getItem('wms_role') || 'admin';
-        }
-
-        // Load data setelah login
-        loadAllData();
-
-        // Cek PIN lock
-        if (pinEnabled && pinCode) {
-          setTimeout(() => showPinModal(), 500);
-        }
+        document.getElementById('bottomNav').style.display = 'flex';
+        loadDashboardData();
+        renderPage('dashboard');
       } else {
         currentUser = null;
-        if (loginPage) loginPage.classList.add('active');
-        if (mainPage) mainPage.classList.remove('active');
-        if (bottomNav) bottomNav.style.display = 'none';
-
-        // Stop scanner if running
-        if (html5QrCode && html5QrCode.isScanning) {
-          html5QrCode.stop().catch(() => {});
-        }
+        document.getElementById('bottomNav').style.display = 'none';
+        renderLoginPage();
       }
+    });
+
+    function renderLoginPage() {
+      document.getElementById('contentArea').innerHTML = `
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:16px;padding:20px;">
+          <div style="font-size:4rem;">🏭</div>
+          <h2 style="color:#1e293b;">InventoryPro</h2>
+          <p style="color:#64748b;text-align:center;">Sistem Manajemen Inventory</p>
+          <div class="card" style="width:100%;">
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input type="email" id="loginEmail" placeholder="admin@email.com">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Password</label>
+              <input type="password" id="loginPassword" placeholder="••••••">
+            </div>
+            <button class="btn btn-primary btn-block" id="loginBtn">🔐 Masuk</button>
+          </div>
+        </div>
+      `;
+      document.getElementById('loginBtn').addEventListener('click', login);
     }
 
-    onAuthStateChanged(auth, handleAuthState);
-
-    // Login button
-    document.getElementById('loginBtn').addEventListener('click', async () => {
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-
-      if (!email || !password) {
-        showToast('⚠️ Isi email dan password');
-        return;
-      }
-
+    async function login() {
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      if (!email || !password) return toast('⚠️ Lengkapi email & password');
       try {
         await signInWithEmailAndPassword(auth, email, password);
-        addLog('Login', 'User logged in');
-        showToast('✅ Login berhasil!');
+        toast('✅ Login berhasil');
       } catch (e) {
-        console.error('Login error:', e);
-        showToast('❌ Login gagal: ' + e.message);
+        toast('❌ ' + e.message);
       }
-    });
+    }
 
-    // Logout button
     document.getElementById('logoutBtn').addEventListener('click', async () => {
-      if (confirm('Yakin ingin logout?')) {
-        addLog('Logout', 'User logged out');
-        await signOut(auth);
-      }
+      if (confirm('Logout?')) await signOut(auth);
     });
 
-    // ============ NAVIGATION ============
-    function switchPage(pageName) {
-      if (!pageName) return;
-
-      // Update current page
-      currentPage = pageName;
-
-      // Hide all pages inside mainPage
-      const allPages = document.querySelectorAll('#mainPage .page');
-      allPages.forEach(p => p.classList.remove('active'));
-
-      // Show target page
-      const targetPage = document.getElementById(pageName);
-      if (targetPage) {
-        targetPage.classList.add('active');
-      }
-
-      // Update nav tabs
-      document.querySelectorAll('#navTabs button').forEach(b => {
-        b.classList.remove('active');
-        if (b.dataset.page === pageName) b.classList.add('active');
-      });
-
-      // Update bottom nav
-      document.querySelectorAll('#bottomNav button').forEach(b => {
-        b.classList.remove('active');
-        if (b.dataset.page === pageName) b.classList.add('active');
-      });
-
-      // Load data sesuai halaman
-      if (pageName === 'dataPage') {
-        loadItems();
-      } else if (pageName === 'historyPage') {
-        loadHistory();
-      }
-    }
-
-    // Tab navigation
-    document.querySelectorAll('#navTabs button').forEach(btn => {
+    // ==================== NAVIGATION ====================
+    document.querySelectorAll('.nav-item').forEach(btn => {
       btn.addEventListener('click', function() {
-        const pageName = this.dataset.page;
-        if (pageName) switchPage(pageName);
+        document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        currentPage = this.dataset.page;
+        renderPage(currentPage);
       });
     });
 
-    // Bottom navigation
-    document.querySelectorAll('#bottomNav button').forEach(btn => {
-      btn.addEventListener('click', function() {
-        const pageName = this.dataset.page;
-        if (pageName) switchPage(pageName);
-      });
-    });
-
-    // ============ PIN LOCK ============
-    function showPinModal() {
-      let inputPin = '';
-      const pinModal = document.getElementById('pinModal');
-      const pinDisplay = document.getElementById('pinDisplay');
-      const pinPad = document.getElementById('pinPad');
-
-      if (!pinModal || !pinDisplay || !pinPad) return;
-
-      pinModal.classList.add('show');
-      pinDisplay.textContent = '••••';
-      inputPin = '';
-
-      pinPad.innerHTML = '';
-      for (let i = 1; i <= 9; i++) {
-        const btn = document.createElement('button');
-        btn.textContent = i;
-        btn.addEventListener('click', () => {
-          inputPin += i;
-          pinDisplay.textContent = '•'.repeat(inputPin.length);
-          if (inputPin.length >= 4) {
-            if (inputPin === pinCode) {
-              pinModal.classList.remove('show');
-              showToast('✅ PIN benar');
-            } else {
-              showToast('❌ PIN salah');
-              inputPin = '';
-              pinDisplay.textContent = '••••';
-            }
-          }
-        });
-        pinPad.appendChild(btn);
+    async function renderPage(page) {
+      const content = document.getElementById('contentArea');
+      switch (page) {
+        case 'dashboard': content.innerHTML = await dashboardHTML(); break;
+        case 'stockIn': content.innerHTML = stockInHTML(); initStockIn(); break;
+        case 'stockOut': content.innerHTML = stockOutHTML(); initStockOut(); break;
+        case 'products': content.innerHTML = productsHTML(); initProducts(); break;
+        case 'reports': content.innerHTML = await reportsHTML(); break;
       }
-
-      const btn0 = document.createElement('button');
-      btn0.textContent = '0';
-      btn0.addEventListener('click', () => {
-        inputPin += '0';
-        pinDisplay.textContent = '•'.repeat(inputPin.length);
-        if (inputPin.length >= 4) {
-          if (inputPin === pinCode) {
-            pinModal.classList.remove('show');
-            showToast('✅ PIN benar');
-          } else {
-            showToast('❌ PIN salah');
-            inputPin = '';
-            pinDisplay.textContent = '••••';
-          }
-        }
-      });
-      pinPad.appendChild(btn0);
-
-      const btnClr = document.createElement('button');
-      btnClr.textContent = '⌫';
-      btnClr.addEventListener('click', () => {
-        inputPin = inputPin.slice(0, -1);
-        pinDisplay.textContent = '•'.repeat(inputPin.length) || '••••';
-      });
-      pinPad.appendChild(btnClr);
+      if (page !== 'stockIn' && page !== 'stockOut') {
+        if (html5QrCode?.isScanning) html5QrCode.stop().catch(() => {});
+      }
     }
 
-    document.getElementById('cancelPinBtn')?.addEventListener('click', () => {
-      document.getElementById('pinModal')?.classList.remove('show');
-    });
+    // ==================== DASHBOARD ====================
+    async function loadDashboardData() {
+      try {
+        const prodSnap = await getDocs(collection(db, "products"));
+        products = [];
+        prodSnap.forEach(d => products.push({ id: d.id, ...d.data() }));
 
-    document.getElementById('pinLockBtn')?.addEventListener('click', () => {
-      const newPin = prompt('Masukkan PIN 4 digit baru:');
-      if (newPin && newPin.length === 4 && /^\d+$/.test(newPin)) {
-        pinCode = newPin;
-        pinEnabled = true;
-        localStorage.setItem('wms_pin', newPin);
-        localStorage.setItem('wms_pin_enabled', 'true');
-        showToast('🔒 PIN Lock diaktifkan!');
-      } else if (newPin) {
-        showToast('❌ PIN harus 4 digit angka');
+        const transSnap = await getDocs(query(collection(db, "transactions"), orderBy("timestamp", "desc"), limit(50)));
+        transactions = [];
+        transSnap.forEach(d => transactions.push({ id: d.id, ...d.data() }));
+      } catch (e) {
+        console.error('Load dashboard error:', e);
       }
-    });
+    }
 
-    // ============ SCANNER ============
-    function getScannerInstance() {
-      if (!html5QrCode) {
+    async function dashboardHTML() {
+      await loadDashboardData();
+      const totalProducts = products.length;
+      const totalStock = products.reduce((s, p) => s + (p.stock || 0), 0);
+      const lowStock = products.filter(p => (p.stock || 0) <= (p.minStock || 5)).length;
+      const todayIn = transactions.filter(t => {
         try {
-          html5QrCode = new Html5Qrcode("preview");
-          isScannerInitialized = true;
-        } catch (e) {
-          console.error('Scanner init error:', e);
-          return null;
-        }
-      }
-      return html5QrCode;
-    }
-
-    async function startScanner() {
-      const scanner = getScannerInstance();
-      if (!scanner) {
-        showToast('⚠️ Gagal inisialisasi scanner');
-        return;
-      }
-
-      try {
-        const scannerContainer = document.getElementById('scannerContainer');
-        const scanToggleBtn = document.getElementById('scanToggleBtn');
-        if (scannerContainer) scannerContainer.style.display = 'block';
-        if (scanToggleBtn) scanToggleBtn.textContent = '📸 Scan Berjalan...';
-
-        await scanner.start({
-            facingMode: "environment"
-          }, {
-            fps: 10,
-            qrbox: {
-              width: 250,
-              height: 250
-            }
-          },
-          (decodedText) => {
-            // Berhasil scan
-            if (batchScanItems.length > 0 || document.getElementById('batchScanBtn')?.textContent?.includes('Stop')) {
-              batchScanItems.push(decodedText);
-              updateBatchList();
-              showToast('✅ Barcode terdeteksi!');
-            } else {
-              const barcodeInput = document.getElementById('barcode');
-              if (barcodeInput) {
-                barcodeInput.value = decodedText;
-              }
-              stopScanner();
-              const namaInput = document.getElementById('nama');
-              if (namaInput) namaInput.focus();
-              showToast('✅ Barcode: ' + decodedText);
-            }
-          },
-          (errorMessage) => {
-            // Error scanning - diabaikan
-          }
-        );
-      } catch (err) {
-        console.error('Scanner start error:', err);
-        showToast('⚠️ Gagal membuka kamera: ' + err.message);
-        document.getElementById('scannerContainer').style.display = 'none';
-        document.getElementById('scanToggleBtn').textContent = '📸 Buka Kamera';
-      }
-    }
-
-    async function stopScanner() {
-      if (html5QrCode && html5QrCode.isScanning) {
+          const d = t.timestamp?.toDate?.() || new Date(t.timestamp);
+          return d.toDateString() === new Date().toDateString() && t.type === 'IN';
+        } catch { return false; }
+      }).length;
+      const todayOut = transactions.filter(t => {
         try {
-          await html5QrCode.stop();
-        } catch (e) {
-          console.warn('Stop scanner error:', e);
-        }
-      }
-      const scannerContainer = document.getElementById('scannerContainer');
-      const scanToggleBtn = document.getElementById('scanToggleBtn');
-      if (scannerContainer) scannerContainer.style.display = 'none';
-      if (scanToggleBtn) scanToggleBtn.textContent = '📸 Buka Kamera';
+          const d = t.timestamp?.toDate?.() || new Date(t.timestamp);
+          return d.toDateString() === new Date().toDateString() && t.type === 'OUT';
+        } catch { return false; }
+      }).length;
+
+      return `
+        <div class="stats-grid">
+          <div class="stat-card blue"><div class="stat-value">${totalProducts}</div><div class="stat-label">Total Produk</div></div>
+          <div class="stat-card green"><div class="stat-value">${totalStock}</div><div class="stat-label">Total Stok</div></div>
+          <div class="stat-card orange"><div class="stat-value">${todayIn}</div><div class="stat-label">📥 Masuk Hari Ini</div></div>
+          <div class="stat-card red"><div class="stat-value">${todayOut}</div><div class="stat-label">📤 Keluar Hari Ini</div></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">⚠️ Stok Menipis</span>
+            <span class="badge badge-red">${lowStock} produk</span>
+          </div>
+          <div class="list">
+            ${products.filter(p => (p.stock || 0) <= (p.minStock || 5)).slice(0, 5).map(p => `
+              <div class="list-item">
+                <div class="item-avatar avatar-red">📦</div>
+                <div class="item-detail">
+                  <div class="item-name">${p.name || 'Tanpa Nama'}</div>
+                  <div class="item-info">SKU: ${p.sku || '-'} | Stok: ${p.stock || 0}</div>
+                </div>
+                <span class="item-stock stock-low">${p.stock || 0}</span>
+              </div>
+            `).join('') || '<div style="text-align:center;padding:20px;color:#94a3b8;">✅ Semua stok aman</div>'}
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📜 Transaksi Terakhir</span>
+          </div>
+          <div class="list">
+            ${transactions.slice(0, 5).map(t => `
+              <div class="list-item">
+                <div class="item-avatar ${t.type === 'IN' ? 'avatar-green' : 'avatar-orange'}">
+                  ${t.type === 'IN' ? '📥' : '📤'}
+                </div>
+                <div class="item-detail">
+                  <div class="item-name">${t.productName || '-'}</div>
+                  <div class="item-info">${formatDate(t.timestamp)} | Oleh: ${t.userEmail || '-'}</div>
+                </div>
+                <span class="item-stock ${t.type === 'IN' ? 'stock-high' : 'stock-mid'}">
+                  ${t.type === 'IN' ? '+' : '-'}${t.qty || 0}
+                </span>
+              </div>
+            `).join('') || '<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada transaksi</div>'}
+          </div>
+        </div>
+      `;
     }
 
-    document.getElementById('scanToggleBtn')?.addEventListener('click', async () => {
-      if (html5QrCode && html5QrCode.isScanning) {
-        await stopScanner();
-      } else {
-        await startScanner();
-      }
-    });
-
-    document.getElementById('stopScanBtn')?.addEventListener('click', stopScanner);
-
-    // Batch scan
-    document.getElementById('batchScanBtn')?.addEventListener('click', function() {
-      if (this.textContent.includes('Stop')) {
-        this.textContent = '📚 Mode Batch Scan';
-        batchScanItems = [];
-        updateBatchList();
-        stopScanner();
-      } else {
-        this.textContent = '⏹ Stop Batch';
-        batchScanItems = [];
-        updateBatchList();
-        if (!html5QrCode || !html5QrCode.isScanning) {
-          startScanner();
-        }
-      }
-    });
-
-    function updateBatchList() {
-      const batchList = document.getElementById('batchList');
-      if (batchList) {
-        batchList.innerHTML = batchScanItems.map(b =>
-          `<span class="badge badge-ok" style="margin:2px;">${escapeHtml(b)}</span>`
-        ).join('');
-      }
-    }
-
-    // ============ SAVE ITEM ============
-    async function saveItem() {
-      if (!currentUser) {
-        showToast('⚠️ Silakan login terlebih dahulu');
-        return;
-      }
-
-      const barcodeInput = document.getElementById('barcode');
-      const namaInput = document.getElementById('nama');
-      const qtyInput = document.getElementById('qty');
-      const kategoriSelect = document.getElementById('kategori');
-      const lokasiSelect = document.getElementById('lokasi');
-      const photoPreview = document.getElementById('photoPreview');
-
-      const barcode = barcodeInput?.value?.trim() || '';
-      const nama = namaInput?.value?.trim() || '';
-      const qty = parseInt(qtyInput?.value) || 1;
-      const kategori = kategoriSelect?.value || '';
-      const lokasi = lokasiSelect?.value || '';
-      const photo = photoPreview?.src || '';
-
-      // Gunakan batch scan items jika ada
-      const itemsToSave = batchScanItems.length > 0 ?
-        batchScanItems.map(b => ({
-          barcode: b,
-          nama: nama || 'Item ' + b,
-          qty,
-          kategori,
-          lokasi,
-          photo
-        })) :
-        [{
-          barcode,
-          nama,
-          qty,
-          kategori,
-          lokasi,
-          photo
-        }];
-
-      // Validasi
-      if (itemsToSave.length === 1 && (!barcode || !nama)) {
-        showToast('⚠️ Barcode dan nama wajib diisi');
-        return;
-      }
-
-      try {
-        for (const item of itemsToSave) {
-          if (!item.barcode || !item.nama) continue;
-
-          await addDoc(collection(db, "items"), {
-            barcode: item.barcode,
-            nama: item.nama,
-            qty: item.qty,
-            kategori: item.kategori,
-            lokasi: item.lokasi,
-            photo: item.photo,
-            created: new Date(),
-            userId: currentUser.uid,
-            userEmail: currentUser.email
-          });
-
-          // Add to history
-          await addDoc(collection(db, "history"), {
-            type: 'IN',
-            barcode: item.barcode,
-            nama: item.nama,
-            qty: item.qty,
-            timestamp: new Date(),
-            userId: currentUser.uid
-          });
-
-          addLog('Tambah', `Menambah ${item.nama} (${item.barcode})`);
-        }
-
-        // Reset form
-        if (barcodeInput) barcodeInput.value = '';
-        if (namaInput) namaInput.value = '';
-        if (qtyInput) qtyInput.value = '1';
-        if (photoPreview) {
-          photoPreview.style.display = 'none';
-          photoPreview.src = '';
-        }
-        batchScanItems = [];
-        updateBatchList();
-
-        await loadAllData();
-        showToast('✅ ' + itemsToSave.length + ' barang berhasil disimpan!');
-      } catch (err) {
-        console.error('Save error:', err);
-        showToast('❌ Gagal menyimpan: ' + err.message);
-      }
-    }
-
-    document.getElementById('saveItemBtn')?.addEventListener('click', saveItem);
-
-    // ============ EDIT ITEM ============
-    function openEditModal(docId, data) {
-      editingDocId = docId;
-      document.getElementById('editNama').value = data.nama || '';
-      document.getElementById('editQty').value = data.qty || 1;
-      document.getElementById('editBarcode').value = data.barcode || '';
-      document.getElementById('editKategori').value = data.kategori || '';
-      document.getElementById('editLokasi').value = data.lokasi || '';
-      document.getElementById('editModal').classList.add('show');
-    }
-
-    document.getElementById('saveEditBtn')?.addEventListener('click', async () => {
-      if (!editingDocId) return;
-      try {
-        const data = {
-          nama: document.getElementById('editNama').value,
-          qty: parseInt(document.getElementById('editQty').value) || 1,
-          barcode: document.getElementById('editBarcode').value,
-          kategori: document.getElementById('editKategori').value,
-          lokasi: document.getElementById('editLokasi').value,
-          updatedAt: new Date()
-        };
-        await updateDoc(doc(db, "items", editingDocId), data);
-        addLog('Edit', `Edit item ${data.nama}`);
-        document.getElementById('editModal').classList.remove('show');
-        await loadAllData();
-        showToast('✅ Data diperbarui!');
-      } catch (err) {
-        console.error('Edit error:', err);
-        showToast('❌ Gagal update: ' + err.message);
-      }
-    });
-
-    document.getElementById('cancelEditBtn')?.addEventListener('click', () => {
-      document.getElementById('editModal').classList.remove('show');
-      editingDocId = null;
-    });
-
-    // Close modal on overlay click
-    document.getElementById('editModal')?.addEventListener('click', function(e) {
-      if (e.target === this) {
-        this.classList.remove('show');
-        editingDocId = null;
-      }
-    });
-
-    // ============ DELETE ITEM ============
-    async function deleteItem(docId, nama) {
-      if (!confirm(`Yakin hapus "${nama}"?`)) return;
-      try {
-        await deleteDoc(doc(db, "items", docId));
-        addLog('Hapus', `Menghapus ${nama}`);
-        await loadAllData();
-        showToast('🗑️ Dihapus!');
-      } catch (err) {
-        console.error('Delete error:', err);
-        showToast('❌ Gagal hapus: ' + err.message);
-      }
-    }
-
-    // Global functions for onclick
-    window.editItemGlobal = function(id) {
-      const item = allItems.find(i => i.id === id);
-      if (item) openEditModal(id, item);
-    };
-
-    window.deleteItemGlobal = function(id, nama) {
-      deleteItem(id, nama);
-    };
-
-    // ============ LOAD DATA ============
-    async function loadAllData() {
-      try {
-        await loadItems();
-        await loadHistory();
-        updateStats();
-      } catch (err) {
-        console.error('Load all data error:', err);
-      }
-    }
-
-    async function loadItems() {
-      const itemList = document.getElementById('itemList');
-      if (!itemList) return;
-
-      itemList.innerHTML = '<li class="text-center" style="padding:30px;color:#94a3b8;">⏳ Memuat data...</li>';
-
-      try {
-        const q = query(collection(db, "items"), orderBy("created", "desc"));
-        const snapshot = await getDocs(q);
-        allItems = [];
-
-        snapshot.forEach(doc => {
-          allItems.push({
-            id: doc.id,
-            ...doc.data()
-          });
-        });
-
-        // Apply filters
-        const searchTerm = document.getElementById('searchInput')?.value?.toLowerCase() || '';
-        const filterKategori = document.getElementById('filterKategori')?.value || '';
-        const filterLokasi = document.getElementById('filterLokasi')?.value || '';
-        const sortBy = document.getElementById('sortBy')?.value || 'newest';
-
-        let filtered = [...allItems];
-
-        if (searchTerm) {
-          filtered = filtered.filter(item =>
-            (item.nama?.toLowerCase().includes(searchTerm)) ||
-            (item.barcode?.toLowerCase().includes(searchTerm))
-          );
-        }
-
-        if (filterKategori) {
-          filtered = filtered.filter(item => item.kategori === filterKategori);
-        }
-
-        if (filterLokasi) {
-          filtered = filtered.filter(item => item.lokasi === filterLokasi);
-        }
-
-        // Sort
-        switch (sortBy) {
-          case 'az':
-            filtered.sort((a, b) => (a.nama || '').localeCompare(b.nama || ''));
-            break;
-          case 'za':
-            filtered.sort((a, b) => (b.nama || '').localeCompare(a.nama || ''));
-            break;
-          case 'qtyHigh':
-            filtered.sort((a, b) => (b.qty || 0) - (a.qty || 0));
-            break;
-          case 'qtyLow':
-            filtered.sort((a, b) => (a.qty || 0) - (b.qty || 0));
-            break;
-          case 'oldest':
-            filtered.reverse();
-            break;
-          default:
-            break;
-        }
-
-        renderItems(filtered);
-        updateFilterOptions();
-        updateStats();
-      } catch (err) {
-        console.error('Load items error:', err);
-        itemList.innerHTML = '<li class="text-center" style="padding:30px;color:#ef4444;">❌ Gagal memuat data</li>';
-      }
-    }
-
-    function renderItems(items) {
-      const itemList = document.getElementById('itemList');
-      if (!itemList) return;
-
-      if (items.length === 0) {
-        itemList.innerHTML = '<li class="text-center" style="padding:30px;color:#94a3b8;">📭 Tidak ada data</li>';
-        return;
-      }
-
-      itemList.innerHTML = items.map(item => {
-        const isLowStock = (item.qty || 0) < 5;
-        return `
-        <li>
-          ${item.photo ? `<img src="${item.photo}" class="img-preview" style="width:40px;height:40px;" alt="Foto">` : '<div class="item-icon">📦</div>'}
-          <div class="item-info">
-            <div class="item-name">${escapeHtml(item.nama || 'Tanpa Nama')}</div>
-            <div class="item-meta">
-              🔢 ${escapeHtml(item.barcode || '-')} | 
-              📍 ${escapeHtml(item.lokasi || '-')} | 
-              🏷️ ${escapeHtml(item.kategori || '-')}
+    // ==================== STOCK IN ====================
+    function stockInHTML() {
+      return `
+        <div class="card">
+          <div class="card-title">📥 Barang Masuk</div>
+          <div class="form-group">
+            <label class="form-label">Scan Barcode / SKU</label>
+            <div style="display:flex;gap:8px;">
+              <input type="text" id="inSKU" placeholder="Scan atau ketik SKU" style="flex:1;">
+              <button class="btn btn-outline btn-sm" id="scanInBtn">📷</button>
             </div>
           </div>
-          <span class="item-qty ${isLowStock ? 'badge-low' : ''}">${item.qty || 0}</span>
-          <div class="item-actions">
-            <button class="btn-icon btn-outline btn-sm" onclick="editItemGlobal('${item.id}')">✏️</button>
-            <button class="btn-icon btn-danger btn-sm" onclick="deleteItemGlobal('${item.id}', '${escapeHtml(item.nama || '')}')">🗑️</button>
+          <div id="inScannerContainer" style="display:none;margin-bottom:10px;">
+            <div id="inScannerView"></div>
+            <button class="btn btn-sm btn-outline" id="stopInScan" style="margin-top:6px;">❌ Tutup</button>
           </div>
-        </li>
+          <div id="inProductInfo" style="display:none;margin-bottom:10px;">
+            <div style="background:#f8fafc;padding:12px;border-radius:12px;">
+              <strong id="inProductName">-</strong><br>
+              <span style="font-size:0.8rem;color:#64748b;">Stok saat ini: <span id="inCurrentStock">0</span></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Jumlah Masuk</label>
+            <input type="number" id="inQty" placeholder="Qty" value="1" min="1">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Catatan</label>
+            <input type="text" id="inNote" placeholder="Catatan (opsional)">
+          </div>
+          <button class="btn btn-success btn-block" id="saveStockIn">✅ Simpan Barang Masuk</button>
+        </div>
+        <div class="card">
+          <div class="card-title">📋 Riwayat Barang Masuk Hari Ini</div>
+          <div class="list" id="inHistoryList">
+            <div style="text-align:center;padding:20px;color:#94a3b8;">Memuat...</div>
+          </div>
+        </div>
       `;
-      }).join('');
     }
 
-    function updateFilterOptions() {
-      const kats = [...new Set(allItems.map(i => i.kategori).filter(Boolean))];
-      const loks = [...new Set(allItems.map(i => i.lokasi).filter(Boolean))];
-
-      const katSelect = document.getElementById('filterKategori');
-      const lokSelect = document.getElementById('filterLokasi');
-      const editKat = document.getElementById('editKategori');
-      const editLok = document.getElementById('editLokasi');
-
-      if (katSelect) katSelect.innerHTML = '<option value="">Semua Kategori</option>' + kats.map(k =>
-        `<option value="${k}">${k}</option>`).join('');
-      if (lokSelect) lokSelect.innerHTML = '<option value="">Semua Lokasi</option>' + loks.map(l =>
-        `<option value="${l}">${l}</option>`).join('');
-      if (editKat) editKat.innerHTML = '<option value="">Pilih Kategori</option>' + kats.map(k =>
-        `<option value="${k}">${k}</option>`).join('');
-      if (editLok) editLok.innerHTML = '<option value="">Pilih Lokasi</option>' + loks.map(l =>
-        `<option value="${l}">${l}</option>`).join('');
+    function initStockIn() {
+      loadInHistory();
+      document.getElementById('scanInBtn').addEventListener('click', toggleInScanner);
+      document.getElementById('stopInScan')?.addEventListener('click', stopInScanner);
+      document.getElementById('inSKU')?.addEventListener('input', lookupProduct);
+      document.getElementById('saveStockIn')?.addEventListener('click', saveStockIn);
     }
 
-    function updateStats() {
-      const totalItemsEl = document.getElementById('totalItems');
-      const totalQtyEl = document.getElementById('totalQty');
-      const lowStockEl = document.getElementById('lowStock');
-      const todayInEl = document.getElementById('todayIn');
-
-      if (totalItemsEl) totalItemsEl.textContent = allItems.length;
-      if (totalQtyEl) totalQtyEl.textContent = allItems.reduce((s, i) => s + (i.qty || 0), 0);
-      if (lowStockEl) lowStockEl.textContent = allItems.filter(i => (i.qty || 0) < 5).length;
-
-      if (todayInEl) {
-        const today = new Date().toDateString();
-        const todayCount = allItems.filter(i => {
-          try {
-            const d = i.created?.toDate?.() || new Date(i.created);
-            return d.toDateString() === today;
-          } catch (e) {
-            return false;
-          }
-        }).length;
-        todayInEl.textContent = todayCount;
+    async function lookupProduct() {
+      const sku = document.getElementById('inSKU').value.trim();
+      if (!sku) {
+        document.getElementById('inProductInfo').style.display = 'none';
+        return;
+      }
+      const product = products.find(p => (p.sku || '').toLowerCase() === sku.toLowerCase());
+      if (product) {
+        document.getElementById('inProductInfo').style.display = 'block';
+        document.getElementById('inProductName').textContent = product.name;
+        document.getElementById('inCurrentStock').textContent = product.stock || 0;
+        document.getElementById('inProductInfo').dataset.productId = product.id;
+      } else {
+        document.getElementById('inProductInfo').style.display = 'block';
+        document.getElementById('inProductName').textContent = 'Produk baru (akan dibuat otomatis)';
+        document.getElementById('inCurrentStock').textContent = '0';
+        document.getElementById('inProductInfo').dataset.productId = '';
       }
     }
 
-    // History
-    async function loadHistory() {
-      const historyList = document.getElementById('historyList');
-      if (!historyList) return;
+    async function toggleInScanner() {
+      if (html5QrCode?.isScanning) {
+        await stopInScanner();
+        return;
+      }
+      document.getElementById('inScannerContainer').style.display = 'block';
+      try {
+        html5QrCode = new Html5Qrcode("inScannerView");
+        await html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 },
+          (decoded) => {
+            document.getElementById('inSKU').value = decoded;
+            lookupProduct();
+            stopInScanner();
+          }, () => {});
+      } catch (e) {
+        toast('⚠️ Gagal kamera: ' + e.message);
+        document.getElementById('inScannerContainer').style.display = 'none';
+      }
+    }
 
-      historyList.innerHTML = '<li class="text-center" style="padding:30px;color:#94a3b8;">⏳ Memuat...</li>';
+    async function stopInScanner() {
+      if (html5QrCode?.isScanning) await html5QrCode.stop().catch(() => {});
+      document.getElementById('inScannerContainer').style.display = 'none';
+    }
+
+    async function saveStockIn() {
+      const sku = document.getElementById('inSKU').value.trim();
+      const qty = parseInt(document.getElementById('inQty').value) || 0;
+      const note = document.getElementById('inNote').value.trim();
+
+      if (!sku || qty < 1) return toast('⚠️ Lengkapi SKU & Qty');
 
       try {
-        const q = query(collection(db, "history"), orderBy("timestamp", "desc"));
-        const snapshot = await getDocs(q);
-        const items = [];
-        snapshot.forEach(doc => items.push(doc.data()));
-
-        const search = document.getElementById('historySearch')?.value?.toLowerCase() || '';
-        const filtered = items.filter(i =>
-          !search ||
-          (i.nama || '').toLowerCase().includes(search) ||
-          (i.barcode || '').toLowerCase().includes(search)
-        );
-
-        if (filtered.length === 0) {
-          historyList.innerHTML =
-            '<li class="text-center" style="padding:30px;color:#94a3b8;">📜 Belum ada riwayat</li>';
-          return;
+        let productId = document.getElementById('inProductInfo').dataset.productId;
+        // Create product if not exists
+        if (!productId) {
+          const name = prompt('Nama produk baru:') || sku;
+          const docRef = await addDoc(collection(db, "products"), {
+            sku, name, stock: 0, minStock: 5,
+            created: new Date(), userId: currentUser.uid
+          });
+          productId = docRef.id;
+          products.push({ id: productId, sku, name, stock: 0, minStock: 5 });
         }
 
-        historyList.innerHTML = filtered.map(i => {
-          let dateStr = 'Tanggal tidak diketahui';
+        const product = products.find(p => p.id === productId);
+        const newStock = (product?.stock || 0) + qty;
+
+        await updateDoc(doc(db, "products", productId), { stock: newStock, updatedAt: new Date() });
+        await addDoc(collection(db, "transactions"), {
+          type: 'IN', productId, productName: product?.name || sku, sku, qty, note,
+          timestamp: new Date(), userId: currentUser.uid, userEmail: currentUser.email
+        });
+
+        toast(`✅ Barang masuk: +${qty} | Stok sekarang: ${newStock}`);
+        document.getElementById('inSKU').value = '';
+        document.getElementById('inQty').value = '1';
+        document.getElementById('inNote').value = '';
+        document.getElementById('inProductInfo').style.display = 'none';
+        await loadDashboardData();
+        loadInHistory();
+      } catch (e) {
+        toast('❌ Gagal: ' + e.message);
+      }
+    }
+
+    async function loadInHistory() {
+      const list = document.getElementById('inHistoryList');
+      if (!list) return;
+      try {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const snap = await getDocs(query(collection(db, "transactions"),
+          where("type", "==", "IN"), orderBy("timestamp", "desc"), limit(20)));
+        const items = [];
+        snap.forEach(d => items.push(d.data()));
+        const todayItems = items.filter(i => {
           try {
             const d = i.timestamp?.toDate?.() || new Date(i.timestamp);
-            dateStr = d.toLocaleString('id-ID');
-          } catch (e) {}
-
-          return `
-          <li>
-            <div class="item-icon">${i.type === 'IN' ? '📥' : '📤'}</div>
-            <div class="item-info">
-              <div class="item-name">${escapeHtml(i.nama || 'Tanpa Nama')} (${i.qty || 0})</div>
-              <div class="item-meta">${escapeHtml(i.barcode || '-')} | ${dateStr}</div>
+            return d >= today;
+          } catch { return false; }
+        });
+        list.innerHTML = todayItems.length === 0
+          ? '<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada transaksi hari ini</div>'
+          : todayItems.map(i => `
+            <div class="list-item">
+              <div class="item-avatar avatar-green">📥</div>
+              <div class="item-detail">
+                <div class="item-name">${i.productName || '-'} (+${i.qty})</div>
+                <div class="item-info">${formatDate(i.timestamp)} | ${i.note || ''}</div>
+              </div>
             </div>
-          </li>
-        `;
-        }).join('');
-      } catch (err) {
-        console.error('Load history error:', err);
-        historyList.innerHTML =
-          '<li class="text-center" style="padding:30px;color:#ef4444;">❌ Gagal memuat riwayat</li>';
+          `).join('');
+      } catch (e) {
+        list.innerHTML = '<div style="text-align:center;padding:20px;color:#ef4444;">Gagal memuat</div>';
       }
     }
 
-    // ============ SEARCH & FILTER ============
-    document.getElementById('searchInput')?.addEventListener('input', () => {
-      clearTimeout(window.searchTimeout);
-      window.searchTimeout = setTimeout(loadItems, 300);
-    });
-
-    document.getElementById('filterBtn')?.addEventListener('click', () => {
-      const opt = document.getElementById('filterOptions');
-      if (opt) opt.style.display = opt.style.display === 'none' ? 'block' : 'none';
-    });
-
-    document.getElementById('filterKategori')?.addEventListener('change', loadItems);
-    document.getElementById('filterLokasi')?.addEventListener('change', loadItems);
-    document.getElementById('sortBy')?.addEventListener('change', loadItems);
-    document.getElementById('historySearch')?.addEventListener('input', () => {
-      clearTimeout(window.historyTimeout);
-      window.historyTimeout = setTimeout(loadHistory, 300);
-    });
-
-    // ============ EXPORT ============
-    function downloadFile(filename, content, type) {
-      const blob = new Blob([content], {
-        type
-      });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+    // ==================== STOCK OUT ====================
+    function stockOutHTML() {
+      return `
+        <div class="card">
+          <div class="card-title">📤 Barang Keluar</div>
+          <div class="form-group">
+            <label class="form-label">Scan Barcode / SKU</label>
+            <div style="display:flex;gap:8px;">
+              <input type="text" id="outSKU" placeholder="Scan atau ketik SKU" style="flex:1;">
+              <button class="btn btn-outline btn-sm" id="scanOutBtn">📷</button>
+            </div>
+          </div>
+          <div id="outScannerContainer" style="display:none;margin-bottom:10px;">
+            <div id="outScannerView"></div>
+            <button class="btn btn-sm btn-outline" id="stopOutScan" style="margin-top:6px;">❌ Tutup</button>
+          </div>
+          <div id="outProductInfo" style="display:none;margin-bottom:10px;">
+            <div style="background:#fef2f2;padding:12px;border-radius:12px;">
+              <strong id="outProductName">-</strong><br>
+              <span style="font-size:0.8rem;color:#64748b;">Stok tersedia: <span id="outCurrentStock">0</span></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Jumlah Keluar</label>
+            <input type="number" id="outQty" placeholder="Qty" value="1" min="1">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Keperluan</label>
+            <select id="outPurpose">
+              <option value="Terjual">💰 Terjual</option>
+              <option value="Rusak">🔨 Rusak</option>
+              <option value="Kadaluarsa">⏰ Kadaluarsa</option>
+              <option value="Transfer">🔄 Transfer</option>
+              <option value="Lainnya">📋 Lainnya</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Catatan</label>
+            <input type="text" id="outNote" placeholder="Catatan (opsional)">
+          </div>
+          <button class="btn btn-danger btn-block" id="saveStockOut">📤 Simpan Barang Keluar</button>
+        </div>
+        <div class="card">
+          <div class="card-title">📋 Riwayat Barang Keluar Hari Ini</div>
+          <div class="list" id="outHistoryList">
+            <div style="text-align:center;padding:20px;color:#94a3b8;">Memuat...</div>
+          </div>
+        </div>
+      `;
     }
 
-    document.getElementById('exportCSVBtn')?.addEventListener('click', () => {
-      if (allItems.length === 0) {
-        showToast('⚠️ Tidak ada data untuk diexport');
+    function initStockOut() {
+      loadOutHistory();
+      document.getElementById('scanOutBtn').addEventListener('click', toggleOutScanner);
+      document.getElementById('stopOutScan')?.addEventListener('click', stopOutScanner);
+      document.getElementById('outSKU')?.addEventListener('input', lookupOutProduct);
+      document.getElementById('saveStockOut')?.addEventListener('click', saveStockOut);
+    }
+
+    async function lookupOutProduct() {
+      const sku = document.getElementById('outSKU').value.trim();
+      if (!sku) {
+        document.getElementById('outProductInfo').style.display = 'none';
         return;
       }
-      let csv = 'Barcode,Nama,Qty,Kategori,Lokasi,Tanggal\n';
-      allItems.forEach(i => {
-        let dateStr = '';
+      const product = products.find(p => (p.sku || '').toLowerCase() === sku.toLowerCase());
+      if (product) {
+        document.getElementById('outProductInfo').style.display = 'block';
+        document.getElementById('outProductName').textContent = product.name;
+        document.getElementById('outCurrentStock').textContent = product.stock || 0;
+        document.getElementById('outProductInfo').dataset.productId = product.id;
+      } else {
+        document.getElementById('outProductInfo').style.display = 'block';
+        document.getElementById('outProductName').textContent = 'Produk tidak ditemukan!';
+        document.getElementById('outCurrentStock').textContent = '0';
+        document.getElementById('outProductInfo').dataset.productId = '';
+      }
+    }
+
+    async function toggleOutScanner() {
+      if (html5QrCode?.isScanning) { await stopOutScanner(); return; }
+      document.getElementById('outScannerContainer').style.display = 'block';
+      try {
+        html5QrCode = new Html5Qrcode("outScannerView");
+        await html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 },
+          (decoded) => {
+            document.getElementById('outSKU').value = decoded;
+            lookupOutProduct();
+            stopOutScanner();
+          }, () => {});
+      } catch (e) {
+        toast('⚠️ Gagal kamera: ' + e.message);
+        document.getElementById('outScannerContainer').style.display = 'none';
+      }
+    }
+
+    async function stopOutScanner() {
+      if (html5QrCode?.isScanning) await html5QrCode.stop().catch(() => {});
+      document.getElementById('outScannerContainer').style.display = 'none';
+    }
+
+    async function saveStockOut() {
+      const sku = document.getElementById('outSKU').value.trim();
+      const qty = parseInt(document.getElementById('outQty').value) || 0;
+      const purpose = document.getElementById('outPurpose').value;
+      const note = document.getElementById('outNote').value.trim();
+      const productId = document.getElementById('outProductInfo').dataset.productId;
+
+      if (!sku || qty < 1) return toast('⚠️ Lengkapi SKU & Qty');
+      if (!productId) return toast('⚠️ Produk tidak ditemukan');
+
+      const product = products.find(p => p.id === productId);
+      if (!product || (product.stock || 0) < qty) {
+        return toast('⚠️ Stok tidak mencukupi! Stok: ' + (product?.stock || 0));
+      }
+
+      try {
+        const newStock = (product.stock || 0) - qty;
+        await updateDoc(doc(db, "products", productId), { stock: newStock, updatedAt: new Date() });
+        await addDoc(collection(db, "transactions"), {
+          type: 'OUT', productId, productName: product.name, sku, qty, purpose, note,
+          timestamp: new Date(), userId: currentUser.uid, userEmail: currentUser.email
+        });
+
+        toast(`📤 Barang keluar: -${qty} | Stok sekarang: ${newStock}`);
+        document.getElementById('outSKU').value = '';
+        document.getElementById('outQty').value = '1';
+        document.getElementById('outNote').value = '';
+        document.getElementById('outProductInfo').style.display = 'none';
+        await loadDashboardData();
+        loadOutHistory();
+      } catch (e) {
+        toast('❌ Gagal: ' + e.message);
+      }
+    }
+
+    async function loadOutHistory() {
+      const list = document.getElementById('outHistoryList');
+      if (!list) return;
+      try {
+        const today = new Date(); today.setHours(0, 0, 0, 0);
+        const snap = await getDocs(query(collection(db, "transactions"),
+          where("type", "==", "OUT"), orderBy("timestamp", "desc"), limit(20)));
+        const items = []; snap.forEach(d => items.push(d.data()));
+        const todayItems = items.filter(i => {
+          try { const d = i.timestamp?.toDate?.() || new Date(i.timestamp); return d >= today; }
+          catch { return false; }
+        });
+        list.innerHTML = todayItems.length === 0
+          ? '<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada transaksi hari ini</div>'
+          : todayItems.map(i => `
+            <div class="list-item">
+              <div class="item-avatar avatar-orange">📤</div>
+              <div class="item-detail">
+                <div class="item-name">${i.productName || '-'} (-${i.qty})</div>
+                <div class="item-info">${i.purpose || '-'} | ${formatDate(i.timestamp)}</div>
+              </div>
+            </div>
+          `).join('');
+      } catch (e) {
+        list.innerHTML = '<div style="text-align:center;padding:20px;color:#ef4444;">Gagal memuat</div>';
+      }
+    }
+
+    // ==================== PRODUCTS ====================
+    function productsHTML() {
+      return `
+        <div style="display:flex;gap:8px;margin-bottom:12px;">
+          <input type="text" id="productSearch" placeholder="🔍 Cari produk..." style="flex:1;">
+          <button class="btn btn-primary btn-sm" id="addProductBtn">+ Baru</button>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📦 Daftar Produk</span>
+            <span class="badge badge-blue">${products.length} item</span>
+          </div>
+          <div class="list" id="productList">
+            ${products.length === 0
+              ? '<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada produk</div>'
+              : products.map(p => {
+                const stockClass = (p.stock || 0) <= (p.minStock || 5) ? 'stock-low' :
+                                   (p.stock || 0) <= (p.minStock || 5) * 2 ? 'stock-mid' : 'stock-high';
+                return `
+                  <div class="list-item">
+                    <div class="item-avatar avatar-blue">📦</div>
+                    <div class="item-detail">
+                      <div class="item-name">${p.name || '-'}</div>
+                      <div class="item-info">SKU: ${p.sku || '-'}</div>
+                    </div>
+                    <span class="item-stock ${stockClass}">${p.stock || 0}</span>
+                    <button class="btn btn-sm btn-outline" onclick="window.editProduct('${p.id}')">✏️</button>
+                  </div>
+                `;
+              }).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function initProducts() {
+      document.getElementById('addProductBtn')?.addEventListener('click', () => showAddProductModal());
+      document.getElementById('productSearch')?.addEventListener('input', function() {
+        const term = this.value.toLowerCase();
+        const filtered = products.filter(p =>
+          (p.name || '').toLowerCase().includes(term) || (p.sku || '').toLowerCase().includes(term));
+        const list = document.getElementById('productList');
+        list.innerHTML = filtered.length === 0
+          ? '<div style="text-align:center;padding:20px;color:#94a3b8;">Tidak ditemukan</div>'
+          : filtered.map(p => {
+            const stockClass = (p.stock || 0) <= (p.minStock || 5) ? 'stock-low' :
+                               (p.stock || 0) <= (p.minStock || 5) * 2 ? 'stock-mid' : 'stock-high';
+            return `
+              <div class="list-item">
+                <div class="item-avatar avatar-blue">📦</div>
+                <div class="item-detail">
+                  <div class="item-name">${p.name || '-'}</div>
+                  <div class="item-info">SKU: ${p.sku || '-'}</div>
+                </div>
+                <span class="item-stock ${stockClass}">${p.stock || 0}</span>
+                <button class="btn btn-sm btn-outline" onclick="window.editProduct('${p.id}')">✏️</button>
+              </div>
+            `;
+          }).join('');
+      });
+    }
+
+    function showAddProductModal() {
+      showModal(`
+        <h3 style="margin-bottom:12px;">➕ Tambah Produk Baru</h3>
+        <div class="form-group"><label class="form-label">SKU / Barcode</label><input type="text" id="newSKU"></div>
+        <div class="form-group"><label class="form-label">Nama Produk</label><input type="text" id="newName"></div>
+        <div class="input-row">
+          <div class="form-group"><label class="form-label">Stok Awal</label><input type="number" id="newStock" value="0"></div>
+          <div class="form-group"><label class="form-label">Min Stok</label><input type="number" id="newMinStock" value="5"></div>
+        </div>
+        <div class="form-group"><label class="form-label">Harga (Rp)</label><input type="number" id="newPrice" placeholder="Opsional"></div>
+        <button class="btn btn-primary btn-block" id="saveNewProduct">💾 Simpan Produk</button>
+      `);
+      document.getElementById('saveNewProduct').addEventListener('click', async () => {
+        const sku = document.getElementById('newSKU').value.trim();
+        const name = document.getElementById('newName').value.trim();
+        const stock = parseInt(document.getElementById('newStock').value) || 0;
+        const minStock = parseInt(document.getElementById('newMinStock').value) || 5;
+        const price = parseInt(document.getElementById('newPrice').value) || 0;
+        if (!sku || !name) return toast('⚠️ SKU & Nama wajib diisi');
+        await addDoc(collection(db, "products"), { sku, name, stock, minStock, price, created: new Date(), userId: currentUser.uid });
+        closeModal();
+        await loadDashboardData();
+        renderPage('products');
+        toast('✅ Produk ditambahkan');
+      });
+    }
+
+    window.editProduct = function(id) {
+      const p = products.find(x => x.id === id);
+      if (!p) return;
+      showModal(`
+        <h3 style="margin-bottom:12px;">✏️ Edit Produk</h3>
+        <div class="form-group"><label class="form-label">SKU</label><input type="text" id="editSKU" value="${p.sku || ''}"></div>
+        <div class="form-group"><label class="form-label">Nama</label><input type="text" id="editName" value="${p.name || ''}"></div>
+        <div class="input-row">
+          <div class="form-group"><label class="form-label">Stok</label><input type="number" id="editStock" value="${p.stock || 0}"></div>
+          <div class="form-group"><label class="form-label">Min Stok</label><input type="number" id="editMinStock" value="${p.minStock || 5}"></div>
+        </div>
+        <div class="form-group"><label class="form-label">Harga</label><input type="number" id="editPrice" value="${p.price || 0}"></div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-primary" id="updateProduct" style="flex:1;">💾 Update</button>
+          <button class="btn btn-danger" id="deleteProduct" style="flex:1;">🗑️ Hapus</button>
+        </div>
+      `);
+      document.getElementById('updateProduct').addEventListener('click', async () => {
+        await updateDoc(doc(db, "products", id), {
+          sku: document.getElementById('editSKU').value,
+          name: document.getElementById('editName').value,
+          stock: parseInt(document.getElementById('editStock').value) || 0,
+          minStock: parseInt(document.getElementById('editMinStock').value) || 5,
+          price: parseInt(document.getElementById('editPrice').value) || 0,
+          updatedAt: new Date()
+        });
+        closeModal();
+        await loadDashboardData();
+        renderPage('products');
+        toast('✅ Produk diupdate');
+      });
+      document.getElementById('deleteProduct').addEventListener('click', async () => {
+        if (confirm(`Hapus "${p.name}"?`)) {
+          await deleteDoc(doc(db, "products", id));
+          closeModal();
+          await loadDashboardData();
+          renderPage('products');
+          toast('🗑️ Produk dihapus');
+        }
+      });
+    };
+
+    // ==================== REPORTS ====================
+    async function reportsHTML() {
+      await loadDashboardData();
+      const totalValue = products.reduce((s, p) => s + (p.stock || 0) * (p.price || 0), 0);
+      const inMonth = transactions.filter(t => {
         try {
-          const d = i.created?.toDate?.() || new Date(i.created);
-          dateStr = d.toLocaleDateString('id-ID');
-        } catch (e) {}
-        csv +=
-          `"${i.barcode || ''}","${i.nama || ''}",${i.qty || 0},"${i.kategori || ''}","${i.lokasi || ''}","${dateStr}"\n`;
-      });
-      downloadFile('wms_data.csv', csv, 'text/csv');
-      addLog('Export', 'Export CSV');
-      showToast('📥 CSV terdownload!');
-    });
+          const d = t.timestamp?.toDate?.() || new Date(t.timestamp);
+          return d.getMonth() === new Date().getMonth() && t.type === 'IN';
+        } catch { return false; }
+      }).reduce((s, t) => s + (t.qty || 0), 0);
+      const outMonth = transactions.filter(t => {
+        try {
+          const d = t.timestamp?.toDate?.() || new Date(t.timestamp);
+          return d.getMonth() === new Date().getMonth() && t.type === 'OUT';
+        } catch { return false; }
+      }).reduce((s, t) => s + (t.qty || 0), 0);
 
-    document.getElementById('exportJSONBtn')?.addEventListener('click', () => {
-      if (allItems.length === 0) {
-        showToast('⚠️ Tidak ada data untuk diexport');
-        return;
-      }
-      const exportData = allItems.map(i => {
-        const {
-          id,
-          ...rest
-        } = i;
-        return rest;
-      });
-      downloadFile('wms_backup.json', JSON.stringify(exportData, null, 2), 'application/json');
-      addLog('Export', 'Export JSON');
-      showToast('📄 JSON terdownload!');
-    });
-
-    // ============ BACKUP & RESTORE ============
-    document.getElementById('backupBtn')?.addEventListener('click', () => {
-      if (allItems.length === 0) {
-        showToast('⚠️ Tidak ada data untuk dibackup');
-        return;
-      }
-      try {
-        localStorage.setItem('wms_backup', JSON.stringify(allItems));
-        addLog('Backup', 'Backup data lokal');
-        showToast('💾 ' + allItems.length + ' data dibackup ke lokal!');
-      } catch (e) {
-        showToast('❌ Gagal backup: storage penuh');
-      }
-    });
-
-    document.getElementById('restoreBtn')?.addEventListener('click', async () => {
-      const backup = localStorage.getItem('wms_backup');
-      if (!backup) {
-        showToast('⚠️ Tidak ada backup ditemukan');
-        return;
-      }
-      if (!confirm('Restore data dari backup? Data yang ada tidak akan dihapus.')) return;
-
-      try {
-        const data = JSON.parse(backup);
-        let count = 0;
-        for (const item of data) {
-          const {
-            id,
-            ...rest
-          } = item;
-          await addDoc(collection(db, "items"), {
-            ...rest,
-            restoredAt: new Date()
-          });
-          count++;
-        }
-        addLog('Restore', 'Restore ' + count + ' data');
-        await loadAllData();
-        showToast('✅ ' + count + ' data direstore!');
-      } catch (e) {
-        console.error('Restore error:', e);
-        showToast('❌ Gagal restore: ' + e.message);
-      }
-    });
-
-    // ============ CLEAR DATA ============
-    document.getElementById('clearDataBtn')?.addEventListener('click', async () => {
-      if (!confirm('⚠️ Hapus SEMUA data? Ini tidak bisa dibatalkan!')) return;
-      if (!confirm('Ketik OK untuk melanjutkan')) return;
-
-      try {
-        for (const item of allItems) {
-          await deleteDoc(doc(db, "items", item.id));
-        }
-        addLog('Clear', 'Hapus semua data');
-        await loadAllData();
-        showToast('🗑️ Semua data dihapus');
-      } catch (e) {
-        console.error('Clear error:', e);
-        showToast('❌ Gagal hapus data: ' + e.message);
-      }
-    });
-
-    // ============ LOG ACTIVITY ============
-    document.getElementById('logActivityBtn')?.addEventListener('click', () => {
-      const logs = logActivities.slice(0, 20).map(l =>
-        `[${new Date(l.timestamp).toLocaleString('id-ID')}] ${l.user} - ${l.action}: ${l.detail}`
-      ).join('\n');
-      alert('📋 20 Log Terakhir:\n\n' + (logs || 'Belum ada log'));
-    });
-
-    // ============ PHOTO ============
-    document.getElementById('takePhotoBtn')?.addEventListener('click', () => {
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = 'image/*';
-      input.capture = 'environment';
-      input.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = (ev) => {
-            const img = document.getElementById('photoPreview');
-            if (img) {
-              img.src = ev.target.result;
-              img.style.display = 'block';
-            }
-          };
-          reader.readAsDataURL(file);
-        }
-      });
-      input.click();
-    });
-
-    // ============ QR GENERATE ============
-    document.getElementById('generateQRBtn')?.addEventListener('click', () => {
-      const barcode = document.getElementById('barcode')?.value?.trim();
-      if (!barcode) {
-        showToast('⚠️ Isi barcode terlebih dahulu');
-        return;
-      }
-      try {
-        const canvas = document.getElementById('qrCanvas');
-        if (canvas && typeof QRCode !== 'undefined') {
-          QRCode.toCanvas(canvas, barcode, {
-            width: 200
-          });
-          document.getElementById('qrText').textContent = barcode;
-          document.getElementById('qrModal').classList.add('show');
-        } else {
-          showToast('⚠️ Library QR Code belum siap');
-        }
-      } catch (e) {
-        console.error('QR error:', e);
-        showToast('❌ Gagal generate QR');
-      }
-    });
-
-    document.getElementById('closeQrBtn')?.addEventListener('click', () => {
-      document.getElementById('qrModal')?.classList.remove('show');
-    });
-
-    document.getElementById('qrModal')?.addEventListener('click', function(e) {
-      if (e.target === this) this.classList.remove('show');
-    });
-
-    // ============ USER ROLE ============
-    document.getElementById('userRole')?.addEventListener('change', function() {
-      localStorage.setItem('wms_role', this.value);
-      showToast('👤 Role diubah: ' + this.value);
-      const userInfo = document.getElementById('userInfo');
-      if (userInfo && currentUser) {
-        userInfo.textContent = `Email: ${currentUser.email} | Role: ${this.value}`;
-      }
-    });
-
-    // Init role if not set
-    if (!localStorage.getItem('wms_role')) {
-      localStorage.setItem('wms_role', 'admin');
+      return `
+        <div class="card">
+          <div class="card-title">📊 Ringkasan Bulan Ini</div>
+          <div class="stats-grid">
+            <div class="stat-card green"><div class="stat-value">${inMonth}</div><div class="stat-label">📥 Total Masuk</div></div>
+            <div class="stat-card orange"><div class="stat-value">${outMonth}</div><div class="stat-label">📤 Total Keluar</div></div>
+            <div class="stat-card blue"><div class="stat-value">${products.length}</div><div class="stat-label">Produk Aktif</div></div>
+            <div class="stat-card green"><div class="stat-value">${formatRupiah(totalValue)}</div><div class="stat-label">Nilai Inventory</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">📦 Top 5 Produk (Stok Tertinggi)</div>
+          <div class="list">
+            ${[...products].sort((a,b) => (b.stock||0)-(a.stock||0)).slice(0,5).map(p => `
+              <div class="list-item">
+                <div class="item-avatar avatar-blue">📦</div>
+                <div class="item-detail">
+                  <div class="item-name">${p.name || '-'}</div>
+                  <div class="item-info">SKU: ${p.sku || '-'} | Harga: ${formatRupiah(p.price)}</div>
+                </div>
+                <span class="item-stock stock-high">${p.stock || 0}</span>
+              </div>
+            `).join('') || '<div style="text-align:center;padding:20px;">Tidak ada data</div>'}
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">📋 Semua Transaksi Bulan Ini</div>
+          <div class="list">
+            ${transactions.filter(t => {
+              try { const d = t.timestamp?.toDate?.() || new Date(t.timestamp); return d.getMonth() === new Date().getMonth(); }
+              catch { return false; }
+            }).slice(0, 20).map(t => `
+              <div class="list-item">
+                <div class="item-avatar ${t.type === 'IN' ? 'avatar-green' : 'avatar-orange'}">${t.type === 'IN' ? '📥' : '📤'}</div>
+                <div class="item-detail">
+                  <div class="item-name">${t.productName || '-'} (${t.type === 'IN' ? '+' : '-'}${t.qty})</div>
+                  <div class="item-info">${formatDate(t.timestamp)} | ${t.purpose || t.note || ''}</div>
+                </div>
+              </div>
+            `).join('') || '<div style="text-align:center;padding:20px;">Belum ada transaksi</div>'}
+          </div>
+        </div>
+        <button class="btn btn-outline btn-block" id="exportReportBtn">📥 Export CSV</button>
+      `;
     }
 
-    // ============ CLEANUP ON UNLOAD ============
-    window.addEventListener('beforeunload', () => {
-      if (html5QrCode && html5QrCode.isScanning) {
-        html5QrCode.stop().catch(() => {});
+    // Init reports after render
+    document.addEventListener('click', function(e) {
+      if (e.target.id === 'exportReportBtn') {
+        let csv = 'Tipe,Produk,SKU,Qty,Tanggal\n';
+        transactions.forEach(t => {
+          csv += `${t.type},${t.productName},${t.sku},${t.qty},${formatDate(t.timestamp)}\n`;
+        });
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = 'laporan_inventory.csv';
+        a.click(); URL.revokeObjectURL(url);
+        toast('📥 Laporan terdownload');
       }
     });
 
-    // ============ INITIAL LOAD ============
-    console.log('✅ WMS Mobile Pro v2.1 siap!');
-    console.log('📦 Fitur: 19 fitur premium');
-    console.log('🔧 Status: Fixed navigation & save bugs');
+    // ==================== SYNC ====================
+    document.getElementById('syncBtn').addEventListener('click', async () => {
+      toast('🔄 Sync data...');
+      await loadDashboardData();
+      renderPage(currentPage);
+      toast('✅ Data tersinkronisasi');
+    });
+
+    // ==================== INIT ====================
+    console.log('✅ InventoryPro siap!');
+    loadDashboardData();
   </script>
 </body>
 </html>
