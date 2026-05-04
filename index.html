@@ -44,7 +44,6 @@
       flex-direction: column;
     }
 
-    /* Header */
     .header {
       background: linear-gradient(135deg, #1e40af, #3b82f6);
       color: white;
@@ -64,69 +63,42 @@
       align-items: center;
       gap: 8px;
     }
-    .header-actions {
-      display: flex;
-      gap: 8px;
-    }
+    .header-actions { display: flex; gap: 8px; }
     .header-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      border: none;
+      width: 36px; height: 36px;
+      border-radius: 10px; border: none;
       background: rgba(255,255,255,0.2);
-      color: white;
-      font-size: 1.1rem;
+      color: white; font-size: 1.1rem;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
     }
 
-    /* Content */
     .content {
-      flex: 1;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      padding-bottom: 80px;
-      overflow-y: auto;
+      flex: 1; padding: 16px;
+      display: flex; flex-direction: column; gap: 14px;
+      padding-bottom: 80px; overflow-y: auto;
     }
 
-    /* Cards */
     .card {
-      background: white;
-      border-radius: var(--radius);
-      padding: 16px;
-      border: 1px solid var(--border);
+      background: white; border-radius: var(--radius);
+      padding: 16px; border: 1px solid var(--border);
       box-shadow: var(--shadow);
     }
     .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 12px;
     }
     .card-title {
-      font-weight: 600;
-      font-size: 0.95rem;
-      color: var(--text);
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      font-weight: 600; font-size: 0.95rem;
+      color: var(--text); display: flex; align-items: center; gap: 6px;
     }
 
-    /* Stats Grid */
     .stats-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
     }
     .stat-card {
-      padding: 14px;
-      border-radius: 14px;
-      border: 1px solid #e2e8f0;
-      text-align: center;
+      padding: 14px; border-radius: 14px;
+      border: 1px solid #e2e8f0; text-align: center;
     }
     .stat-card.blue { background: #eff6ff; border-color: #bfdbfe; }
     .stat-card.green { background: #ecfdf5; border-color: #a7f3d0; }
@@ -139,49 +111,30 @@
     .orange .stat-value { color: #d97706; }
     .red .stat-value { color: #dc2626; }
 
-    /* Form */
     .form-group { margin-bottom: 10px; }
     .form-label {
-      display: block;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: #475569;
-      margin-bottom: 4px;
+      display: block; font-size: 0.78rem;
+      font-weight: 600; color: #475569; margin-bottom: 4px;
     }
     input, select, textarea {
-      width: 100%;
-      padding: 11px 14px;
-      border: 2px solid #e2e8f0;
-      border-radius: 12px;
-      font-size: 14px;
-      color: #1e293b;
-      background: #fff;
-      outline: none;
-      transition: 0.15s;
+      width: 100%; padding: 11px 14px;
+      border: 2px solid #e2e8f0; border-radius: 12px;
+      font-size: 14px; color: #1e293b; background: #fff;
+      outline: none; transition: 0.15s;
     }
     input:focus, select:focus {
       border-color: #3b82f6;
       box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
     }
-    .input-row {
-      display: flex;
-      gap: 8px;
-    }
+    .input-row { display: flex; gap: 8px; }
     .input-row > * { flex: 1; }
 
-    /* Buttons */
     .btn {
-      padding: 12px 16px;
-      border-radius: 12px;
-      border: none;
-      font-weight: 600;
-      font-size: 0.88rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: 0.15s;
+      padding: 12px 16px; border-radius: 12px;
+      border: none; font-weight: 600; font-size: 0.88rem;
+      cursor: pointer; display: flex;
+      align-items: center; justify-content: center;
+      gap: 6px; transition: 0.15s;
     }
     .btn:active { transform: scale(0.97); }
     .btn-primary { background: #1e40af; color: white; }
@@ -191,34 +144,18 @@
     .btn-outline { background: white; color: #1e40af; border: 2px solid #bfdbfe; }
     .btn-sm { padding: 8px 12px; font-size: 0.78rem; width: auto; }
     .btn-block { width: 100%; }
-    .btn-icon {
-      width: 34px; height: 34px; padding: 0;
-      border-radius: 10px; font-size: 1rem;
-    }
+    .btn-icon { width: 34px; height: 34px; padding: 0; border-radius: 10px; font-size: 1rem; }
 
-    /* Lists */
-    .list {
-      list-style: none;
-      max-height: 350px;
-      overflow-y: auto;
-    }
+    .list { list-style: none; max-height: 350px; overflow-y: auto; }
     .list-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px;
-      border-bottom: 1px solid #f1f5f9;
-      transition: 0.15s;
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px; border-bottom: 1px solid #f1f5f9; transition: 0.15s;
     }
     .list-item:active { background: #f8fafc; }
     .item-avatar {
-      width: 42px; height: 42px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      flex-shrink: 0;
+      width: 42px; height: 42px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
     }
     .avatar-blue { background: #eff6ff; }
     .avatar-green { background: #ecfdf5; }
@@ -234,139 +171,63 @@
     .stock-mid { background: #fffbeb; color: #d97706; }
     .stock-low { background: #fef2f2; color: #dc2626; }
 
-    /* Bottom Nav */
     .bottom-nav {
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      background: white;
-      display: flex;
-      border-top: 1px solid #e2e8f0;
-      z-index: 100;
-      max-width: 480px;
-      margin: 0 auto;
-      padding: 6px 12px 10px;
-      gap: 4px;
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: white; display: flex;
+      border-top: 1px solid #e2e8f0; z-index: 100;
+      max-width: 480px; margin: 0 auto;
+      padding: 6px 12px 10px; gap: 4px;
     }
     .nav-item {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2px;
-      padding: 8px 4px;
-      border-radius: 12px;
-      border: none;
-      background: transparent;
-      color: #94a3b8;
-      font-size: 0.68rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: 0.15s;
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; gap: 2px; padding: 8px 4px;
+      border-radius: 12px; border: none; background: transparent;
+      color: #94a3b8; font-size: 0.68rem; font-weight: 500;
+      cursor: pointer; transition: 0.15s;
     }
     .nav-item .icon { font-size: 1.3rem; }
     .nav-item.active { background: #eff6ff; color: #1e40af; font-weight: 600; }
 
-    /* Modal */
     .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 200;
-      display: none;
-      align-items: flex-end;
-      justify-content: center;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5); z-index: 200;
+      display: none; align-items: flex-end; justify-content: center;
     }
     .modal-overlay.show { display: flex; }
     .modal {
-      background: white;
-      border-radius: 20px 20px 0 0;
-      padding: 20px;
-      width: 100%;
-      max-width: 480px;
-      max-height: 85vh;
-      overflow-y: auto;
+      background: white; border-radius: 20px 20px 0 0;
+      padding: 20px; width: 100%; max-width: 480px;
+      max-height: 85vh; overflow-y: auto;
       box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
     }
     .modal-handle {
-      width: 40px; height: 4px;
-      background: #cbd5e1; border-radius: 2px;
-      margin: 0 auto 16px;
+      width: 40px; height: 4px; background: #cbd5e1;
+      border-radius: 2px; margin: 0 auto 16px;
     }
 
-    /* Toast */
     .toast {
-      position: fixed;
-      top: 16px; left: 50%; transform: translateX(-50%);
-      background: #1e293b; color: white;
-      padding: 12px 20px;
-      border-radius: 30px;
-      z-index: 300;
-      font-size: 0.85rem;
-      font-weight: 500;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      animation: slideDown 0.3s ease;
-      pointer-events: none;
+      position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+      background: #1e293b; color: white; padding: 12px 20px;
+      border-radius: 30px; z-index: 300; font-size: 0.85rem;
+      font-weight: 500; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      animation: slideDown 0.3s ease; pointer-events: none;
     }
     @keyframes slideDown {
       from { opacity: 0; transform: translateX(-50%) translateY(-30px); }
       to { opacity: 1; transform: translateX(-50%) translateY(0); }
     }
 
-    /* Badge */
     .badge {
-      display: inline-block;
-      padding: 3px 8px;
-      border-radius: 12px;
-      font-size: 0.7rem;
-      font-weight: 600;
+      display: inline-block; padding: 3px 8px;
+      border-radius: 12px; font-size: 0.7rem; font-weight: 600;
     }
     .badge-blue { background: #eff6ff; color: #1e40af; }
     .badge-green { background: #ecfdf5; color: #059669; }
     .badge-red { background: #fef2f2; color: #dc2626; }
-
-    /* Scanner */
-    #scannerView {
-      width: 100%;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #000;
-    }
-    #scannerView video {
-      width: 100%;
-      border-radius: 12px;
-    }
-
-    .tabs {
-      display: flex;
-      gap: 4px;
-      background: #f1f5f9;
-      padding: 4px;
-      border-radius: 12px;
-      margin-bottom: 12px;
-    }
-    .tab {
-      flex: 1;
-      padding: 8px;
-      text-align: center;
-      border-radius: 10px;
-      font-size: 0.78rem;
-      font-weight: 500;
-      cursor: pointer;
-      border: none;
-      background: transparent;
-      color: #64748b;
-    }
-    .tab.active {
-      background: white;
-      color: #1e40af;
-      font-weight: 600;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
   </style>
 </head>
 <body>
   <div class="app">
-    <!-- HEADER -->
     <div class="header">
       <h1>🏭 InventoryPro</h1>
       <div class="header-actions">
@@ -375,38 +236,23 @@
       </div>
     </div>
 
-    <!-- CONTENT -->
     <div class="content" id="contentArea"></div>
 
-    <!-- BOTTOM NAV -->
     <div class="bottom-nav" id="bottomNav" style="display:none;">
-      <button class="nav-item active" data-page="dashboard">
-        <span class="icon">📊</span> Dashboard
-      </button>
-      <button class="nav-item" data-page="stockIn">
-        <span class="icon">📥</span> Stock In
-      </button>
-      <button class="nav-item" data-page="stockOut">
-        <span class="icon">📤</span> Stock Out
-      </button>
-      <button class="nav-item" data-page="products">
-        <span class="icon">📦</span> Produk
-      </button>
-      <button class="nav-item" data-page="reports">
-        <span class="icon">📋</span> Laporan
-      </button>
+      <button class="nav-item active" data-page="dashboard"><span class="icon">📊</span>Dashboard</button>
+      <button class="nav-item" data-page="stockIn"><span class="icon">📥</span>Stock In</button>
+      <button class="nav-item" data-page="stockOut"><span class="icon">📤</span>Stock Out</button>
+      <button class="nav-item" data-page="products"><span class="icon">📦</span>Produk</button>
+      <button class="nav-item" data-page="reports"><span class="icon">📋</span>Laporan</button>
     </div>
 
-    <!-- MODAL -->
     <div class="modal-overlay" id="modalOverlay">
       <div class="modal" id="modalContent"></div>
     </div>
   </div>
 
-  <!-- Toast container -->
   <div id="toastContainer"></div>
 
-  <!-- Libraries -->
   <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 
   <script type="module">
@@ -429,83 +275,82 @@
     let currentPage = 'dashboard';
     let products = [];
     let transactions = [];
-    let html5QrCode = null;
+    // Pisahkan scanner untuk Stock In dan Stock Out
+    let scannerIn = null;
+    let scannerOut = null;
+    let currentScanType = null; // 'in' atau 'out'
 
-    // ==================== SOUND SYSTEM ====================
-    function playBeepSound() {
+    // ==================== SOUND SYSTEM (SWALAYAN STYLE) ====================
+    function playScanBeep() {
       try {
-        const audioContext = new(window.AudioContext || window.webkitAudioContext)();
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
+        const ctx = new(window.AudioContext || window.webkitAudioContext)();
         
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
+        // Beep pertama (pendek)
+        const osc1 = ctx.createOscillator();
+        const gain1 = ctx.createGain();
+        osc1.connect(gain1);
+        gain1.connect(ctx.destination);
+        osc1.type = 'square';
+        osc1.frequency.setValueAtTime(1200, ctx.currentTime);
+        gain1.gain.setValueAtTime(0.15, ctx.currentTime);
+        gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+        osc1.start(ctx.currentTime);
+        osc1.stop(ctx.currentTime + 0.08);
         
-        oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-        oscillator.frequency.setValueAtTime(1000, audioContext.currentTime + 0.1);
-        oscillator.frequency.setValueAtTime(1200, audioContext.currentTime + 0.2);
-        
-        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-        
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.3);
-      } catch (e) {
-        console.log('Sound not supported');
-      }
+        // Beep kedua (lebih tinggi)
+        const osc2 = ctx.createOscillator();
+        const gain2 = ctx.createGain();
+        osc2.connect(gain2);
+        gain2.connect(ctx.destination);
+        osc2.type = 'square';
+        osc2.frequency.setValueAtTime(1800, ctx.currentTime + 0.08);
+        gain2.gain.setValueAtTime(0.15, ctx.currentTime + 0.08);
+        gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+        osc2.start(ctx.currentTime + 0.08);
+        osc2.stop(ctx.currentTime + 0.2);
+      } catch(e) {}
     }
 
     function playSuccessSound() {
       try {
-        const audioContext = new(window.AudioContext || window.webkitAudioContext)();
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-        
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-        
-        oscillator.frequency.setValueAtTime(523, audioContext.currentTime);
-        oscillator.frequency.setValueAtTime(659, audioContext.currentTime + 0.1);
-        oscillator.frequency.setValueAtTime(784, audioContext.currentTime + 0.2);
-        
-        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
-        
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.4);
-      } catch (e) {
-        console.log('Sound not supported');
-      }
+        const ctx = new(window.AudioContext || window.webkitAudioContext)();
+        const notes = [523, 659, 784, 1047];
+        notes.forEach((freq, i) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.1);
+          gain.gain.setValueAtTime(0.2, ctx.currentTime + i * 0.1);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.1 + 0.15);
+          osc.start(ctx.currentTime + i * 0.1);
+          osc.stop(ctx.currentTime + i * 0.1 + 0.15);
+        });
+      } catch(e) {}
     }
 
     function playErrorSound() {
       try {
-        const audioContext = new(window.AudioContext || window.webkitAudioContext)();
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-        
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-        
-        oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
-        oscillator.frequency.setValueAtTime(150, audioContext.currentTime + 0.2);
-        
-        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
-        
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.4);
-      } catch (e) {
-        console.log('Sound not supported');
-      }
+        const ctx = new(window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(200, ctx.currentTime);
+        osc.frequency.setValueAtTime(150, ctx.currentTime + 0.2);
+        gain.gain.setValueAtTime(0.2, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + 0.4);
+      } catch(e) {}
     }
 
     // ==================== UTILS ====================
-    function toast(msg, type = 'info') {
+    function toast(msg) {
       const container = document.getElementById('toastContainer');
-      const existing = container.querySelectorAll('.toast');
-      existing.forEach(t => t.remove());
-      
+      container.querySelectorAll('.toast').forEach(t => t.remove());
       const t = document.createElement('div');
       t.className = 'toast';
       t.textContent = msg;
@@ -518,56 +363,143 @@
       try {
         const date = d.toDate ? d.toDate() : new Date(d);
         if (isNaN(date.getTime())) return '-';
-        return date.toLocaleDateString('id-ID', { 
-          day: 'numeric', 
-          month: 'short', 
-          year: 'numeric', 
-          hour: '2-digit', 
-          minute: '2-digit' 
-        });
-      } catch { 
-        return '-'; 
-      }
+        return date.toLocaleDateString('id-ID', { day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+      } catch { return '-'; }
     }
 
     function formatRupiah(n) {
-      return new Intl.NumberFormat('id-ID', { 
-        style: 'currency', 
-        currency: 'IDR', 
-        minimumFractionDigits: 0 
-      }).format(n || 0);
+      return new Intl.NumberFormat('id-ID', { style:'currency', currency:'IDR', minimumFractionDigits:0 }).format(n||0);
     }
 
     function showModal(html) {
-      document.getElementById('modalContent').innerHTML = `
-        <div class="modal-handle"></div>
-        ${html}
-      `;
+      document.getElementById('modalContent').innerHTML = `<div class="modal-handle"></div>${html}`;
       document.getElementById('modalOverlay').classList.add('show');
     }
 
     function closeModal() {
       document.getElementById('modalOverlay').classList.remove('show');
-      if (html5QrCode?.isScanning) {
-        html5QrCode.stop().catch(() => {});
-      }
     }
 
     document.getElementById('modalOverlay').addEventListener('click', function(e) {
       if (e.target === this) closeModal();
     });
 
+    // ==================== SCANNER MANAGER ====================
+    async function stopAllScanners() {
+      if (scannerIn && scannerIn.isScanning) {
+        try { await scannerIn.stop(); } catch(e) {}
+      }
+      if (scannerOut && scannerOut.isScanning) {
+        try { await scannerOut.stop(); } catch(e) {}
+      }
+      // Sembunyikan container scanner
+      const inCont = document.getElementById('inScannerContainer');
+      const outCont = document.getElementById('outScannerContainer');
+      if (inCont) inCont.style.display = 'none';
+      if (outCont) outCont.style.display = 'none';
+      const scanInBtn = document.getElementById('scanInBtn');
+      const scanOutBtn = document.getElementById('scanOutBtn');
+      if (scanInBtn) scanInBtn.textContent = '📷';
+      if (scanOutBtn) scanOutBtn.textContent = '📷';
+    }
+
+    async function startScanner(type, elementId) {
+      // Stop scanner yang sedang berjalan dulu
+      await stopAllScanners();
+      
+      // Tampilkan container
+      const containerId = type === 'in' ? 'inScannerContainer' : 'outScannerContainer';
+      const btnId = type === 'in' ? 'scanInBtn' : 'scanOutBtn';
+      const container = document.getElementById(containerId);
+      const btn = document.getElementById(btnId);
+      
+      if (container) container.style.display = 'block';
+      if (btn) btn.textContent = '📸 Memindai...';
+      
+      currentScanType = type;
+      
+      // Callback saat berhasil scan
+      const onScanSuccess = (decodedText) => {
+        playScanBeep();
+        
+        if (type === 'in') {
+          const input = document.getElementById('inSKU');
+          if (input) input.value = decodedText;
+          lookupProduct();
+        } else {
+          const input = document.getElementById('outSKU');
+          if (input) input.value = decodedText;
+          lookupOutProduct();
+        }
+        
+        toast('✅ Terdeteksi: ' + decodedText);
+        
+        // Stop scanner setelah dapat
+        stopScanner(type);
+      };
+      
+      // Callback error (diabaikan)
+      const onScanError = (err) => {};
+      
+      try {
+        // Buat instance scanner baru setiap kali
+        const scanner = new Html5Qrcode(elementId);
+        
+        if (type === 'in') {
+          scannerIn = scanner;
+        } else {
+          scannerOut = scanner;
+        }
+        
+        await scanner.start(
+          { facingMode: "environment" },
+          { fps: 10, qrbox: { width: 250, height: 250 } },
+          onScanSuccess,
+          onScanError
+        );
+      } catch (e) {
+        console.error('Scanner error:', e);
+        toast('⚠️ Gagal kamera. Coba lagi.');
+        if (container) container.style.display = 'none';
+        if (btn) btn.textContent = '📷';
+      }
+    }
+
+    async function stopScanner(type) {
+      const scanner = type === 'in' ? scannerIn : scannerOut;
+      const containerId = type === 'in' ? 'inScannerContainer' : 'outScannerContainer';
+      const btnId = type === 'in' ? 'scanInBtn' : 'scanOutBtn';
+      
+      if (scanner && scanner.isScanning) {
+        try {
+          await scanner.stop();
+        } catch(e) {
+          console.warn('Stop scanner warning:', e);
+        }
+      }
+      
+      // Clear scanner reference
+      if (type === 'in') scannerIn = null;
+      else scannerOut = null;
+      
+      const container = document.getElementById(containerId);
+      const btn = document.getElementById(btnId);
+      if (container) container.style.display = 'none';
+      if (btn) btn.textContent = '📷';
+      
+      currentScanType = null;
+    }
+
     // ==================== AUTH ====================
     onAuthStateChanged(auth, (user) => {
       if (user) {
         currentUser = user;
         document.getElementById('bottomNav').style.display = 'flex';
-        loadDashboardData().then(() => {
-          renderPage('dashboard');
-        });
+        loadDashboardData().then(() => renderPage('dashboard'));
       } else {
         currentUser = null;
         document.getElementById('bottomNav').style.display = 'none';
+        stopAllScanners();
         renderLoginPage();
       }
     });
@@ -579,14 +511,8 @@
           <h2 style="color:#1e293b;">InventoryPro</h2>
           <p style="color:#64748b;text-align:center;">Sistem Manajemen Inventory</p>
           <div class="card" style="width:100%;">
-            <div class="form-group">
-              <label class="form-label">Email</label>
-              <input type="email" id="loginEmail" placeholder="admin@email.com">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Password</label>
-              <input type="password" id="loginPassword" placeholder="••••••">
-            </div>
+            <div class="form-group"><label class="form-label">Email</label><input type="email" id="loginEmail" placeholder="admin@email.com"></div>
+            <div class="form-group"><label class="form-label">Password</label><input type="password" id="loginPassword" placeholder="••••••"></div>
             <button class="btn btn-primary btn-block" id="loginBtn">🔐 Masuk</button>
           </div>
         </div>
@@ -597,27 +523,25 @@
     async function login() {
       const email = document.getElementById('loginEmail').value.trim();
       const password = document.getElementById('loginPassword').value;
-      if (!email || !password) {
-        playErrorSound();
-        return toast('⚠️ Lengkapi email & password');
-      }
+      if (!email || !password) { playErrorSound(); return toast('⚠️ Lengkapi email & password'); }
       try {
         await signInWithEmailAndPassword(auth, email, password);
         playSuccessSound();
         toast('✅ Login berhasil');
-      } catch (e) {
+      } catch(e) {
         playErrorSound();
         toast('❌ ' + e.message);
       }
     }
 
     document.getElementById('logoutBtn').addEventListener('click', async () => {
-      if (confirm('Logout?')) await signOut(auth);
+      if (confirm('Logout?')) { await stopAllScanners(); await signOut(auth); }
     });
 
     // ==================== NAVIGATION ====================
     document.querySelectorAll('.nav-item').forEach(btn => {
-      btn.addEventListener('click', function() {
+      btn.addEventListener('click', async function() {
+        await stopAllScanners();
         document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
         this.classList.add('active');
         currentPage = this.dataset.page;
@@ -627,32 +551,12 @@
 
     async function renderPage(page) {
       const content = document.getElementById('contentArea');
-      switch (page) {
-        case 'dashboard': 
-          content.innerHTML = await dashboardHTML(); 
-          break;
-        case 'stockIn': 
-          content.innerHTML = stockInHTML(); 
-          await initStockIn(); 
-          break;
-        case 'stockOut': 
-          content.innerHTML = stockOutHTML(); 
-          await initStockOut(); 
-          break;
-        case 'products': 
-          content.innerHTML = productsHTML(); 
-          initProducts(); 
-          break;
-        case 'reports': 
-          content.innerHTML = await reportsHTML(); 
-          break;
-      }
-      
-      // Stop scanner when leaving scan pages
-      if (page !== 'stockIn' && page !== 'stockOut') {
-        if (html5QrCode?.isScanning) {
-          await html5QrCode.stop().catch(() => {});
-        }
+      switch(page) {
+        case 'dashboard': content.innerHTML = await dashboardHTML(); break;
+        case 'stockIn': content.innerHTML = stockInHTML(); await initStockIn(); break;
+        case 'stockOut': content.innerHTML = stockOutHTML(); await initStockOut(); break;
+        case 'products': content.innerHTML = productsHTML(); initProducts(); break;
+        case 'reports': content.innerHTML = await reportsHTML(); break;
       }
     }
 
@@ -661,44 +565,26 @@
       try {
         const prodSnap = await getDocs(collection(db, "products"));
         products = [];
-        prodSnap.forEach(d => products.push({ id: d.id, ...d.data() }));
-
-        const transSnap = await getDocs(query(
-          collection(db, "transactions"), 
-          orderBy("timestamp", "desc"), 
-          limit(100)
-        ));
+        prodSnap.forEach(d => products.push({ id:d.id, ...d.data() }));
+        const transSnap = await getDocs(query(collection(db, "transactions"), orderBy("timestamp","desc"), limit(100)));
         transactions = [];
-        transSnap.forEach(d => transactions.push({ id: d.id, ...d.data() }));
-        
-        console.log('Data loaded:', products.length, 'products,', transactions.length, 'transactions');
-      } catch (e) {
-        console.error('Load data error:', e);
-      }
+        transSnap.forEach(d => transactions.push({ id:d.id, ...d.data() }));
+      } catch(e) { console.error('Load error:', e); }
     }
 
     // ==================== DASHBOARD ====================
     async function dashboardHTML() {
       const totalProducts = products.length;
-      const totalStock = products.reduce((s, p) => s + (p.stock || 0), 0);
-      const lowStock = products.filter(p => (p.stock || 0) <= (p.minStock || 5)).length;
-      
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
+      const totalStock = products.reduce((s,p) => s+(p.stock||0), 0);
+      const lowStock = products.filter(p => (p.stock||0) <= (p.minStock||5)).length;
+      const today = new Date(); today.setHours(0,0,0,0);
       const todayIn = transactions.filter(t => {
-        if (t.type !== 'IN') return false;
-        try {
-          const d = t.timestamp?.toDate?.() || new Date(t.timestamp);
-          return d >= today;
-        } catch { return false; }
+        if (t.type!=='IN') return false;
+        try { return (t.timestamp?.toDate?.()||new Date(t.timestamp)) >= today; } catch { return false; }
       }).length;
-      
       const todayOut = transactions.filter(t => {
-        if (t.type !== 'OUT') return false;
-        try {
-          const d = t.timestamp?.toDate?.() || new Date(t.timestamp);
-          return d >= today;
-        } catch { return false; }
+        if (t.type!=='OUT') return false;
+        try { return (t.timestamp?.toDate?.()||new Date(t.timestamp)) >= today; } catch { return false; }
       }).length;
 
       return `
@@ -709,42 +595,27 @@
           <div class="stat-card red"><div class="stat-value">${todayOut}</div><div class="stat-label">📤 Keluar Hari Ini</div></div>
         </div>
         <div class="card">
-          <div class="card-header">
-            <span class="card-title">⚠️ Stok Menipis</span>
-            <span class="badge badge-red">${lowStock} produk</span>
-          </div>
+          <div class="card-header"><span class="card-title">⚠️ Stok Menipis</span><span class="badge badge-red">${lowStock} produk</span></div>
           <div class="list">
-            ${products.filter(p => (p.stock || 0) <= (p.minStock || 5)).slice(0, 5).map(p => `
+            ${products.filter(p=>(p.stock||0)<=(p.minStock||5)).slice(0,5).map(p=>`
               <div class="list-item">
                 <div class="item-avatar avatar-red">📦</div>
-                <div class="item-detail">
-                  <div class="item-name">${p.name || 'Tanpa Nama'}</div>
-                  <div class="item-info">SKU: ${p.sku || '-'} | Stok: ${p.stock || 0}</div>
-                </div>
-                <span class="item-stock stock-low">${p.stock || 0}</span>
+                <div class="item-detail"><div class="item-name">${p.name||'-'}</div><div class="item-info">SKU: ${p.sku||'-'} | Stok: ${p.stock||0}</div></div>
+                <span class="item-stock stock-low">${p.stock||0}</span>
               </div>
-            `).join('') || '<div style="text-align:center;padding:20px;color:#94a3b8;">✅ Semua stok aman</div>'}
+            `).join('')||'<div style="text-align:center;padding:20px;color:#94a3b8;">✅ Semua stok aman</div>'}
           </div>
         </div>
         <div class="card">
-          <div class="card-header">
-            <span class="card-title">📜 Transaksi Terakhir</span>
-          </div>
+          <div class="card-header"><span class="card-title">📜 Transaksi Terakhir</span></div>
           <div class="list">
-            ${transactions.slice(0, 5).map(t => `
+            ${transactions.slice(0,5).map(t=>`
               <div class="list-item">
-                <div class="item-avatar ${t.type === 'IN' ? 'avatar-green' : 'avatar-orange'}">
-                  ${t.type === 'IN' ? '📥' : '📤'}
-                </div>
-                <div class="item-detail">
-                  <div class="item-name">${t.productName || '-'}</div>
-                  <div class="item-info">${formatDate(t.timestamp)} | Oleh: ${t.userEmail || '-'}</div>
-                </div>
-                <span class="item-stock ${t.type === 'IN' ? 'stock-high' : 'stock-mid'}">
-                  ${t.type === 'IN' ? '+' : '-'}${t.qty || 0}
-                </span>
+                <div class="item-avatar ${t.type==='IN'?'avatar-green':'avatar-orange'}">${t.type==='IN'?'📥':'📤'}</div>
+                <div class="item-detail"><div class="item-name">${t.productName||'-'}</div><div class="item-info">${formatDate(t.timestamp)}</div></div>
+                <span class="item-stock ${t.type==='IN'?'stock-high':'stock-mid'}">${t.type==='IN'?'+':'-'}${t.qty||0}</span>
               </div>
-            `).join('') || '<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada transaksi</div>'}
+            `).join('')||'<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada transaksi</div>'}
           </div>
         </div>
       `;
@@ -764,7 +635,7 @@
           </div>
           <div id="inScannerContainer" style="display:none;margin-bottom:10px;">
             <div id="inScannerView" style="width:100%;border-radius:12px;overflow:hidden;"></div>
-            <button class="btn btn-sm btn-outline" id="stopInScan" style="margin-top:6px;">❌ Tutup</button>
+            <button class="btn btn-sm btn-outline" id="stopInScan" style="margin-top:6px;">❌ Tutup Kamera</button>
           </div>
           <div id="inProductInfo" style="display:none;margin-bottom:10px;">
             <div style="background:#f8fafc;padding:12px;border-radius:12px;">
@@ -772,243 +643,95 @@
               <span style="font-size:0.8rem;color:#64748b;">Stok saat ini: <span id="inCurrentStock">0</span></span>
             </div>
           </div>
-          <div class="form-group">
-            <label class="form-label">Jumlah Masuk</label>
-            <input type="number" id="inQty" placeholder="Qty" value="1" min="1">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Catatan</label>
-            <input type="text" id="inNote" placeholder="Catatan (opsional)">
-          </div>
+          <div class="form-group"><label class="form-label">Jumlah Masuk</label><input type="number" id="inQty" value="1" min="1"></div>
+          <div class="form-group"><label class="form-label">Catatan</label><input type="text" id="inNote" placeholder="Catatan (opsional)"></div>
           <button class="btn btn-success btn-block" id="saveStockIn">✅ Simpan Barang Masuk</button>
         </div>
         <div class="card">
           <div class="card-title">📋 Riwayat Barang Masuk Hari Ini</div>
-          <div class="list" id="inHistoryList">
-            <div style="text-align:center;padding:20px;color:#94a3b8;">Memuat...</div>
-          </div>
+          <div class="list" id="inHistoryList"><div style="text-align:center;padding:20px;color:#94a3b8;">Memuat...</div></div>
         </div>
       `;
     }
 
     async function initStockIn() {
       await loadInHistory();
-      
-      document.getElementById('scanInBtn').addEventListener('click', toggleInScanner);
-      document.getElementById('stopInScan')?.addEventListener('click', stopInScanner);
-      document.getElementById('inSKU')?.addEventListener('input', lookupProduct);
-      document.getElementById('saveStockIn')?.addEventListener('click', saveStockIn);
+      document.getElementById('scanInBtn').addEventListener('click', () => {
+        if (scannerIn && scannerIn.isScanning) {
+          stopScanner('in');
+        } else {
+          startScanner('in', 'inScannerView');
+        }
+      });
+      document.getElementById('stopInScan').addEventListener('click', () => stopScanner('in'));
+      document.getElementById('inSKU').addEventListener('input', lookupProduct);
+      document.getElementById('saveStockIn').addEventListener('click', saveStockIn);
     }
 
     async function lookupProduct() {
       const sku = document.getElementById('inSKU').value.trim();
       const infoDiv = document.getElementById('inProductInfo');
-      
-      if (!sku) {
-        infoDiv.style.display = 'none';
-        return;
-      }
-      
-      const product = products.find(p => (p.sku || '').toLowerCase() === sku.toLowerCase());
-      
+      if (!sku) { infoDiv.style.display = 'none'; return; }
+      const product = products.find(p => (p.sku||'').toLowerCase() === sku.toLowerCase());
       if (product) {
         infoDiv.style.display = 'block';
         document.getElementById('inProductName').textContent = product.name;
-        document.getElementById('inCurrentStock').textContent = product.stock || 0;
+        document.getElementById('inCurrentStock').textContent = product.stock||0;
         infoDiv.dataset.productId = product.id;
       } else {
         infoDiv.style.display = 'block';
-        document.getElementById('inProductName').textContent = 'Produk baru (akan dibuat otomatis)';
+        document.getElementById('inProductName').textContent = '🆕 Produk baru (auto-create)';
         document.getElementById('inCurrentStock').textContent = '0';
         infoDiv.dataset.productId = '';
       }
     }
 
-    async function toggleInScanner() {
-      if (html5QrCode?.isScanning) {
-        await stopInScanner();
-        return;
-      }
-      
-      document.getElementById('inScannerContainer').style.display = 'block';
-      
-      try {
-        if (html5QrCode) {
-          await html5QrCode.stop().catch(() => {});
-        }
-        
-        html5QrCode = new Html5Qrcode("inScannerView");
-        await html5QrCode.start(
-          { facingMode: "environment" }, 
-          { fps: 10, qrbox: { width: 250, height: 250 } },
-          (decodedText) => {
-            playBeepSound();
-            document.getElementById('inSKU').value = decodedText;
-            lookupProduct();
-            stopInScanner();
-            toast('✅ Barcode terdeteksi: ' + decodedText);
-          },
-          (errorMessage) => {
-            // Scanning in progress, errors are normal
-          }
-        );
-      } catch (e) {
-        console.error('Scanner error:', e);
-        playErrorSound();
-        toast('⚠️ Gagal membuka kamera: ' + e.message);
-        document.getElementById('inScannerContainer').style.display = 'none';
-      }
-    }
-
-    async function stopInScanner() {
-      if (html5QrCode?.isScanning) {
-        await html5QrCode.stop().catch(() => {});
-      }
-      document.getElementById('inScannerContainer').style.display = 'none';
-    }
-
     async function saveStockIn() {
       const sku = document.getElementById('inSKU').value.trim();
-      const qty = parseInt(document.getElementById('inQty').value) || 0;
+      const qty = parseInt(document.getElementById('inQty').value)||0;
       const note = document.getElementById('inNote').value.trim();
-
-      if (!sku || qty < 1) {
-        playErrorSound();
-        return toast('⚠️ Lengkapi SKU & Qty');
-      }
-
+      if (!sku || qty<1) { playErrorSound(); return toast('⚠️ Lengkapi SKU & Qty'); }
       try {
         let productId = document.getElementById('inProductInfo').dataset.productId;
-        
-        // Create product if not exists
         if (!productId) {
           const name = prompt('Nama produk baru:') || sku;
-          const docRef = await addDoc(collection(db, "products"), {
-            sku, 
-            name, 
-            stock: 0, 
-            minStock: 5,
-            price: 0,
-            created: new Date(), 
-            userId: currentUser.uid
-          });
+          const docRef = await addDoc(collection(db,"products"), { sku, name, stock:0, minStock:5, price:0, created:new Date(), userId:currentUser.uid });
           productId = docRef.id;
-          products.push({ id: productId, sku, name, stock: 0, minStock: 5, price: 0 });
+          products.push({ id:productId, sku, name, stock:0, minStock:5, price:0 });
         }
-
-        const product = products.find(p => p.id === productId);
-        if (!product) {
-          playErrorSound();
-          return toast('⚠️ Produk tidak ditemukan');
-        }
-        
-        const newStock = (product.stock || 0) + qty;
-
-        await updateDoc(doc(db, "products", productId), { 
-          stock: newStock, 
-          updatedAt: new Date() 
-        });
-        
-        await addDoc(collection(db, "transactions"), {
-          type: 'IN', 
-          productId, 
-          productName: product.name, 
-          sku, 
-          qty, 
-          note,
-          timestamp: new Date(), 
-          userId: currentUser.uid, 
-          userEmail: currentUser.email
-        });
-
+        const product = products.find(p=>p.id===productId);
+        if (!product) { playErrorSound(); return toast('⚠️ Produk tidak ditemukan'); }
+        const newStock = (product.stock||0) + qty;
+        await updateDoc(doc(db,"products",productId), { stock:newStock, updatedAt:new Date() });
+        await addDoc(collection(db,"transactions"), { type:'IN', productId, productName:product.name, sku, qty, note, timestamp:new Date(), userId:currentUser.uid, userEmail:currentUser.email });
         playSuccessSound();
-        toast(`✅ Barang masuk: +${qty} | Stok: ${newStock}`);
-        
-        // Reset form
+        toast(`✅ Masuk: +${qty} | Stok: ${newStock}`);
         document.getElementById('inSKU').value = '';
         document.getElementById('inQty').value = '1';
         document.getElementById('inNote').value = '';
         document.getElementById('inProductInfo').style.display = 'none';
-        
         await loadDashboardData();
         await loadInHistory();
-      } catch (e) {
-        console.error('Save stock in error:', e);
-        playErrorSound();
-        toast('❌ Gagal: ' + e.message);
-      }
+      } catch(e) { playErrorSound(); toast('❌ '+e.message); }
     }
 
     async function loadInHistory() {
       const list = document.getElementById('inHistoryList');
       if (!list) return;
-      
-      list.innerHTML = '<div style="text-align:center;padding:20px;color:#94a3b8;">⏳ Memuat...</div>';
-      
-      try {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        
-        const snap = await getDocs(query(
-          collection(db, "transactions"),
-          where("type", "==", "IN"),
-          orderBy("timestamp", "desc"),
-          limit(50)
-        ));
-        
-        const items = [];
-        snap.forEach(d => {
-          const data = d.data();
-          try {
-            const date = data.timestamp?.toDate?.() || new Date(data.timestamp);
-            if (date >= today) {
-              items.push(data);
-            }
-          } catch (e) {
-            console.warn('Date parse error:', e);
-          }
-        });
-        
-        if (items.length === 0) {
-          list.innerHTML = '<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada transaksi masuk hari ini</div>';
-          return;
-        }
-        
-        list.innerHTML = items.map(i => `
+      list.innerHTML = '<div style="text-align:center;padding:20px;">⏳ Memuat...</div>';
+      const today = new Date(); today.setHours(0,0,0,0);
+      const items = transactions.filter(t => {
+        if (t.type!=='IN') return false;
+        try { return (t.timestamp?.toDate?.()||new Date(t.timestamp)) >= today; } catch { return false; }
+      });
+      list.innerHTML = items.length===0
+        ? '<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada transaksi masuk</div>'
+        : items.map(i=>`
           <div class="list-item">
             <div class="item-avatar avatar-green">📥</div>
-            <div class="item-detail">
-              <div class="item-name">${i.productName || '-'} (+${i.qty || 0})</div>
-              <div class="item-info">${formatDate(i.timestamp)} | ${i.note || ''}</div>
-            </div>
+            <div class="item-detail"><div class="item-name">${i.productName||'-'} (+${i.qty})</div><div class="item-info">${formatDate(i.timestamp)} | ${i.note||''}</div></div>
           </div>
         `).join('');
-      } catch (e) {
-        console.error('Load in history error:', e);
-        list.innerHTML = '<div style="text-align:center;padding:20px;color:#94a3b8;">✅ Data siap</div>';
-        // Try to load from local transactions
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const localItems = transactions.filter(t => {
-          if (t.type !== 'IN') return false;
-          try {
-            const d = t.timestamp?.toDate?.() || new Date(t.timestamp);
-            return d >= today;
-          } catch { return false; }
-        });
-        
-        if (localItems.length > 0) {
-          list.innerHTML = localItems.map(i => `
-            <div class="list-item">
-              <div class="item-avatar avatar-green">📥</div>
-              <div class="item-detail">
-                <div class="item-name">${i.productName || '-'} (+${i.qty || 0})</div>
-                <div class="item-info">${formatDate(i.timestamp)} | ${i.note || ''}</div>
-              </div>
-            </div>
-          `).join('');
-        }
-      }
     }
 
     // ==================== STOCK OUT ====================
@@ -1025,7 +748,7 @@
           </div>
           <div id="outScannerContainer" style="display:none;margin-bottom:10px;">
             <div id="outScannerView" style="width:100%;border-radius:12px;overflow:hidden;"></div>
-            <button class="btn btn-sm btn-outline" id="stopOutScan" style="margin-top:6px;">❌ Tutup</button>
+            <button class="btn btn-sm btn-outline" id="stopOutScan" style="margin-top:6px;">❌ Tutup Kamera</button>
           </div>
           <div id="outProductInfo" style="display:none;margin-bottom:10px;">
             <div style="background:#fef2f2;padding:12px;border-radius:12px;">
@@ -1033,243 +756,94 @@
               <span style="font-size:0.8rem;color:#64748b;">Stok tersedia: <span id="outCurrentStock">0</span></span>
             </div>
           </div>
-          <div class="form-group">
-            <label class="form-label">Jumlah Keluar</label>
-            <input type="number" id="outQty" placeholder="Qty" value="1" min="1">
+          <div class="form-group"><label class="form-label">Jumlah Keluar</label><input type="number" id="outQty" value="1" min="1"></div>
+          <div class="form-group"><label class="form-label">Keperluan</label>
+            <select id="outPurpose"><option>💰 Terjual</option><option>🔨 Rusak</option><option>⏰ Kadaluarsa</option><option>🔄 Transfer</option><option>📋 Lainnya</option></select>
           </div>
-          <div class="form-group">
-            <label class="form-label">Keperluan</label>
-            <select id="outPurpose">
-              <option value="Terjual">💰 Terjual</option>
-              <option value="Rusak">🔨 Rusak</option>
-              <option value="Kadaluarsa">⏰ Kadaluarsa</option>
-              <option value="Transfer">🔄 Transfer</option>
-              <option value="Lainnya">📋 Lainnya</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Catatan</label>
-            <input type="text" id="outNote" placeholder="Catatan (opsional)">
-          </div>
+          <div class="form-group"><label class="form-label">Catatan</label><input type="text" id="outNote" placeholder="Catatan (opsional)"></div>
           <button class="btn btn-danger btn-block" id="saveStockOut">📤 Simpan Barang Keluar</button>
         </div>
         <div class="card">
           <div class="card-title">📋 Riwayat Barang Keluar Hari Ini</div>
-          <div class="list" id="outHistoryList">
-            <div style="text-align:center;padding:20px;color:#94a3b8;">Memuat...</div>
-          </div>
+          <div class="list" id="outHistoryList"><div style="text-align:center;padding:20px;color:#94a3b8;">Memuat...</div></div>
         </div>
       `;
     }
 
     async function initStockOut() {
       await loadOutHistory();
-      
-      document.getElementById('scanOutBtn').addEventListener('click', toggleOutScanner);
-      document.getElementById('stopOutScan')?.addEventListener('click', stopOutScanner);
-      document.getElementById('outSKU')?.addEventListener('input', lookupOutProduct);
-      document.getElementById('saveStockOut')?.addEventListener('click', saveStockOut);
+      document.getElementById('scanOutBtn').addEventListener('click', () => {
+        if (scannerOut && scannerOut.isScanning) {
+          stopScanner('out');
+        } else {
+          startScanner('out', 'outScannerView');
+        }
+      });
+      document.getElementById('stopOutScan').addEventListener('click', () => stopScanner('out'));
+      document.getElementById('outSKU').addEventListener('input', lookupOutProduct);
+      document.getElementById('saveStockOut').addEventListener('click', saveStockOut);
     }
 
     async function lookupOutProduct() {
       const sku = document.getElementById('outSKU').value.trim();
       const infoDiv = document.getElementById('outProductInfo');
-      
-      if (!sku) {
-        infoDiv.style.display = 'none';
-        return;
-      }
-      
-      const product = products.find(p => (p.sku || '').toLowerCase() === sku.toLowerCase());
-      
+      if (!sku) { infoDiv.style.display = 'none'; return; }
+      const product = products.find(p => (p.sku||'').toLowerCase() === sku.toLowerCase());
       if (product) {
         infoDiv.style.display = 'block';
         document.getElementById('outProductName').textContent = product.name;
-        document.getElementById('outCurrentStock').textContent = product.stock || 0;
+        document.getElementById('outCurrentStock').textContent = product.stock||0;
         infoDiv.dataset.productId = product.id;
       } else {
         infoDiv.style.display = 'block';
-        document.getElementById('outProductName').textContent = '❌ Produk tidak ditemukan!';
+        document.getElementById('outProductName').textContent = '❌ Tidak ditemukan!';
         document.getElementById('outCurrentStock').textContent = '0';
         infoDiv.dataset.productId = '';
       }
     }
 
-    async function toggleOutScanner() {
-      if (html5QrCode?.isScanning) {
-        await stopOutScanner();
-        return;
-      }
-      
-      document.getElementById('outScannerContainer').style.display = 'block';
-      
-      try {
-        if (html5QrCode) {
-          await html5QrCode.stop().catch(() => {});
-        }
-        
-        html5QrCode = new Html5Qrcode("outScannerView");
-        await html5QrCode.start(
-          { facingMode: "environment" }, 
-          { fps: 10, qrbox: { width: 250, height: 250 } },
-          (decodedText) => {
-            playBeepSound();
-            document.getElementById('outSKU').value = decodedText;
-            lookupOutProduct();
-            stopOutScanner();
-            toast('✅ Barcode terdeteksi: ' + decodedText);
-          },
-          (errorMessage) => {
-            // Scanning in progress
-          }
-        );
-      } catch (e) {
-        console.error('Scanner error:', e);
-        playErrorSound();
-        toast('⚠️ Gagal membuka kamera: ' + e.message);
-        document.getElementById('outScannerContainer').style.display = 'none';
-      }
-    }
-
-    async function stopOutScanner() {
-      if (html5QrCode?.isScanning) {
-        await html5QrCode.stop().catch(() => {});
-      }
-      document.getElementById('outScannerContainer').style.display = 'none';
-    }
-
     async function saveStockOut() {
       const sku = document.getElementById('outSKU').value.trim();
-      const qty = parseInt(document.getElementById('outQty').value) || 0;
+      const qty = parseInt(document.getElementById('outQty').value)||0;
       const purpose = document.getElementById('outPurpose').value;
       const note = document.getElementById('outNote').value.trim();
       const productId = document.getElementById('outProductInfo').dataset.productId;
-
-      if (!sku || qty < 1) {
-        playErrorSound();
-        return toast('⚠️ Lengkapi SKU & Qty');
-      }
-      
-      if (!productId) {
-        playErrorSound();
-        return toast('⚠️ Produk tidak ditemukan');
-      }
-
-      const product = products.find(p => p.id === productId);
-      if (!product || (product.stock || 0) < qty) {
-        playErrorSound();
-        return toast('⚠️ Stok tidak mencukupi! Stok: ' + (product?.stock || 0));
-      }
-
+      if (!sku || qty<1) { playErrorSound(); return toast('⚠️ Lengkapi SKU & Qty'); }
+      if (!productId) { playErrorSound(); return toast('⚠️ Produk tidak ditemukan'); }
+      const product = products.find(p=>p.id===productId);
+      if (!product || (product.stock||0) < qty) { playErrorSound(); return toast('⚠️ Stok tidak cukup! Tersedia: '+(product?.stock||0)); }
       try {
-        const newStock = (product.stock || 0) - qty;
-        
-        await updateDoc(doc(db, "products", productId), { 
-          stock: newStock, 
-          updatedAt: new Date() 
-        });
-        
-        await addDoc(collection(db, "transactions"), {
-          type: 'OUT', 
-          productId, 
-          productName: product.name, 
-          sku, 
-          qty, 
-          purpose, 
-          note,
-          timestamp: new Date(), 
-          userId: currentUser.uid, 
-          userEmail: currentUser.email
-        });
-
+        const newStock = (product.stock||0) - qty;
+        await updateDoc(doc(db,"products",productId), { stock:newStock, updatedAt:new Date() });
+        await addDoc(collection(db,"transactions"), { type:'OUT', productId, productName:product.name, sku, qty, purpose, note, timestamp:new Date(), userId:currentUser.uid, userEmail:currentUser.email });
         playSuccessSound();
-        toast(`📤 Barang keluar: -${qty} | Stok: ${newStock}`);
-        
-        // Reset form
+        toast(`📤 Keluar: -${qty} | Stok: ${newStock}`);
         document.getElementById('outSKU').value = '';
         document.getElementById('outQty').value = '1';
         document.getElementById('outNote').value = '';
         document.getElementById('outProductInfo').style.display = 'none';
-        
         await loadDashboardData();
         await loadOutHistory();
-      } catch (e) {
-        console.error('Save stock out error:', e);
-        playErrorSound();
-        toast('❌ Gagal: ' + e.message);
-      }
+      } catch(e) { playErrorSound(); toast('❌ '+e.message); }
     }
 
     async function loadOutHistory() {
       const list = document.getElementById('outHistoryList');
       if (!list) return;
-      
-      list.innerHTML = '<div style="text-align:center;padding:20px;color:#94a3b8;">⏳ Memuat...</div>';
-      
-      try {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        
-        const snap = await getDocs(query(
-          collection(db, "transactions"),
-          where("type", "==", "OUT"),
-          orderBy("timestamp", "desc"),
-          limit(50)
-        ));
-        
-        const items = [];
-        snap.forEach(d => {
-          const data = d.data();
-          try {
-            const date = data.timestamp?.toDate?.() || new Date(data.timestamp);
-            if (date >= today) {
-              items.push(data);
-            }
-          } catch (e) {
-            console.warn('Date parse error:', e);
-          }
-        });
-        
-        if (items.length === 0) {
-          list.innerHTML = '<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada transaksi keluar hari ini</div>';
-          return;
-        }
-        
-        list.innerHTML = items.map(i => `
+      list.innerHTML = '<div style="text-align:center;padding:20px;">⏳ Memuat...</div>';
+      const today = new Date(); today.setHours(0,0,0,0);
+      const items = transactions.filter(t => {
+        if (t.type!=='OUT') return false;
+        try { return (t.timestamp?.toDate?.()||new Date(t.timestamp)) >= today; } catch { return false; }
+      });
+      list.innerHTML = items.length===0
+        ? '<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada transaksi keluar</div>'
+        : items.map(i=>`
           <div class="list-item">
             <div class="item-avatar avatar-orange">📤</div>
-            <div class="item-detail">
-              <div class="item-name">${i.productName || '-'} (-${i.qty || 0})</div>
-              <div class="item-info">${i.purpose || '-'} | ${formatDate(i.timestamp)}</div>
-            </div>
+            <div class="item-detail"><div class="item-name">${i.productName||'-'} (-${i.qty})</div><div class="item-info">${i.purpose||''} | ${formatDate(i.timestamp)}</div></div>
           </div>
         `).join('');
-      } catch (e) {
-        console.error('Load out history error:', e);
-        list.innerHTML = '<div style="text-align:center;padding:20px;color:#94a3b8;">✅ Data siap</div>';
-        // Fallback to local
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const localItems = transactions.filter(t => {
-          if (t.type !== 'OUT') return false;
-          try {
-            const d = t.timestamp?.toDate?.() || new Date(t.timestamp);
-            return d >= today;
-          } catch { return false; }
-        });
-        
-        if (localItems.length > 0) {
-          list.innerHTML = localItems.map(i => `
-            <div class="list-item">
-              <div class="item-avatar avatar-orange">📤</div>
-              <div class="item-detail">
-                <div class="item-name">${i.productName || '-'} (-${i.qty || 0})</div>
-                <div class="item-info">${i.purpose || '-'} | ${formatDate(i.timestamp)}</div>
-              </div>
-            </div>
-          `).join('');
-        }
-      }
     }
 
     // ==================== PRODUCTS ====================
@@ -1280,220 +854,114 @@
           <button class="btn btn-primary btn-sm" id="addProductBtn">+ Baru</button>
         </div>
         <div class="card">
-          <div class="card-header">
-            <span class="card-title">📦 Daftar Produk</span>
-            <span class="badge badge-blue">${products.length} item</span>
-          </div>
-          <div class="list" id="productList">
-            ${renderProductList(products)}
-          </div>
+          <div class="card-header"><span class="card-title">📦 Daftar Produk</span><span class="badge badge-blue">${products.length} item</span></div>
+          <div class="list" id="productList">${renderProductList(products)}</div>
         </div>
       `;
     }
 
-    function renderProductList(productArray) {
-      if (productArray.length === 0) {
-        return '<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada produk</div>';
-      }
-      
-      return productArray.map(p => {
-        const stockClass = (p.stock || 0) <= (p.minStock || 5) ? 'stock-low' :
-                           (p.stock || 0) <= (p.minStock || 5) * 2 ? 'stock-mid' : 'stock-high';
-        return `
-          <div class="list-item">
-            <div class="item-avatar avatar-blue">📦</div>
-            <div class="item-detail">
-              <div class="item-name">${p.name || '-'}</div>
-              <div class="item-info">SKU: ${p.sku || '-'} | Min: ${p.minStock || 5}</div>
-            </div>
-            <span class="item-stock ${stockClass}">${p.stock || 0}</span>
-            <button class="btn btn-sm btn-outline" onclick="window.editProduct('${p.id}')">✏️</button>
-          </div>
-        `;
+    function renderProductList(arr) {
+      if (arr.length===0) return '<div style="text-align:center;padding:20px;">Belum ada produk</div>';
+      return arr.map(p=>{
+        const cls = (p.stock||0)<=(p.minStock||5)?'stock-low':(p.stock||0)<=(p.minStock||5)*2?'stock-mid':'stock-high';
+        return `<div class="list-item">
+          <div class="item-avatar avatar-blue">📦</div>
+          <div class="item-detail"><div class="item-name">${p.name||'-'}</div><div class="item-info">SKU: ${p.sku||'-'}</div></div>
+          <span class="item-stock ${cls}">${p.stock||0}</span>
+          <button class="btn btn-sm btn-outline" onclick="window.editProduct('${p.id}')">✏️</button>
+        </div>`;
       }).join('');
     }
 
     function initProducts() {
-      document.getElementById('addProductBtn')?.addEventListener('click', showAddProductModal);
-      document.getElementById('productSearch')?.addEventListener('input', function() {
-        const term = this.value.toLowerCase();
-        const filtered = products.filter(p =>
-          (p.name || '').toLowerCase().includes(term) || (p.sku || '').toLowerCase().includes(term)
-        );
-        document.getElementById('productList').innerHTML = renderProductList(filtered);
+      document.getElementById('addProductBtn').addEventListener('click', showAddProductModal);
+      document.getElementById('productSearch').addEventListener('input', function(){
+        const t = this.value.toLowerCase();
+        document.getElementById('productList').innerHTML = renderProductList(products.filter(p=>(p.name||'').toLowerCase().includes(t)||(p.sku||'').toLowerCase().includes(t)));
       });
     }
 
     function showAddProductModal() {
       showModal(`
-        <h3 style="margin-bottom:12px;">➕ Tambah Produk Baru</h3>
-        <div class="form-group"><label class="form-label">SKU / Barcode</label><input type="text" id="newSKU"></div>
-        <div class="form-group"><label class="form-label">Nama Produk</label><input type="text" id="newName"></div>
-        <div class="input-row">
-          <div class="form-group"><label class="form-label">Stok Awal</label><input type="number" id="newStock" value="0"></div>
-          <div class="form-group"><label class="form-label">Min Stok</label><input type="number" id="newMinStock" value="5"></div>
-        </div>
-        <div class="form-group"><label class="form-label">Harga (Rp)</label><input type="number" id="newPrice" placeholder="Opsional"></div>
-        <button class="btn btn-primary btn-block" id="saveNewProduct">💾 Simpan Produk</button>
+        <h3 style="margin-bottom:12px;">➕ Tambah Produk</h3>
+        <div class="form-group"><label class="form-label">SKU</label><input type="text" id="newSKU"></div>
+        <div class="form-group"><label class="form-label">Nama</label><input type="text" id="newName"></div>
+        <div class="input-row"><div class="form-group"><label class="form-label">Stok</label><input type="number" id="newStock" value="0"></div><div class="form-group"><label class="form-label">Min Stok</label><input type="number" id="newMinStock" value="5"></div></div>
+        <div class="form-group"><label class="form-label">Harga</label><input type="number" id="newPrice" value="0"></div>
+        <button class="btn btn-primary btn-block" id="saveNewProduct">💾 Simpan</button>
       `);
-      
-      document.getElementById('saveNewProduct').addEventListener('click', async () => {
-        const sku = document.getElementById('newSKU').value.trim();
-        const name = document.getElementById('newName').value.trim();
-        const stock = parseInt(document.getElementById('newStock').value) || 0;
-        const minStock = parseInt(document.getElementById('newMinStock').value) || 5;
-        const price = parseInt(document.getElementById('newPrice').value) || 0;
-        
-        if (!sku || !name) {
-          playErrorSound();
-          return toast('⚠️ SKU & Nama wajib diisi');
-        }
-        
-        await addDoc(collection(db, "products"), { 
-          sku, name, stock, minStock, price, 
-          created: new Date(), 
-          userId: currentUser.uid 
-        });
-        
-        playSuccessSound();
-        closeModal();
-        await loadDashboardData();
-        renderPage('products');
-        toast('✅ Produk ditambahkan');
+      document.getElementById('saveNewProduct').addEventListener('click', async ()=>{
+        const sku=document.getElementById('newSKU').value.trim();
+        const name=document.getElementById('newName').value.trim();
+        if(!sku||!name){playErrorSound();return toast('⚠️ SKU & Nama wajib');}
+        await addDoc(collection(db,"products"),{sku,name,stock:parseInt(document.getElementById('newStock').value)||0,minStock:parseInt(document.getElementById('newMinStock').value)||5,price:parseInt(document.getElementById('newPrice').value)||0,created:new Date(),userId:currentUser.uid});
+        playSuccessSound();closeModal();await loadDashboardData();renderPage('products');toast('✅ Produk ditambah');
       });
     }
 
-    window.editProduct = function(id) {
-      const p = products.find(x => x.id === id);
-      if (!p) return;
-      
+    window.editProduct = function(id){
+      const p=products.find(x=>x.id===id); if(!p)return;
       showModal(`
-        <h3 style="margin-bottom:12px;">✏️ Edit Produk</h3>
-        <div class="form-group"><label class="form-label">SKU</label><input type="text" id="editSKU" value="${p.sku || ''}"></div>
-        <div class="form-group"><label class="form-label">Nama</label><input type="text" id="editName" value="${p.name || ''}"></div>
-        <div class="input-row">
-          <div class="form-group"><label class="form-label">Stok</label><input type="number" id="editStock" value="${p.stock || 0}"></div>
-          <div class="form-group"><label class="form-label">Min Stok</label><input type="number" id="editMinStock" value="${p.minStock || 5}"></div>
-        </div>
-        <div class="form-group"><label class="form-label">Harga</label><input type="number" id="editPrice" value="${p.price || 0}"></div>
-        <div style="display:flex;gap:8px;">
-          <button class="btn btn-primary" id="updateProduct" style="flex:1;">💾 Update</button>
-          <button class="btn btn-danger" id="deleteProduct" style="flex:1;">🗑️ Hapus</button>
-        </div>
+        <h3 style="margin-bottom:12px;">✏️ Edit</h3>
+        <div class="form-group"><label class="form-label">SKU</label><input type="text" id="editSKU" value="${p.sku||''}"></div>
+        <div class="form-group"><label class="form-label">Nama</label><input type="text" id="editName" value="${p.name||''}"></div>
+        <div class="input-row"><div class="form-group"><label class="form-label">Stok</label><input type="number" id="editStock" value="${p.stock||0}"></div><div class="form-group"><label class="form-label">Min Stok</label><input type="number" id="editMinStock" value="${p.minStock||5}"></div></div>
+        <div class="form-group"><label class="form-label">Harga</label><input type="number" id="editPrice" value="${p.price||0}"></div>
+        <div style="display:flex;gap:8px;"><button class="btn btn-primary" id="updateProduct" style="flex:1;">💾 Update</button><button class="btn btn-danger" id="deleteProduct" style="flex:1;">🗑️ Hapus</button></div>
       `);
-      
-      document.getElementById('updateProduct').addEventListener('click', async () => {
-        await updateDoc(doc(db, "products", id), {
-          sku: document.getElementById('editSKU').value,
-          name: document.getElementById('editName').value,
-          stock: parseInt(document.getElementById('editStock').value) || 0,
-          minStock: parseInt(document.getElementById('editMinStock').value) || 5,
-          price: parseInt(document.getElementById('editPrice').value) || 0,
-          updatedAt: new Date()
-        });
-        playSuccessSound();
-        closeModal();
-        await loadDashboardData();
-        renderPage('products');
-        toast('✅ Produk diupdate');
+      document.getElementById('updateProduct').addEventListener('click', async()=>{
+        await updateDoc(doc(db,"products",id),{sku:document.getElementById('editSKU').value,name:document.getElementById('editName').value,stock:parseInt(document.getElementById('editStock').value)||0,minStock:parseInt(document.getElementById('editMinStock').value)||5,price:parseInt(document.getElementById('editPrice').value)||0,updatedAt:new Date()});
+        playSuccessSound();closeModal();await loadDashboardData();renderPage('products');toast('✅ Diupdate');
       });
-      
-      document.getElementById('deleteProduct').addEventListener('click', async () => {
-        if (confirm(`Hapus "${p.name}"?`)) {
-          await deleteDoc(doc(db, "products", id));
-          playSuccessSound();
-          closeModal();
-          await loadDashboardData();
-          renderPage('products');
-          toast('🗑️ Produk dihapus');
-        }
+      document.getElementById('deleteProduct').addEventListener('click', async()=>{
+        if(confirm(`Hapus "${p.name}"?`)){await deleteDoc(doc(db,"products",id));playSuccessSound();closeModal();await loadDashboardData();renderPage('products');toast('🗑️ Dihapus');}
       });
     };
 
     // ==================== REPORTS ====================
     async function reportsHTML() {
-      const totalValue = products.reduce((s, p) => s + (p.stock || 0) * (p.price || 0), 0);
-      
-      const now = new Date();
-      const inMonth = transactions.filter(t => {
-        if (t.type !== 'IN') return false;
-        try {
-          const d = t.timestamp?.toDate?.() || new Date(t.timestamp);
-          return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
-        } catch { return false; }
-      }).reduce((s, t) => s + (t.qty || 0), 0);
-      
-      const outMonth = transactions.filter(t => {
-        if (t.type !== 'OUT') return false;
-        try {
-          const d = t.timestamp?.toDate?.() || new Date(t.timestamp);
-          return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
-        } catch { return false; }
-      }).reduce((s, t) => s + (t.qty || 0), 0);
-
+      const totalValue = products.reduce((s,p)=>s+(p.stock||0)*(p.price||0),0);
+      const now=new Date();
+      const inMonth = transactions.filter(t=>{if(t.type!=='IN')return false;try{const d=t.timestamp?.toDate?.()||new Date(t.timestamp);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();}catch{return false;}}).reduce((s,t)=>s+(t.qty||0),0);
+      const outMonth = transactions.filter(t=>{if(t.type!=='OUT')return false;try{const d=t.timestamp?.toDate?.()||new Date(t.timestamp);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();}catch{return false;}}).reduce((s,t)=>s+(t.qty||0),0);
       return `
-        <div class="card">
-          <div class="card-title">📊 Ringkasan Bulan Ini</div>
+        <div class="card"><div class="card-title">📊 Bulan Ini</div>
           <div class="stats-grid">
-            <div class="stat-card green"><div class="stat-value">${inMonth}</div><div class="stat-label">📥 Total Masuk</div></div>
-            <div class="stat-card orange"><div class="stat-value">${outMonth}</div><div class="stat-label">📤 Total Keluar</div></div>
-            <div class="stat-card blue"><div class="stat-value">${products.length}</div><div class="stat-label">Produk Aktif</div></div>
-            <div class="stat-card green"><div class="stat-value">${formatRupiah(totalValue)}</div><div class="stat-label">Nilai Inventory</div></div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-title">📦 Top 5 Produk (Stok Tertinggi)</div>
-          <div class="list">
-            ${[...products].sort((a,b) => (b.stock||0)-(a.stock||0)).slice(0,5).map(p => `
-              <div class="list-item">
-                <div class="item-avatar avatar-blue">📦</div>
-                <div class="item-detail">
-                  <div class="item-name">${p.name || '-'}</div>
-                  <div class="item-info">SKU: ${p.sku || '-'} | Harga: ${formatRupiah(p.price)}</div>
-                </div>
-                <span class="item-stock stock-high">${p.stock || 0}</span>
-              </div>
-            `).join('') || '<div style="text-align:center;padding:20px;">Tidak ada data</div>'}
+            <div class="stat-card green"><div class="stat-value">${inMonth}</div><div class="stat-label">📥 Masuk</div></div>
+            <div class="stat-card orange"><div class="stat-value">${outMonth}</div><div class="stat-label">📤 Keluar</div></div>
+            <div class="stat-card blue"><div class="stat-value">${products.length}</div><div class="stat-label">Produk</div></div>
+            <div class="stat-card green"><div class="stat-value">${formatRupiah(totalValue)}</div><div class="stat-label">Nilai</div></div>
           </div>
         </div>
         <button class="btn btn-outline btn-block" id="exportReportBtn">📥 Export CSV</button>
       `;
     }
 
-    // Export handler
     document.addEventListener('click', function(e) {
       if (e.target.id === 'exportReportBtn') {
-        if (transactions.length === 0) {
-          return toast('⚠️ Tidak ada data untuk diexport');
-        }
+        if (!transactions.length) return toast('⚠️ Tidak ada data');
         let csv = 'Tipe,Produk,SKU,Qty,Tanggal\n';
-        transactions.forEach(t => {
-          csv += `${t.type},${t.productName || ''},${t.sku || ''},${t.qty || 0},${formatDate(t.timestamp)}\n`;
-        });
-        const blob = new Blob([csv], { type: 'text/csv' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a'); 
-        a.href = url; 
-        a.download = 'laporan_inventory.csv';
-        a.click(); 
-        URL.revokeObjectURL(url);
-        playSuccessSound();
-        toast('📥 Laporan terdownload');
+        transactions.forEach(t => { csv += `${t.type},"${t.productName||''}",${t.sku||''},${t.qty||0},${formatDate(t.timestamp)}\n`; });
+        const blob = new Blob([csv],{type:'text/csv'});
+        const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='laporan.csv'; a.click();
+        playSuccessSound(); toast('📥 Terdownload');
       }
     });
 
     // ==================== SYNC ====================
     document.getElementById('syncBtn').addEventListener('click', async () => {
-      toast('🔄 Sinkronisasi data...');
+      toast('🔄 Sync...');
+      await stopAllScanners();
       await loadDashboardData();
       await renderPage(currentPage);
       playSuccessSound();
-      toast('✅ Data tersinkronisasi');
+      toast('✅ Tersinkron');
     });
 
-    // ==================== INIT ====================
-    console.log('✅ InventoryPro siap dengan fitur suara!');
-    console.log('🔊 Fitur: Beep saat scan, Sukses, Error');
+    // Cleanup saat logout/tutup
+    window.addEventListener('beforeunload', () => stopAllScanners());
+
+    console.log('✅ InventoryPro siap! 🔊 Suara scan swalayan');
     loadDashboardData();
   </script>
 </body>
