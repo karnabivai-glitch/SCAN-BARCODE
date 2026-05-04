@@ -1,58 +1,545 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0f172a">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📦</text></svg>">
+  <title>WMS Mobile Scan</title>
+  <link rel="manifest" href="data:application/json,{ 'name': 'WMS Mobile', 'short_name': 'WMS', 'start_url': '/', 'display': 'standalone', 'background_color': '#0f172a', 'theme_color': '#0f172a' }">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-<meta name="theme-color" content="#007bff">
-<link rel="apple-touch-icon" href="icon.png">
-  <title>WMS Mobile</title>
+    body {
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      background: #0f172a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 16px;
+      margin: 0;
+    }
 
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="style.css">
+    /* Main container - phone frame feel */
+    .app-container {
+      width: 100%;
+      max-width: 420px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Glassmorphism cards */
+    .card {
+      background: rgba(30, 41, 59, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 28px;
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 35px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      width: 100%;
+    }
+
+    h2 {
+      color: #f1f5f9;
+      font-weight: 600;
+      font-size: 1.7rem;
+      letter-spacing: -0.5px;
+      text-align: center;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .app-title {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(to right, #a5f3fc, #67e8f9);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+
+    .input-group {
+      margin-bottom: 14px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 18px;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 18px;
+      font-size: 16px;
+      color: #f8fafc;
+      outline: none;
+      transition: all 0.2s ease;
+      margin-bottom: 10px;
+    }
+
+    input::placeholder {
+      color: #94a3b8;
+      font-weight: 400;
+    }
+
+    input:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    button {
+      width: 100%;
+      padding: 16px 20px;
+      border-radius: 18px;
+      border: none;
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: 0.3px;
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 10px 20px -8px rgba(37, 99, 235, 0.5);
+      margin-top: 5px;
+    }
+
+    button:active {
+      transform: scale(0.97);
+      background: #1d4ed8;
+    }
+
+    button.secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: #cbd5e1;
+      box-shadow: none;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      margin-top: 12px;
+      font-weight: 500;
+    }
+
+    button.scan-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #facc15;
+      font-weight: 600;
+      box-shadow: 0 0 15px rgba(250, 204, 21, 0.2);
+    }
+
+    #preview {
+      width: 100%;
+      border-radius: 20px;
+      margin: 12px 0 8px;
+      background: #000;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 12px;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+
+    li {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(5px);
+      padding: 14px 16px;
+      border-radius: 16px;
+      margin-bottom: 10px;
+      color: #e2e8f0;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-left: 4px solid #38bdf8;
+      font-weight: 500;
+      transition: 0.2s;
+    }
+
+    li::before {
+      content: "📦";
+      font-size: 1.2rem;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .user-badge {
+      background: #1e293b;
+      color: #cbd5e1;
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .empty-message {
+      color: #64748b;
+      text-align: center;
+      padding: 24px;
+      font-style: italic;
+    }
+
+    #loginPage, #dashboard {
+      transition: opacity 0.3s ease;
+    }
+
+    .flex-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .flex-row input {
+      margin-bottom: 0;
+    }
+
+    /* custom scroll */
+    ul::-webkit-scrollbar {
+      width: 5px;
+    }
+    ul::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ul::-webkit-scrollbar-thumb {
+      background: #475569;
+      border-radius: 10px;
+    }
+  </style>
 </head>
-
 <body>
+<div class="app-container" id="appRoot">
+  <!-- Login Page -->
+  <div id="loginPage">
+    <div class="card">
+      <div style="text-align: center; margin-bottom: 10px;">
+        <span style="font-size: 3rem;">📲</span>
+        <h2 class="app-title">WMS Mobile</h2>
+        <p style="color: #94a3b8; margin-bottom: 18px;">Scan & kelola stok barang</p>
+      </div>
+      <div class="input-group">
+        <input type="email" id="email" placeholder="Email" autocomplete="email">
+      </div>
+      <div class="input-group">
+        <input type="password" id="password" placeholder="Password">
+      </div>
+      <button id="loginButton">🔐 Masuk</button>
+      <p style="color: #475569; font-size: 0.7rem; text-align: center; margin-top: 16px;">Gunakan akun Firebase Anda</p>
+    </div>
+  </div>
 
-<!-- LOGIN -->
-<div id="loginPage">
-  <div class="card">
-    <h2>Login</h2>
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="login()">Login</button>
+  <!-- Dashboard -->
+  <div id="dashboard" style="display: none;">
+    <div class="dashboard-header">
+      <h2 style="margin-bottom:0; font-size:1.5rem;">📋 Dashboard</h2>
+      <span class="user-badge" id="userEmailDisplay">👤 User</span>
+    </div>
+
+    <div class="card">
+      <button class="scan-btn" id="scanToggleBtn">📷 Buka Scanner</button>
+      <div id="scannerContainer" style="display: none;">
+        <div id="preview"></div>
+        <button class="secondary" id="stopScanBtn" style="margin-top: 8px;">❌ Tutup Scanner</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="input-group">
+        <input type="text" id="barcode" placeholder="Kode Barcode">
+      </div>
+      <div class="flex-row">
+        <input type="text" id="nama" placeholder="Nama Barang" style="flex:2;">
+        <input type="number" id="qty" placeholder="Jumlah" style="flex:1;" value="1" min="1">
+      </div>
+      <button id="saveItemBtn">💾 Simpan Barang</button>
+    </div>
+
+    <div class="card">
+      <h3 style="color: #f1f5f9; margin-bottom: 12px; font-weight: 500;">📦 Inventaris Terbaru</h3>
+      <ul id="itemList">
+        <li class="empty-message" style="border-left:0;">Memuat data...</li>
+      </ul>
+    </div>
+
+    <button class="secondary" id="logoutButton">🚪 Keluar</button>
+    <div style="color:#475569; text-align:center; font-size:0.7rem; margin-top:12px;">v1.0 • Modern WMS</div>
   </div>
 </div>
 
-<!-- DASHBOARD -->
-<div id="dashboard" style="display:none;">
+<!-- Firebase & Html5Qrcode -->
+<script type="module">
+  // ---------- FIREBASE CONFIG & INIT ----------
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { 
+    getAuth, 
+    signInWithEmailAndPassword, 
+    onAuthStateChanged, 
+    signOut 
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  import { 
+    getFirestore, 
+    collection, 
+    addDoc, 
+    getDocs,
+    query,
+    orderBy,
+    serverTimestamp 
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-  <h2>WMS Mobile</h2>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDpcYIgpUhU2kKnZiHCc1fVJmVjDx_VzXo",
+    authDomain: "scan-barcode-7bb05.firebaseapp.com",
+    projectId: "scan-barcode-7bb05",
+  };
 
-  <div class="card">
-    <button onclick="startScan()">📷 Scan Barcode</button>
-    <video id="preview"></video>
-  </div>
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
 
-  <div class="card">
-    <input type="text" id="barcode" placeholder="Barcode">
-    <input type="text" id="nama" placeholder="Nama Barang">
-    <input type="number" id="qty" placeholder="Qty">
-    <button onclick="saveItem()">💾 Simpan</button>
-  </div>
+  // ---------- GLOBAL DOM REFERENCES ----------
+  const loginPage = document.getElementById("loginPage");
+  const dashboard = document.getElementById("dashboard");
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
+  const loginBtn = document.getElementById("loginButton");
+  const logoutBtn = document.getElementById("logoutButton");
+  const userEmailDisplay = document.getElementById("userEmailDisplay");
+  
+  const barcodeInput = document.getElementById("barcode");
+  const namaInput = document.getElementById("nama");
+  const qtyInput = document.getElementById("qty");
+  const saveItemBtn = document.getElementById("saveItemBtn");
+  const itemList = document.getElementById("itemList");
 
-  <div class="card">
-    <h3>📦 List Barang</h3>
-    <ul id="itemList"></ul>
-  </div>
+  const scanToggleBtn = document.getElementById("scanToggleBtn");
+  const stopScanBtn = document.getElementById("stopScanBtn");
+  const scannerContainer = document.getElementById("scannerContainer");
+  const previewDiv = document.getElementById("preview");
 
-  <button class="secondary" onclick="logout()">Logout</button>
+  let html5QrCode = null;
+  let currentUser = null;
 
-</div>
+  // ---------- AUTH STATE HANDLER ----------
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      currentUser = user;
+      if (loginPage) loginPage.style.display = "none";
+      if (dashboard) dashboard.style.display = "block";
+      if (userEmailDisplay) userEmailDisplay.textContent = `👤 ${user.email}`;
+      loadItems();
+    } else {
+      currentUser = null;
+      if (loginPage) loginPage.style.display = "block";
+      if (dashboard) dashboard.style.display = "none";
+      // Stop scanner if running
+      if (html5QrCode && html5QrCode.isScanning) {
+        html5QrCode.stop().then(() => {
+          scannerContainer.style.display = "none";
+          scanToggleBtn.textContent = "📷 Buka Scanner";
+        }).catch(e => console.warn);
+      }
+    }
+  });
 
+  // ---------- LOGIN / LOGOUT ----------
+  loginBtn.addEventListener("click", async () => {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+    if (!email || !password) {
+      alert("Email dan password harus diisi.");
+      return;
+    }
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (err) {
+      alert("Login gagal: " + err.message);
+    }
+  });
 
-<!-- LIBRARY SCANNER -->
+  logoutBtn.addEventListener("click", async () => {
+    try {
+      await signOut(auth);
+    } catch (err) {
+      alert("Logout error: " + err.message);
+    }
+  });
+
+  // ---------- SCANNER LOGIC (Html5Qrcode) ----------
+  function initScanner() {
+    if (!html5QrCode) {
+      html5QrCode = new Html5Qrcode("preview");
+    }
+  }
+
+  async function startScanner() {
+    initScanner();
+    if (!html5QrCode) return;
+    try {
+      scannerContainer.style.display = "block";
+      scanToggleBtn.textContent = "📷 Scan Berjalan...";
+      
+      await html5QrCode.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: { width: 250, height: 250 } },
+        (decodedText) => {
+          // Sukses scan
+          if (barcodeInput) {
+            barcodeInput.value = decodedText;
+          }
+          // Stop scanner otomatis setelah dapat
+          stopScanner();
+          // Fokus ke input nama
+          namaInput.focus();
+        },
+        (errorMessage) => {
+          // Scan error diabaikan (sering terjadi frame kosong)
+        }
+      );
+    } catch (err) {
+      alert("Gagal membuka kamera: " + err.message);
+      scannerContainer.style.display = "none";
+      scanToggleBtn.textContent = "📷 Buka Scanner";
+    }
+  }
+
+  async function stopScanner() {
+    if (html5QrCode && html5QrCode.isScanning) {
+      try {
+        await html5QrCode.stop();
+      } catch (err) {
+        console.warn("Stop scanner error:", err);
+      }
+    }
+    if (scannerContainer) scannerContainer.style.display = "none";
+    if (scanToggleBtn) scanToggleBtn.textContent = "📷 Buka Scanner";
+  }
+
+  scanToggleBtn.addEventListener("click", async () => {
+    // Jika scanner sedang berjalan, hentikan; jika tidak, mulai
+    if (html5QrCode && html5QrCode.isScanning) {
+      await stopScanner();
+    } else {
+      await startScanner();
+    }
+  });
+
+  stopScanBtn.addEventListener("click", async () => {
+    await stopScanner();
+  });
+
+  // ---------- SAVE ITEM TO FIRESTORE ----------
+  saveItemBtn.addEventListener("click", async () => {
+    if (!currentUser) {
+      alert("Silakan login terlebih dahulu.");
+      return;
+    }
+
+    const barcode = barcodeInput.value.trim();
+    const nama = namaInput.value.trim();
+    const qty = parseInt(qtyInput.value, 10);
+
+    if (!barcode || !nama || isNaN(qty) || qty < 1) {
+      alert("Lengkapi data dengan benar! Barcode, nama, dan jumlah (min 1) wajib diisi.");
+      return;
+    }
+
+    try {
+      await addDoc(collection(db, "items"), {
+        barcode: barcode,
+        nama: nama,
+        qty: qty,
+        created: new Date(),
+        userId: currentUser.uid
+      });
+
+      // Reset form
+      barcodeInput.value = "";
+      namaInput.value = "";
+      qtyInput.value = "1";
+      
+      // Refresh list
+      await loadItems();
+      
+      // Feedback kecil
+      alert("✅ Barang berhasil disimpan!");
+    } catch (err) {
+      alert("Gagal menyimpan: " + err.message);
+    }
+  });
+
+  // ---------- LOAD ITEMS FROM FIRESTORE ----------
+  async function loadItems() {
+    if (!itemList) return;
+    
+    itemList.innerHTML = "<li class='empty-message' style='border-left:0;'>Memuat...</li>";
+    
+    try {
+      const q = query(collection(db, "items"), orderBy("created", "desc"));
+      const snapshot = await getDocs(q);
+      
+      if (snapshot.empty) {
+        itemList.innerHTML = "<li class='empty-message' style='border-left:0;'>Belum ada barang.</li>";
+        return;
+      }
+      
+      let html = "";
+      snapshot.forEach(doc => {
+        const d = doc.data();
+        const barcode = d.barcode || "-";
+        const nama = d.nama || "Tanpa Nama";
+        const qty = d.qty || 0;
+        html += `<li><span style="flex:1;"><strong>${escapeHtml(nama)}</strong><br><span style="color:#94a3b8; font-size:0.8rem;">${escapeHtml(barcode)} • Qty: ${qty}</span></span></li>`;
+      });
+      
+      itemList.innerHTML = html;
+    } catch (err) {
+      console.error(err);
+      itemList.innerHTML = "<li class='empty-message' style='border-left:0; color:#f87171;'>Gagal memuat data.</li>";
+    }
+  }
+
+  // simple escape
+  function escapeHtml(text) {
+    return String(text)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  // Cleanup scanner saat halaman ditutup (best effort)
+  window.addEventListener("beforeunload", () => {
+    if (html5QrCode && html5QrCode.isScanning) {
+      html5QrCode.stop().catch(() => {});
+    }
+  });
+
+  // Initial load jika user sudah login (dipanggil oleh onAuthStateChanged)
+</script>
+
+<!-- Html5Qrcode library -->
 <script src="https://unpkg.com/html5-qrcode"></script>
-
-<script type="module" src="app.js"></script>
 </body>
 </html>
