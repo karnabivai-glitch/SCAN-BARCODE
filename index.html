@@ -376,12 +376,10 @@
     </div>
 
     <!-- CONTENT -->
-    <div class="content" id="contentArea">
-      <!-- Halaman akan dirender di sini -->
-    </div>
+    <div class="content" id="contentArea"></div>
 
     <!-- BOTTOM NAV -->
-    <div class="bottom-nav" id="bottomNav">
+    <div class="bottom-nav" id="bottomNav" style="display:none;">
       <button class="nav-item active" data-page="dashboard">
         <span class="icon">📊</span> Dashboard
       </button>
@@ -414,7 +412,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getFirestore, collection, addDoc, getDocs, query, orderBy, doc, updateDoc, deleteDoc, where, serverTimestamp, limit, Timestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, getDocs, query, orderBy, doc, updateDoc, deleteDoc, where, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDpcYIgpUhU2kKnZiHCc1fVJmVjDx_VzXo",
@@ -433,9 +431,81 @@
     let transactions = [];
     let html5QrCode = null;
 
+    // ==================== SOUND SYSTEM ====================
+    function playBeepSound() {
+      try {
+        const audioContext = new(window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+        oscillator.frequency.setValueAtTime(1000, audioContext.currentTime + 0.1);
+        oscillator.frequency.setValueAtTime(1200, audioContext.currentTime + 0.2);
+        
+        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+        
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.3);
+      } catch (e) {
+        console.log('Sound not supported');
+      }
+    }
+
+    function playSuccessSound() {
+      try {
+        const audioContext = new(window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.frequency.setValueAtTime(523, audioContext.currentTime);
+        oscillator.frequency.setValueAtTime(659, audioContext.currentTime + 0.1);
+        oscillator.frequency.setValueAtTime(784, audioContext.currentTime + 0.2);
+        
+        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
+        
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.4);
+      } catch (e) {
+        console.log('Sound not supported');
+      }
+    }
+
+    function playErrorSound() {
+      try {
+        const audioContext = new(window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
+        oscillator.frequency.setValueAtTime(150, audioContext.currentTime + 0.2);
+        
+        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
+        
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.4);
+      } catch (e) {
+        console.log('Sound not supported');
+      }
+    }
+
     // ==================== UTILS ====================
     function toast(msg, type = 'info') {
       const container = document.getElementById('toastContainer');
+      const existing = container.querySelectorAll('.toast');
+      existing.forEach(t => t.remove());
+      
       const t = document.createElement('div');
       t.className = 'toast';
       t.textContent = msg;
@@ -447,12 +517,25 @@
       if (!d) return '-';
       try {
         const date = d.toDate ? d.toDate() : new Date(d);
-        return date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-      } catch { return '-'; }
+        if (isNaN(date.getTime())) return '-';
+        return date.toLocaleDateString('id-ID', { 
+          day: 'numeric', 
+          month: 'short', 
+          year: 'numeric', 
+          hour: '2-digit', 
+          minute: '2-digit' 
+        });
+      } catch { 
+        return '-'; 
+      }
     }
 
     function formatRupiah(n) {
-      return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(n || 0);
+      return new Intl.NumberFormat('id-ID', { 
+        style: 'currency', 
+        currency: 'IDR', 
+        minimumFractionDigits: 0 
+      }).format(n || 0);
     }
 
     function showModal(html) {
@@ -465,7 +548,9 @@
 
     function closeModal() {
       document.getElementById('modalOverlay').classList.remove('show');
-      if (html5QrCode?.isScanning) html5QrCode.stop().catch(() => {});
+      if (html5QrCode?.isScanning) {
+        html5QrCode.stop().catch(() => {});
+      }
     }
 
     document.getElementById('modalOverlay').addEventListener('click', function(e) {
@@ -477,8 +562,9 @@
       if (user) {
         currentUser = user;
         document.getElementById('bottomNav').style.display = 'flex';
-        loadDashboardData();
-        renderPage('dashboard');
+        loadDashboardData().then(() => {
+          renderPage('dashboard');
+        });
       } else {
         currentUser = null;
         document.getElementById('bottomNav').style.display = 'none';
@@ -511,11 +597,16 @@
     async function login() {
       const email = document.getElementById('loginEmail').value.trim();
       const password = document.getElementById('loginPassword').value;
-      if (!email || !password) return toast('⚠️ Lengkapi email & password');
+      if (!email || !password) {
+        playErrorSound();
+        return toast('⚠️ Lengkapi email & password');
+      }
       try {
         await signInWithEmailAndPassword(auth, email, password);
+        playSuccessSound();
         toast('✅ Login berhasil');
       } catch (e) {
+        playErrorSound();
         toast('❌ ' + e.message);
       }
     }
@@ -537,47 +628,76 @@
     async function renderPage(page) {
       const content = document.getElementById('contentArea');
       switch (page) {
-        case 'dashboard': content.innerHTML = await dashboardHTML(); break;
-        case 'stockIn': content.innerHTML = stockInHTML(); initStockIn(); break;
-        case 'stockOut': content.innerHTML = stockOutHTML(); initStockOut(); break;
-        case 'products': content.innerHTML = productsHTML(); initProducts(); break;
-        case 'reports': content.innerHTML = await reportsHTML(); break;
+        case 'dashboard': 
+          content.innerHTML = await dashboardHTML(); 
+          break;
+        case 'stockIn': 
+          content.innerHTML = stockInHTML(); 
+          await initStockIn(); 
+          break;
+        case 'stockOut': 
+          content.innerHTML = stockOutHTML(); 
+          await initStockOut(); 
+          break;
+        case 'products': 
+          content.innerHTML = productsHTML(); 
+          initProducts(); 
+          break;
+        case 'reports': 
+          content.innerHTML = await reportsHTML(); 
+          break;
       }
+      
+      // Stop scanner when leaving scan pages
       if (page !== 'stockIn' && page !== 'stockOut') {
-        if (html5QrCode?.isScanning) html5QrCode.stop().catch(() => {});
+        if (html5QrCode?.isScanning) {
+          await html5QrCode.stop().catch(() => {});
+        }
       }
     }
 
-    // ==================== DASHBOARD ====================
+    // ==================== DATA LOADING ====================
     async function loadDashboardData() {
       try {
         const prodSnap = await getDocs(collection(db, "products"));
         products = [];
         prodSnap.forEach(d => products.push({ id: d.id, ...d.data() }));
 
-        const transSnap = await getDocs(query(collection(db, "transactions"), orderBy("timestamp", "desc"), limit(50)));
+        const transSnap = await getDocs(query(
+          collection(db, "transactions"), 
+          orderBy("timestamp", "desc"), 
+          limit(100)
+        ));
         transactions = [];
         transSnap.forEach(d => transactions.push({ id: d.id, ...d.data() }));
+        
+        console.log('Data loaded:', products.length, 'products,', transactions.length, 'transactions');
       } catch (e) {
-        console.error('Load dashboard error:', e);
+        console.error('Load data error:', e);
       }
     }
 
+    // ==================== DASHBOARD ====================
     async function dashboardHTML() {
-      await loadDashboardData();
       const totalProducts = products.length;
       const totalStock = products.reduce((s, p) => s + (p.stock || 0), 0);
       const lowStock = products.filter(p => (p.stock || 0) <= (p.minStock || 5)).length;
+      
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
       const todayIn = transactions.filter(t => {
+        if (t.type !== 'IN') return false;
         try {
           const d = t.timestamp?.toDate?.() || new Date(t.timestamp);
-          return d.toDateString() === new Date().toDateString() && t.type === 'IN';
+          return d >= today;
         } catch { return false; }
       }).length;
+      
       const todayOut = transactions.filter(t => {
+        if (t.type !== 'OUT') return false;
         try {
           const d = t.timestamp?.toDate?.() || new Date(t.timestamp);
-          return d.toDateString() === new Date().toDateString() && t.type === 'OUT';
+          return d >= today;
         } catch { return false; }
       }).length;
 
@@ -643,7 +763,7 @@
             </div>
           </div>
           <div id="inScannerContainer" style="display:none;margin-bottom:10px;">
-            <div id="inScannerView"></div>
+            <div id="inScannerView" style="width:100%;border-radius:12px;overflow:hidden;"></div>
             <button class="btn btn-sm btn-outline" id="stopInScan" style="margin-top:6px;">❌ Tutup</button>
           </div>
           <div id="inProductInfo" style="display:none;margin-bottom:10px;">
@@ -671,8 +791,9 @@
       `;
     }
 
-    function initStockIn() {
-      loadInHistory();
+    async function initStockIn() {
+      await loadInHistory();
+      
       document.getElementById('scanInBtn').addEventListener('click', toggleInScanner);
       document.getElementById('stopInScan')?.addEventListener('click', stopInScanner);
       document.getElementById('inSKU')?.addEventListener('input', lookupProduct);
@@ -681,21 +802,25 @@
 
     async function lookupProduct() {
       const sku = document.getElementById('inSKU').value.trim();
+      const infoDiv = document.getElementById('inProductInfo');
+      
       if (!sku) {
-        document.getElementById('inProductInfo').style.display = 'none';
+        infoDiv.style.display = 'none';
         return;
       }
+      
       const product = products.find(p => (p.sku || '').toLowerCase() === sku.toLowerCase());
+      
       if (product) {
-        document.getElementById('inProductInfo').style.display = 'block';
+        infoDiv.style.display = 'block';
         document.getElementById('inProductName').textContent = product.name;
         document.getElementById('inCurrentStock').textContent = product.stock || 0;
-        document.getElementById('inProductInfo').dataset.productId = product.id;
+        infoDiv.dataset.productId = product.id;
       } else {
-        document.getElementById('inProductInfo').style.display = 'block';
+        infoDiv.style.display = 'block';
         document.getElementById('inProductName').textContent = 'Produk baru (akan dibuat otomatis)';
         document.getElementById('inCurrentStock').textContent = '0';
-        document.getElementById('inProductInfo').dataset.productId = '';
+        infoDiv.dataset.productId = '';
       }
     }
 
@@ -704,23 +829,41 @@
         await stopInScanner();
         return;
       }
+      
       document.getElementById('inScannerContainer').style.display = 'block';
+      
       try {
+        if (html5QrCode) {
+          await html5QrCode.stop().catch(() => {});
+        }
+        
         html5QrCode = new Html5Qrcode("inScannerView");
-        await html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 },
-          (decoded) => {
-            document.getElementById('inSKU').value = decoded;
+        await html5QrCode.start(
+          { facingMode: "environment" }, 
+          { fps: 10, qrbox: { width: 250, height: 250 } },
+          (decodedText) => {
+            playBeepSound();
+            document.getElementById('inSKU').value = decodedText;
             lookupProduct();
             stopInScanner();
-          }, () => {});
+            toast('✅ Barcode terdeteksi: ' + decodedText);
+          },
+          (errorMessage) => {
+            // Scanning in progress, errors are normal
+          }
+        );
       } catch (e) {
-        toast('⚠️ Gagal kamera: ' + e.message);
+        console.error('Scanner error:', e);
+        playErrorSound();
+        toast('⚠️ Gagal membuka kamera: ' + e.message);
         document.getElementById('inScannerContainer').style.display = 'none';
       }
     }
 
     async function stopInScanner() {
-      if (html5QrCode?.isScanning) await html5QrCode.stop().catch(() => {});
+      if (html5QrCode?.isScanning) {
+        await html5QrCode.stop().catch(() => {});
+      }
       document.getElementById('inScannerContainer').style.display = 'none';
     }
 
@@ -729,38 +872,69 @@
       const qty = parseInt(document.getElementById('inQty').value) || 0;
       const note = document.getElementById('inNote').value.trim();
 
-      if (!sku || qty < 1) return toast('⚠️ Lengkapi SKU & Qty');
+      if (!sku || qty < 1) {
+        playErrorSound();
+        return toast('⚠️ Lengkapi SKU & Qty');
+      }
 
       try {
         let productId = document.getElementById('inProductInfo').dataset.productId;
+        
         // Create product if not exists
         if (!productId) {
           const name = prompt('Nama produk baru:') || sku;
           const docRef = await addDoc(collection(db, "products"), {
-            sku, name, stock: 0, minStock: 5,
-            created: new Date(), userId: currentUser.uid
+            sku, 
+            name, 
+            stock: 0, 
+            minStock: 5,
+            price: 0,
+            created: new Date(), 
+            userId: currentUser.uid
           });
           productId = docRef.id;
-          products.push({ id: productId, sku, name, stock: 0, minStock: 5 });
+          products.push({ id: productId, sku, name, stock: 0, minStock: 5, price: 0 });
         }
 
         const product = products.find(p => p.id === productId);
-        const newStock = (product?.stock || 0) + qty;
+        if (!product) {
+          playErrorSound();
+          return toast('⚠️ Produk tidak ditemukan');
+        }
+        
+        const newStock = (product.stock || 0) + qty;
 
-        await updateDoc(doc(db, "products", productId), { stock: newStock, updatedAt: new Date() });
+        await updateDoc(doc(db, "products", productId), { 
+          stock: newStock, 
+          updatedAt: new Date() 
+        });
+        
         await addDoc(collection(db, "transactions"), {
-          type: 'IN', productId, productName: product?.name || sku, sku, qty, note,
-          timestamp: new Date(), userId: currentUser.uid, userEmail: currentUser.email
+          type: 'IN', 
+          productId, 
+          productName: product.name, 
+          sku, 
+          qty, 
+          note,
+          timestamp: new Date(), 
+          userId: currentUser.uid, 
+          userEmail: currentUser.email
         });
 
-        toast(`✅ Barang masuk: +${qty} | Stok sekarang: ${newStock}`);
+        playSuccessSound();
+        toast(`✅ Barang masuk: +${qty} | Stok: ${newStock}`);
+        
+        // Reset form
         document.getElementById('inSKU').value = '';
         document.getElementById('inQty').value = '1';
         document.getElementById('inNote').value = '';
         document.getElementById('inProductInfo').style.display = 'none';
+        
         await loadDashboardData();
-        loadInHistory();
+        await loadInHistory();
       } catch (e) {
+        console.error('Save stock in error:', e);
+        playErrorSound();
         toast('❌ Gagal: ' + e.message);
       }
     }
@@ -768,32 +942,72 @@
     async function loadInHistory() {
       const list = document.getElementById('inHistoryList');
       if (!list) return;
+      
+      list.innerHTML = '<div style="text-align:center;padding:20px;color:#94a3b8;">⏳ Memuat...</div>';
+      
       try {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        const snap = await getDocs(query(collection(db, "transactions"),
-          where("type", "==", "IN"), orderBy("timestamp", "desc"), limit(20)));
+        
+        const snap = await getDocs(query(
+          collection(db, "transactions"),
+          where("type", "==", "IN"),
+          orderBy("timestamp", "desc"),
+          limit(50)
+        ));
+        
         const items = [];
-        snap.forEach(d => items.push(d.data()));
-        const todayItems = items.filter(i => {
+        snap.forEach(d => {
+          const data = d.data();
           try {
-            const d = i.timestamp?.toDate?.() || new Date(i.timestamp);
+            const date = data.timestamp?.toDate?.() || new Date(data.timestamp);
+            if (date >= today) {
+              items.push(data);
+            }
+          } catch (e) {
+            console.warn('Date parse error:', e);
+          }
+        });
+        
+        if (items.length === 0) {
+          list.innerHTML = '<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada transaksi masuk hari ini</div>';
+          return;
+        }
+        
+        list.innerHTML = items.map(i => `
+          <div class="list-item">
+            <div class="item-avatar avatar-green">📥</div>
+            <div class="item-detail">
+              <div class="item-name">${i.productName || '-'} (+${i.qty || 0})</div>
+              <div class="item-info">${formatDate(i.timestamp)} | ${i.note || ''}</div>
+            </div>
+          </div>
+        `).join('');
+      } catch (e) {
+        console.error('Load in history error:', e);
+        list.innerHTML = '<div style="text-align:center;padding:20px;color:#94a3b8;">✅ Data siap</div>';
+        // Try to load from local transactions
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const localItems = transactions.filter(t => {
+          if (t.type !== 'IN') return false;
+          try {
+            const d = t.timestamp?.toDate?.() || new Date(t.timestamp);
             return d >= today;
           } catch { return false; }
         });
-        list.innerHTML = todayItems.length === 0
-          ? '<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada transaksi hari ini</div>'
-          : todayItems.map(i => `
+        
+        if (localItems.length > 0) {
+          list.innerHTML = localItems.map(i => `
             <div class="list-item">
               <div class="item-avatar avatar-green">📥</div>
               <div class="item-detail">
-                <div class="item-name">${i.productName || '-'} (+${i.qty})</div>
+                <div class="item-name">${i.productName || '-'} (+${i.qty || 0})</div>
                 <div class="item-info">${formatDate(i.timestamp)} | ${i.note || ''}</div>
               </div>
             </div>
           `).join('');
-      } catch (e) {
-        list.innerHTML = '<div style="text-align:center;padding:20px;color:#ef4444;">Gagal memuat</div>';
+        }
       }
     }
 
@@ -810,7 +1024,7 @@
             </div>
           </div>
           <div id="outScannerContainer" style="display:none;margin-bottom:10px;">
-            <div id="outScannerView"></div>
+            <div id="outScannerView" style="width:100%;border-radius:12px;overflow:hidden;"></div>
             <button class="btn btn-sm btn-outline" id="stopOutScan" style="margin-top:6px;">❌ Tutup</button>
           </div>
           <div id="outProductInfo" style="display:none;margin-bottom:10px;">
@@ -848,8 +1062,9 @@
       `;
     }
 
-    function initStockOut() {
-      loadOutHistory();
+    async function initStockOut() {
+      await loadOutHistory();
+      
       document.getElementById('scanOutBtn').addEventListener('click', toggleOutScanner);
       document.getElementById('stopOutScan')?.addEventListener('click', stopOutScanner);
       document.getElementById('outSKU')?.addEventListener('input', lookupOutProduct);
@@ -858,43 +1073,68 @@
 
     async function lookupOutProduct() {
       const sku = document.getElementById('outSKU').value.trim();
+      const infoDiv = document.getElementById('outProductInfo');
+      
       if (!sku) {
-        document.getElementById('outProductInfo').style.display = 'none';
+        infoDiv.style.display = 'none';
         return;
       }
+      
       const product = products.find(p => (p.sku || '').toLowerCase() === sku.toLowerCase());
+      
       if (product) {
-        document.getElementById('outProductInfo').style.display = 'block';
+        infoDiv.style.display = 'block';
         document.getElementById('outProductName').textContent = product.name;
         document.getElementById('outCurrentStock').textContent = product.stock || 0;
-        document.getElementById('outProductInfo').dataset.productId = product.id;
+        infoDiv.dataset.productId = product.id;
       } else {
-        document.getElementById('outProductInfo').style.display = 'block';
-        document.getElementById('outProductName').textContent = 'Produk tidak ditemukan!';
+        infoDiv.style.display = 'block';
+        document.getElementById('outProductName').textContent = '❌ Produk tidak ditemukan!';
         document.getElementById('outCurrentStock').textContent = '0';
-        document.getElementById('outProductInfo').dataset.productId = '';
+        infoDiv.dataset.productId = '';
       }
     }
 
     async function toggleOutScanner() {
-      if (html5QrCode?.isScanning) { await stopOutScanner(); return; }
+      if (html5QrCode?.isScanning) {
+        await stopOutScanner();
+        return;
+      }
+      
       document.getElementById('outScannerContainer').style.display = 'block';
+      
       try {
+        if (html5QrCode) {
+          await html5QrCode.stop().catch(() => {});
+        }
+        
         html5QrCode = new Html5Qrcode("outScannerView");
-        await html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 },
-          (decoded) => {
-            document.getElementById('outSKU').value = decoded;
+        await html5QrCode.start(
+          { facingMode: "environment" }, 
+          { fps: 10, qrbox: { width: 250, height: 250 } },
+          (decodedText) => {
+            playBeepSound();
+            document.getElementById('outSKU').value = decodedText;
             lookupOutProduct();
             stopOutScanner();
-          }, () => {});
+            toast('✅ Barcode terdeteksi: ' + decodedText);
+          },
+          (errorMessage) => {
+            // Scanning in progress
+          }
+        );
       } catch (e) {
-        toast('⚠️ Gagal kamera: ' + e.message);
+        console.error('Scanner error:', e);
+        playErrorSound();
+        toast('⚠️ Gagal membuka kamera: ' + e.message);
         document.getElementById('outScannerContainer').style.display = 'none';
       }
     }
 
     async function stopOutScanner() {
-      if (html5QrCode?.isScanning) await html5QrCode.stop().catch(() => {});
+      if (html5QrCode?.isScanning) {
+        await html5QrCode.stop().catch(() => {});
+      }
       document.getElementById('outScannerContainer').style.display = 'none';
     }
 
@@ -905,30 +1145,57 @@
       const note = document.getElementById('outNote').value.trim();
       const productId = document.getElementById('outProductInfo').dataset.productId;
 
-      if (!sku || qty < 1) return toast('⚠️ Lengkapi SKU & Qty');
-      if (!productId) return toast('⚠️ Produk tidak ditemukan');
+      if (!sku || qty < 1) {
+        playErrorSound();
+        return toast('⚠️ Lengkapi SKU & Qty');
+      }
+      
+      if (!productId) {
+        playErrorSound();
+        return toast('⚠️ Produk tidak ditemukan');
+      }
 
       const product = products.find(p => p.id === productId);
       if (!product || (product.stock || 0) < qty) {
+        playErrorSound();
         return toast('⚠️ Stok tidak mencukupi! Stok: ' + (product?.stock || 0));
       }
 
       try {
         const newStock = (product.stock || 0) - qty;
-        await updateDoc(doc(db, "products", productId), { stock: newStock, updatedAt: new Date() });
+        
+        await updateDoc(doc(db, "products", productId), { 
+          stock: newStock, 
+          updatedAt: new Date() 
+        });
+        
         await addDoc(collection(db, "transactions"), {
-          type: 'OUT', productId, productName: product.name, sku, qty, purpose, note,
-          timestamp: new Date(), userId: currentUser.uid, userEmail: currentUser.email
+          type: 'OUT', 
+          productId, 
+          productName: product.name, 
+          sku, 
+          qty, 
+          purpose, 
+          note,
+          timestamp: new Date(), 
+          userId: currentUser.uid, 
+          userEmail: currentUser.email
         });
 
-        toast(`📤 Barang keluar: -${qty} | Stok sekarang: ${newStock}`);
+        playSuccessSound();
+        toast(`📤 Barang keluar: -${qty} | Stok: ${newStock}`);
+        
+        // Reset form
         document.getElementById('outSKU').value = '';
         document.getElementById('outQty').value = '1';
         document.getElementById('outNote').value = '';
         document.getElementById('outProductInfo').style.display = 'none';
+        
         await loadDashboardData();
-        loadOutHistory();
+        await loadOutHistory();
       } catch (e) {
+        console.error('Save stock out error:', e);
+        playErrorSound();
         toast('❌ Gagal: ' + e.message);
       }
     }
@@ -936,28 +1203,72 @@
     async function loadOutHistory() {
       const list = document.getElementById('outHistoryList');
       if (!list) return;
+      
+      list.innerHTML = '<div style="text-align:center;padding:20px;color:#94a3b8;">⏳ Memuat...</div>';
+      
       try {
-        const today = new Date(); today.setHours(0, 0, 0, 0);
-        const snap = await getDocs(query(collection(db, "transactions"),
-          where("type", "==", "OUT"), orderBy("timestamp", "desc"), limit(20)));
-        const items = []; snap.forEach(d => items.push(d.data()));
-        const todayItems = items.filter(i => {
-          try { const d = i.timestamp?.toDate?.() || new Date(i.timestamp); return d >= today; }
-          catch { return false; }
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        const snap = await getDocs(query(
+          collection(db, "transactions"),
+          where("type", "==", "OUT"),
+          orderBy("timestamp", "desc"),
+          limit(50)
+        ));
+        
+        const items = [];
+        snap.forEach(d => {
+          const data = d.data();
+          try {
+            const date = data.timestamp?.toDate?.() || new Date(data.timestamp);
+            if (date >= today) {
+              items.push(data);
+            }
+          } catch (e) {
+            console.warn('Date parse error:', e);
+          }
         });
-        list.innerHTML = todayItems.length === 0
-          ? '<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada transaksi hari ini</div>'
-          : todayItems.map(i => `
+        
+        if (items.length === 0) {
+          list.innerHTML = '<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada transaksi keluar hari ini</div>';
+          return;
+        }
+        
+        list.innerHTML = items.map(i => `
+          <div class="list-item">
+            <div class="item-avatar avatar-orange">📤</div>
+            <div class="item-detail">
+              <div class="item-name">${i.productName || '-'} (-${i.qty || 0})</div>
+              <div class="item-info">${i.purpose || '-'} | ${formatDate(i.timestamp)}</div>
+            </div>
+          </div>
+        `).join('');
+      } catch (e) {
+        console.error('Load out history error:', e);
+        list.innerHTML = '<div style="text-align:center;padding:20px;color:#94a3b8;">✅ Data siap</div>';
+        // Fallback to local
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const localItems = transactions.filter(t => {
+          if (t.type !== 'OUT') return false;
+          try {
+            const d = t.timestamp?.toDate?.() || new Date(t.timestamp);
+            return d >= today;
+          } catch { return false; }
+        });
+        
+        if (localItems.length > 0) {
+          list.innerHTML = localItems.map(i => `
             <div class="list-item">
               <div class="item-avatar avatar-orange">📤</div>
               <div class="item-detail">
-                <div class="item-name">${i.productName || '-'} (-${i.qty})</div>
+                <div class="item-name">${i.productName || '-'} (-${i.qty || 0})</div>
                 <div class="item-info">${i.purpose || '-'} | ${formatDate(i.timestamp)}</div>
               </div>
             </div>
           `).join('');
-      } catch (e) {
-        list.innerHTML = '<div style="text-align:center;padding:20px;color:#ef4444;">Gagal memuat</div>';
+        }
       }
     }
 
@@ -974,52 +1285,42 @@
             <span class="badge badge-blue">${products.length} item</span>
           </div>
           <div class="list" id="productList">
-            ${products.length === 0
-              ? '<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada produk</div>'
-              : products.map(p => {
-                const stockClass = (p.stock || 0) <= (p.minStock || 5) ? 'stock-low' :
-                                   (p.stock || 0) <= (p.minStock || 5) * 2 ? 'stock-mid' : 'stock-high';
-                return `
-                  <div class="list-item">
-                    <div class="item-avatar avatar-blue">📦</div>
-                    <div class="item-detail">
-                      <div class="item-name">${p.name || '-'}</div>
-                      <div class="item-info">SKU: ${p.sku || '-'}</div>
-                    </div>
-                    <span class="item-stock ${stockClass}">${p.stock || 0}</span>
-                    <button class="btn btn-sm btn-outline" onclick="window.editProduct('${p.id}')">✏️</button>
-                  </div>
-                `;
-              }).join('')}
+            ${renderProductList(products)}
           </div>
         </div>
       `;
     }
 
+    function renderProductList(productArray) {
+      if (productArray.length === 0) {
+        return '<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada produk</div>';
+      }
+      
+      return productArray.map(p => {
+        const stockClass = (p.stock || 0) <= (p.minStock || 5) ? 'stock-low' :
+                           (p.stock || 0) <= (p.minStock || 5) * 2 ? 'stock-mid' : 'stock-high';
+        return `
+          <div class="list-item">
+            <div class="item-avatar avatar-blue">📦</div>
+            <div class="item-detail">
+              <div class="item-name">${p.name || '-'}</div>
+              <div class="item-info">SKU: ${p.sku || '-'} | Min: ${p.minStock || 5}</div>
+            </div>
+            <span class="item-stock ${stockClass}">${p.stock || 0}</span>
+            <button class="btn btn-sm btn-outline" onclick="window.editProduct('${p.id}')">✏️</button>
+          </div>
+        `;
+      }).join('');
+    }
+
     function initProducts() {
-      document.getElementById('addProductBtn')?.addEventListener('click', () => showAddProductModal());
+      document.getElementById('addProductBtn')?.addEventListener('click', showAddProductModal);
       document.getElementById('productSearch')?.addEventListener('input', function() {
         const term = this.value.toLowerCase();
         const filtered = products.filter(p =>
-          (p.name || '').toLowerCase().includes(term) || (p.sku || '').toLowerCase().includes(term));
-        const list = document.getElementById('productList');
-        list.innerHTML = filtered.length === 0
-          ? '<div style="text-align:center;padding:20px;color:#94a3b8;">Tidak ditemukan</div>'
-          : filtered.map(p => {
-            const stockClass = (p.stock || 0) <= (p.minStock || 5) ? 'stock-low' :
-                               (p.stock || 0) <= (p.minStock || 5) * 2 ? 'stock-mid' : 'stock-high';
-            return `
-              <div class="list-item">
-                <div class="item-avatar avatar-blue">📦</div>
-                <div class="item-detail">
-                  <div class="item-name">${p.name || '-'}</div>
-                  <div class="item-info">SKU: ${p.sku || '-'}</div>
-                </div>
-                <span class="item-stock ${stockClass}">${p.stock || 0}</span>
-                <button class="btn btn-sm btn-outline" onclick="window.editProduct('${p.id}')">✏️</button>
-              </div>
-            `;
-          }).join('');
+          (p.name || '').toLowerCase().includes(term) || (p.sku || '').toLowerCase().includes(term)
+        );
+        document.getElementById('productList').innerHTML = renderProductList(filtered);
       });
     }
 
@@ -1035,14 +1336,26 @@
         <div class="form-group"><label class="form-label">Harga (Rp)</label><input type="number" id="newPrice" placeholder="Opsional"></div>
         <button class="btn btn-primary btn-block" id="saveNewProduct">💾 Simpan Produk</button>
       `);
+      
       document.getElementById('saveNewProduct').addEventListener('click', async () => {
         const sku = document.getElementById('newSKU').value.trim();
         const name = document.getElementById('newName').value.trim();
         const stock = parseInt(document.getElementById('newStock').value) || 0;
         const minStock = parseInt(document.getElementById('newMinStock').value) || 5;
         const price = parseInt(document.getElementById('newPrice').value) || 0;
-        if (!sku || !name) return toast('⚠️ SKU & Nama wajib diisi');
-        await addDoc(collection(db, "products"), { sku, name, stock, minStock, price, created: new Date(), userId: currentUser.uid });
+        
+        if (!sku || !name) {
+          playErrorSound();
+          return toast('⚠️ SKU & Nama wajib diisi');
+        }
+        
+        await addDoc(collection(db, "products"), { 
+          sku, name, stock, minStock, price, 
+          created: new Date(), 
+          userId: currentUser.uid 
+        });
+        
+        playSuccessSound();
         closeModal();
         await loadDashboardData();
         renderPage('products');
@@ -1053,6 +1366,7 @@
     window.editProduct = function(id) {
       const p = products.find(x => x.id === id);
       if (!p) return;
+      
       showModal(`
         <h3 style="margin-bottom:12px;">✏️ Edit Produk</h3>
         <div class="form-group"><label class="form-label">SKU</label><input type="text" id="editSKU" value="${p.sku || ''}"></div>
@@ -1067,6 +1381,7 @@
           <button class="btn btn-danger" id="deleteProduct" style="flex:1;">🗑️ Hapus</button>
         </div>
       `);
+      
       document.getElementById('updateProduct').addEventListener('click', async () => {
         await updateDoc(doc(db, "products", id), {
           sku: document.getElementById('editSKU').value,
@@ -1076,14 +1391,17 @@
           price: parseInt(document.getElementById('editPrice').value) || 0,
           updatedAt: new Date()
         });
+        playSuccessSound();
         closeModal();
         await loadDashboardData();
         renderPage('products');
         toast('✅ Produk diupdate');
       });
+      
       document.getElementById('deleteProduct').addEventListener('click', async () => {
         if (confirm(`Hapus "${p.name}"?`)) {
           await deleteDoc(doc(db, "products", id));
+          playSuccessSound();
           closeModal();
           await loadDashboardData();
           renderPage('products');
@@ -1094,18 +1412,22 @@
 
     // ==================== REPORTS ====================
     async function reportsHTML() {
-      await loadDashboardData();
       const totalValue = products.reduce((s, p) => s + (p.stock || 0) * (p.price || 0), 0);
+      
+      const now = new Date();
       const inMonth = transactions.filter(t => {
+        if (t.type !== 'IN') return false;
         try {
           const d = t.timestamp?.toDate?.() || new Date(t.timestamp);
-          return d.getMonth() === new Date().getMonth() && t.type === 'IN';
+          return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
         } catch { return false; }
       }).reduce((s, t) => s + (t.qty || 0), 0);
+      
       const outMonth = transactions.filter(t => {
+        if (t.type !== 'OUT') return false;
         try {
           const d = t.timestamp?.toDate?.() || new Date(t.timestamp);
-          return d.getMonth() === new Date().getMonth() && t.type === 'OUT';
+          return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
         } catch { return false; }
       }).reduce((s, t) => s + (t.qty || 0), 0);
 
@@ -1134,52 +1456,44 @@
             `).join('') || '<div style="text-align:center;padding:20px;">Tidak ada data</div>'}
           </div>
         </div>
-        <div class="card">
-          <div class="card-title">📋 Semua Transaksi Bulan Ini</div>
-          <div class="list">
-            ${transactions.filter(t => {
-              try { const d = t.timestamp?.toDate?.() || new Date(t.timestamp); return d.getMonth() === new Date().getMonth(); }
-              catch { return false; }
-            }).slice(0, 20).map(t => `
-              <div class="list-item">
-                <div class="item-avatar ${t.type === 'IN' ? 'avatar-green' : 'avatar-orange'}">${t.type === 'IN' ? '📥' : '📤'}</div>
-                <div class="item-detail">
-                  <div class="item-name">${t.productName || '-'} (${t.type === 'IN' ? '+' : '-'}${t.qty})</div>
-                  <div class="item-info">${formatDate(t.timestamp)} | ${t.purpose || t.note || ''}</div>
-                </div>
-              </div>
-            `).join('') || '<div style="text-align:center;padding:20px;">Belum ada transaksi</div>'}
-          </div>
-        </div>
         <button class="btn btn-outline btn-block" id="exportReportBtn">📥 Export CSV</button>
       `;
     }
 
-    // Init reports after render
+    // Export handler
     document.addEventListener('click', function(e) {
       if (e.target.id === 'exportReportBtn') {
+        if (transactions.length === 0) {
+          return toast('⚠️ Tidak ada data untuk diexport');
+        }
         let csv = 'Tipe,Produk,SKU,Qty,Tanggal\n';
         transactions.forEach(t => {
-          csv += `${t.type},${t.productName},${t.sku},${t.qty},${formatDate(t.timestamp)}\n`;
+          csv += `${t.type},${t.productName || ''},${t.sku || ''},${t.qty || 0},${formatDate(t.timestamp)}\n`;
         });
         const blob = new Blob([csv], { type: 'text/csv' });
         const url = URL.createObjectURL(blob);
-        const a = document.createElement('a'); a.href = url; a.download = 'laporan_inventory.csv';
-        a.click(); URL.revokeObjectURL(url);
+        const a = document.createElement('a'); 
+        a.href = url; 
+        a.download = 'laporan_inventory.csv';
+        a.click(); 
+        URL.revokeObjectURL(url);
+        playSuccessSound();
         toast('📥 Laporan terdownload');
       }
     });
 
     // ==================== SYNC ====================
     document.getElementById('syncBtn').addEventListener('click', async () => {
-      toast('🔄 Sync data...');
+      toast('🔄 Sinkronisasi data...');
       await loadDashboardData();
-      renderPage(currentPage);
+      await renderPage(currentPage);
+      playSuccessSound();
       toast('✅ Data tersinkronisasi');
     });
 
     // ==================== INIT ====================
-    console.log('✅ InventoryPro siap!');
+    console.log('✅ InventoryPro siap dengan fitur suara!');
+    console.log('🔊 Fitur: Beep saat scan, Sukses, Error');
     loadDashboardData();
   </script>
 </body>
