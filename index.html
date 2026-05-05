@@ -93,7 +93,6 @@
       color: var(--text); display: flex; align-items: center; gap: 6px;
     }
 
-    /* Stats */
     .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .stats-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
     .stats-grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; }
@@ -232,7 +231,7 @@
     .alert-warning { background: #fffbeb; color: #92400e; }
     .alert-success { background: #ecfdf5; color: #065f46; }
 
-    /* ============ PRODUCT PAGE REDESIGN ============ */
+    /* Product Page Styles */
     .product-toolbar {
       display: flex; gap: 8px; align-items: center;
     }
@@ -280,7 +279,6 @@
       box-shadow: 0 1px 3px rgba(0,0,0,0.08);
     }
 
-    /* Product List - Clean Cards */
     .product-list-clean {
       display: flex;
       flex-direction: column;
@@ -308,10 +306,9 @@
       font-size: 1.4rem;
       flex-shrink: 0;
     }
-    .emoji-blue { background: #eff6ff; }
     .emoji-green { background: #ecfdf5; }
-    .emoji-red { background: #fef2f2; }
     .emoji-purple { background: #f5f3ff; }
+    .emoji-red { background: #fef2f2; }
     
     .product-main {
       flex: 1; min-width: 0;
@@ -326,9 +323,6 @@
     .product-sub {
       display: flex; align-items: center; gap: 8px;
       font-size: 0.73rem; color: #64748b;
-    }
-    .product-sub span {
-      display: flex; align-items: center; gap: 3px;
     }
     
     .product-stock-badge {
@@ -349,7 +343,6 @@
       flex-shrink: 0;
     }
 
-    /* Tracking View */
     .tracking-list {
       display: flex; flex-direction: column; gap: 6px;
     }
@@ -391,7 +384,6 @@
       color: #1e40af; flex-shrink: 0;
     }
 
-    /* Empty state */
     .empty-state {
       text-align: center;
       padding: 40px 20px;
@@ -410,7 +402,6 @@
       color: #cbd5e1;
     }
 
-    /* Timeline */
     .timeline {
       position: relative;
       padding-left: 24px;
@@ -716,8 +707,8 @@
         <div class="card"><div class="card-title">📅 Ringkasan</div><div class="stats-grid-3"><div class="stat-card blue"><div class="stat-value-sm">${todayInQty + todayOutQty}</div><div class="stat-label">Hari Ini</div></div><div class="stat-card green"><div class="stat-value-sm">${weekIn + weekOut}</div><div class="stat-label">Minggu Ini</div></div><div class="stat-card purple"><div class="stat-value-sm">${monthIn + monthOut}</div><div class="stat-label">Bulan Ini</div></div></div></div>
         <div class="stats-grid"><div class="stat-card blue"><div class="stat-value">${avgDailyIn}</div><div class="stat-label">📥 Rata² Masuk/Hari</div></div><div class="stat-card orange"><div class="stat-value">${avgDailyOut}</div><div class="stat-label">📤 Rata² Keluar/Hari</div></div></div>
         <div class="card"><div class="card-title">📤 Breakdown Keluar</div><div class="stats-grid-4"><div class="stat-card green"><div class="stat-value-sm">${soldOut}</div><div class="stat-label">💰 Terjual</div></div><div class="stat-card orange"><div class="stat-value-sm">${damagedOut}</div><div class="stat-label">🔨 Rusak</div></div><div class="stat-card red"><div class="stat-value-sm">${expiredOut}</div><div class="stat-label">⏰ Expired</div></div><div class="stat-card blue"><div class="stat-value-sm">${products.filter(p => {const d=p.created?.toDate?.()||new Date(p.created);return d>=thisWeek;}).length}</div><div class="stat-label">🆕 Baru</div></div></div></div>
-        <div class="card"><div class="card-header"><span class="card-title">🏆 Top 5 Produk</span></div><div class="list">${productScore.map((p,i)=>`<div class="list-item"><span style="font-size:1.2rem;">${i===0?'🥇':i===1?'🥈':i===2?'🥉':'📦'}</span><div class="item-detail" style="flex:1;"><div class="item-name">${p.name||'-'}</div><div class="item-info">${p.transCount} transaksi · Stok: ${p.stock||0}</div></div></div>`).join('')||'<div style="text-align:center;padding:20px;">Belum ada</div>'}</div></div>
-        <div class="card"><div class="card-header"><span class="card-title">📜 Aktivitas Terakhir</span></div><div class="list">${transactions.slice(0,5).map(t=>`<div class="list-item"><span>${t.type==='IN'?'📥':'📤'}</span><div class="item-detail" style="flex:1;"><div class="item-name">${t.productName||'-'}</div><div class="item-info">${formatDate(t.timestamp)}</div></div><span style="font-weight:700;color:${t.type==='IN'?'#059669':'#dc2626'}">${t.type==='IN'?'+':'-'}${t.qty}</span></div>`).join('')||'<div style="text-align:center;padding:20px;">Belum ada</div>'}</div></div>
+        <div class="card"><div class="card-header"><span class="card-title">🏆 Top 5 Produk</span></div><div class="list">${productScore.map((p,i)=>`<div class="list-item"><span style="font-size:1.2rem;">${i===0?'🥇':i===1?'🥈':i===2?'🥉':'📦'}</span><div style="flex:1;"><div style="font-weight:600;font-size:0.85rem;">${p.name||'-'}</div><div style="font-size:0.72rem;color:#64748b;">${p.transCount} transaksi · Stok: ${p.stock||0}</div></div></div>`).join('')||'<div style="text-align:center;padding:20px;">Belum ada</div>'}</div></div>
+        <div class="card"><div class="card-header"><span class="card-title">📜 Aktivitas Terakhir</span></div><div class="list">${transactions.slice(0,5).map(t=>`<div class="list-item"><span>${t.type==='IN'?'📥':'📤'}</span><div style="flex:1;"><div style="font-weight:600;font-size:0.85rem;">${t.productName||'-'}</div><div style="font-size:0.72rem;color:#64748b;">${formatDate(t.timestamp)}</div></div><span style="font-weight:700;color:${t.type==='IN'?'#059669':'#dc2626'}">${t.type==='IN'?'+':'-'}${t.qty}</span></div>`).join('')||'<div style="text-align:center;padding:20px;">Belum ada</div>'}</div></div>
         <div class="card"><div class="card-title">📈 Tren 7 Hari</div><div class="chart-container"><canvas id="dashChart"></canvas></div></div>
       `;
     }
@@ -877,17 +868,17 @@
       const list=document.getElementById('inHistoryList'); if(!list)return;
       const today=new Date(); today.setHours(0,0,0,0);
       const items=transactions.filter(t=>t.type==='IN'&&(t.timestamp?.toDate?.()||new Date(t.timestamp))>=today);
-      list.innerHTML=items.length?items.map(i=>`<div class="list-item"><span>📥</span><div class="item-detail" style="flex:1;"><div class="item-name">${i.productName} (+${i.qty})</div><div class="item-info">${formatDate(i.timestamp)}</div></div></div>`).join(''):'<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada</div>';
+      list.innerHTML=items.length?items.map(i=>`<div class="list-item"><span>📥</span><div style="flex:1;"><div style="font-weight:600;font-size:0.85rem;">${i.productName} (+${i.qty})</div><div style="font-size:0.72rem;color:#64748b;">${formatDate(i.timestamp)}</div></div></div>`).join(''):'<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada</div>';
     }
 
     async function loadOutHistory() {
       const list=document.getElementById('outHistoryList'); if(!list)return;
       const today=new Date(); today.setHours(0,0,0,0);
       const items=transactions.filter(t=>t.type==='OUT'&&(t.timestamp?.toDate?.()||new Date(t.timestamp))>=today);
-      list.innerHTML=items.length?items.map(i=>`<div class="list-item"><span>📤</span><div class="item-detail" style="flex:1;"><div class="item-name">${i.productName} (-${i.qty})</div><div class="item-info">${i.purpose} | ${formatDate(i.timestamp)}</div></div></div>`).join(''):'<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada</div>';
+      list.innerHTML=items.length?items.map(i=>`<div class="list-item"><span>📤</span><div style="flex:1;"><div style="font-weight:600;font-size:0.85rem;">${i.productName} (-${i.qty})</div><div style="font-size:0.72rem;color:#64748b;">${i.purpose} | ${formatDate(i.timestamp)}</div></div></div>`).join(''):'<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada</div>';
     }
 
-    // ==================== PRODUCTS PAGE (CLEAN REDESIGN) ====================
+    // ==================== PRODUCTS PAGE (SIMPLIFIED) ====================
     async function productsHTML() {
       const productStats = products.map(p => {
         const trans = transactions.filter(t => t.productId === p.id);
@@ -896,7 +887,6 @@
       });
 
       return `
-        <!-- Toolbar -->
         <div class="product-toolbar">
           <div class="search-box">
             <span class="search-icon">🔍</span>
@@ -905,18 +895,15 @@
           <button class="btn btn-primary btn-sm" id="addProductBtn" style="flex-shrink:0;">+ Tambah</button>
         </div>
         
-        <!-- Tabs -->
         <div class="tabs" id="productTabs">
           <button class="tab active" data-mode="list">📋 Semua Produk</button>
           <button class="tab" data-mode="tracking">📈 Tracking</button>
         </div>
         
-        <!-- Product List View -->
         <div id="productListView">
           ${renderCleanProductList(productStats)}
         </div>
         
-        <!-- Tracking View -->
         <div id="productTrackingView" style="display:none;">
           ${renderCleanTrackingList(productStats)}
         </div>
@@ -945,12 +932,12 @@
           <div class="product-list-clean" id="productListClean">
             ${stats.map(p => {
               const stockLevel = (p.stock||0) <= (p.minStock||5) ? 'danger' : (p.stock||0) <= (p.minStock||5)*2 ? 'warn' : 'good';
-              const stockLabel = (p.stock||0) <= (p.minStock||5) ? '⚠️' : (p.stock||0) <= (p.minStock||5)*2 ? '📦' : '✅';
               const emojiClass = stockLevel === 'danger' ? 'emoji-red' : stockLevel === 'warn' ? 'emoji-purple' : 'emoji-green';
+              const stockIcon = stockLevel === 'danger' ? '⚠️' : stockLevel === 'warn' ? '📦' : '✅';
               
               return `
-                <div class="product-row" onclick="window.showProductDetail('${p.id}')">
-                  <div class="product-emoji ${emojiClass}">${stockLabel}</div>
+                <div class="product-row" data-product-id="${p.id}">
+                  <div class="product-emoji ${emojiClass}">${stockIcon}</div>
                   <div class="product-main">
                     <div class="product-title">${p.name || 'Tanpa Nama'}</div>
                     <div class="product-sub">
@@ -992,7 +979,7 @@
             ${stats.map(p => {
               const lastDate = p.lastTransDate ? p.lastTransDate.toLocaleDateString('id-ID', { day:'numeric', month:'short' }) : '-';
               return `
-                <div class="tracking-row" onclick="window.showProductTracking('${p.id}')">
+                <div class="tracking-row" data-product-id="${p.id}">
                   <div class="tracking-icon">📦</div>
                   <div class="tracking-info">
                     <div class="tracking-name">${p.name || 'Tanpa Nama'}</div>
@@ -1023,10 +1010,10 @@
         });
       });
       
-      // Add product
+      // Add product button
       document.getElementById('addProductBtn').addEventListener('click', showAddProductModal);
       
-      // Search
+      // Search functionality
       document.getElementById('productSearch').addEventListener('input', function() {
         const term = this.value.toLowerCase();
         const filtered = products.filter(p => 
@@ -1042,11 +1029,39 @@
         
         document.getElementById('productListView').innerHTML = renderCleanProductList(stats);
         document.getElementById('productTrackingView').innerHTML = renderCleanTrackingList(stats);
+        
+        // Re-attach event listeners setelah render ulang
+        attachProductRowListeners();
+      });
+      
+      // Attach click listeners ke product rows
+      attachProductRowListeners();
+    }
+
+    function attachProductRowListeners() {
+      // Product list rows - klik untuk edit
+      document.querySelectorAll('#productListClean .product-row').forEach(row => {
+        row.addEventListener('click', function() {
+          const productId = this.dataset.productId;
+          if (productId) {
+            showProductDetailModal(productId);
+          }
+        });
+      });
+      
+      // Tracking rows - klik untuk tracking
+      document.querySelectorAll('#trackingListClean .tracking-row').forEach(row => {
+        row.addEventListener('click', function() {
+          const productId = this.dataset.productId;
+          if (productId) {
+            showProductTrackingModal(productId);
+          }
+        });
       });
     }
 
-    // Product Detail (Click on product row)
-    window.showProductDetail = function(productId) {
+    // Product Detail Modal (with Edit & Delete)
+    function showProductDetailModal(productId) {
       const p = products.find(x => x.id === productId);
       if (!p) return;
       
@@ -1060,65 +1075,294 @@
           <span class="badge badge-green">📍 ${p.lokasi || '-'}</span>
           <span class="badge ${stockLevel === 'danger' ? 'badge-red' : stockLevel === 'warn' ? 'badge-orange' : 'badge-green'}">${stockLabel}</span>
         </div>
-        <div class="stats-grid mb-2">
-          <div class="stat-card blue"><div class="stat-value">${p.stock||0}</div><div class="stat-label">Stok</div></div>
+        <div class="stats-grid" style="margin-bottom:12px;">
+          <div class="stat-card blue"><div class="stat-value">${p.stock||0}</div><div class="stat-label">Stok Saat Ini</div></div>
           <div class="stat-card green"><div class="stat-value">${formatRupiah(p.price)}</div><div class="stat-label">Harga</div></div>
         </div>
         <div style="display:flex;gap:8px;">
-          <button class="btn btn-primary btn-sm" onclick="window.editProduct('${p.id}');document.getElementById('modalOverlay').classList.remove('show');" style="flex:1;">✏️ Edit</button>
-          <button class="btn btn-outline btn-sm" onclick="window.showProductTracking('${p.id}');" style="flex:1;">📈 Tracking</button>
-          <button class="btn btn-danger btn-sm" onclick="if(confirm('Hapus?')){window.deleteProduct('${p.id}');}" style="flex:1;">🗑️</button>
+          <button class="btn btn-primary" id="editProductBtn" style="flex:1;">✏️ Edit Produk</button>
+          <button class="btn btn-danger btn-sm" id="deleteProductBtn" style="flex:1;">🗑️ Hapus</button>
         </div>
-        <button class="btn btn-outline btn-block" onclick="document.getElementById('modalOverlay').classList.remove('show')" style="margin-top:8px;">Tutup</button>
+        <button class="btn btn-outline btn-block" id="closeDetailBtn" style="margin-top:8px;">Tutup</button>
       `);
-    };
+      
+      // Edit button handler
+      document.getElementById('editProductBtn').addEventListener('click', () => {
+        closeModal();
+        setTimeout(() => showEditProductModal(productId), 200);
+      });
+      
+      // Delete button handler
+      document.getElementById('deleteProductBtn').addEventListener('click', async () => {
+        if (confirm(`Yakin hapus "${p.name}"?`)) {
+          await deleteDoc(doc(db, "products", productId));
+          playSuccessSound();
+          closeModal();
+          await loadDashboardData();
+          renderPage('products');
+          toast('🗑️ Produk dihapus');
+        }
+      });
+      
+      // Close button handler
+      document.getElementById('closeDetailBtn').addEventListener('click', closeModal);
+    }
 
-    window.deleteProduct = async function(id) {
-      await deleteDoc(doc(db, "products", id));
-      playSuccessSound();
-      closeModal();
-      await loadDashboardData();
-      renderPage('products');
-      toast('🗑️ Produk dihapus');
-    };
+    // Edit Product Modal (standalone)
+    function showEditProductModal(productId) {
+      const p = products.find(x => x.id === productId);
+      if (!p) return;
+      
+      showModal(`
+        <h3 style="margin-bottom:12px;">✏️ Edit Produk</h3>
+        <div class="form-group">
+          <label class="form-label">SKU / Barcode</label>
+          <input type="text" id="editSKU" value="${p.sku || ''}">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nama Produk</label>
+          <input type="text" id="editName" value="${p.name || ''}">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Lokasi</label>
+          <select id="editLokasi">
+            <option value="">Pilih Lokasi</option>
+            <option value="Rak A" ${p.lokasi === 'Rak A' ? 'selected' : ''}>📍 Rak A</option>
+            <option value="Rak B" ${p.lokasi === 'Rak B' ? 'selected' : ''}>📍 Rak B</option>
+            <option value="Gudang 1" ${p.lokasi === 'Gudang 1' ? 'selected' : ''}>🏭 Gudang 1</option>
+          </select>
+        </div>
+        <div class="input-row">
+          <div class="form-group">
+            <label class="form-label">Stok</label>
+            <input type="number" id="editStock" value="${p.stock || 0}">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Min Stok</label>
+            <input type="number" id="editMinStock" value="${p.minStock || 5}">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Harga (Rp)</label>
+          <input type="number" id="editPrice" value="${p.price || 0}">
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-primary" id="saveEditBtn" style="flex:1;">💾 Simpan Perubahan</button>
+          <button class="btn btn-outline" id="cancelEditBtn" style="flex:1;">Batal</button>
+        </div>
+      `);
+      
+      // Save button
+      document.getElementById('saveEditBtn').addEventListener('click', async () => {
+        const sku = document.getElementById('editSKU').value.trim();
+        const name = document.getElementById('editName').value.trim();
+        
+        if (!sku || !name) {
+          playErrorSound();
+          return toast('⚠️ SKU dan Nama wajib diisi');
+        }
+        
+        try {
+          await updateDoc(doc(db, "products", productId), {
+            sku: sku,
+            name: name,
+            lokasi: document.getElementById('editLokasi').value,
+            stock: parseInt(document.getElementById('editStock').value) || 0,
+            minStock: parseInt(document.getElementById('editMinStock').value) || 5,
+            price: parseInt(document.getElementById('editPrice').value) || 0,
+            updatedAt: new Date()
+          });
+          
+          playSuccessSound();
+          closeModal();
+          await loadDashboardData();
+          renderPage('products');
+          toast('✅ Produk berhasil diupdate');
+        } catch (e) {
+          playErrorSound();
+          toast('❌ Gagal update: ' + e.message);
+        }
+      });
+      
+      // Cancel button
+      document.getElementById('cancelEditBtn').addEventListener('click', closeModal);
+    }
 
+    // Add Product Modal
     function showAddProductModal() {
       showModal(`
         <h3 style="margin-bottom:12px;">➕ Tambah Produk Baru</h3>
-        <div class="form-group"><label class="form-label">SKU / Barcode</label><input type="text" id="newSKU" placeholder="Masukkan SKU"></div>
-        <div class="form-group"><label class="form-label">Nama Produk</label><input type="text" id="newName" placeholder="Nama produk"></div>
-        <div class="form-group"><label class="form-label">Lokasi</label><select id="newLokasi"><option value="">Pilih Lokasi</option><option>📍 Rak A</option><option>📍 Rak B</option><option>🏭 Gudang 1</option></select></div>
-        <div class="input-row"><div class="form-group"><label class="form-label">Stok Awal</label><input type="number" id="newStock" value="0"></div><div class="form-group"><label class="form-label">Min Stok</label><input type="number" id="newMinStock" value="5"></div></div>
-        <div class="form-group"><label class="form-label">Harga (Rp)</label><input type="number" id="newPrice" value="0" placeholder="Opsional"></div>
-        <button class="btn btn-primary btn-block" id="saveNewProduct">💾 Simpan</button>
+        <div class="form-group">
+          <label class="form-label">SKU / Barcode</label>
+          <input type="text" id="newSKU" placeholder="Masukkan SKU">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nama Produk</label>
+          <input type="text" id="newName" placeholder="Nama produk">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Lokasi</label>
+          <select id="newLokasi">
+            <option value="">Pilih Lokasi</option>
+            <option>📍 Rak A</option>
+            <option>📍 Rak B</option>
+            <option>🏭 Gudang 1</option>
+          </select>
+        </div>
+        <div class="input-row">
+          <div class="form-group">
+            <label class="form-label">Stok Awal</label>
+            <input type="number" id="newStock" value="0">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Min Stok</label>
+            <input type="number" id="newMinStock" value="5">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Harga (Rp)</label>
+          <input type="number" id="newPrice" value="0" placeholder="Opsional">
+        </div>
+        <button class="btn btn-primary btn-block" id="saveNewProductBtn">💾 Simpan Produk</button>
       `);
-      document.getElementById('saveNewProduct').addEventListener('click', async () => {
-        const s=document.getElementById('newSKU').value.trim(), n=document.getElementById('newName').value.trim();
-        if(!s||!n){playErrorSound();return toast('⚠️ Lengkapi');}
-        await addDoc(collection(db,"products"),{sku:s,name:n,lokasi:document.getElementById('newLokasi').value,stock:parseInt(document.getElementById('newStock').value)||0,minStock:parseInt(document.getElementById('newMinStock').value)||5,price:parseInt(document.getElementById('newPrice').value)||0,created:new Date(),userId:currentUser.uid});
-        playSuccessSound();closeModal();await loadDashboardData();renderPage('products');toast('✅ Ditambahkan');
+      
+      document.getElementById('saveNewProductBtn').addEventListener('click', async () => {
+        const sku = document.getElementById('newSKU').value.trim();
+        const name = document.getElementById('newName').value.trim();
+        
+        if (!sku || !name) {
+          playErrorSound();
+          return toast('⚠️ SKU dan Nama wajib diisi');
+        }
+        
+        try {
+          await addDoc(collection(db, "products"), {
+            sku: sku,
+            name: name,
+            lokasi: document.getElementById('newLokasi').value,
+            stock: parseInt(document.getElementById('newStock').value) || 0,
+            minStock: parseInt(document.getElementById('newMinStock').value) || 5,
+            price: parseInt(document.getElementById('newPrice').value) || 0,
+            created: new Date(),
+            userId: currentUser.uid
+          });
+          
+          playSuccessSound();
+          closeModal();
+          await loadDashboardData();
+          renderPage('products');
+          toast('✅ Produk berhasil ditambahkan');
+        } catch (e) {
+          playErrorSound();
+          toast('❌ Gagal menambah: ' + e.message);
+        }
       });
     }
 
-    window.editProduct = function(id) {
-      const p=products.find(x=>x.id===id); if(!p)return;
-      showModal(`<h3>✏️ Edit Produk</h3><div class="form-group"><label class="form-label">SKU</label><input type="text" id="eSKU" value="${p.sku||''}"></div><div class="form-group"><label class="form-label">Nama</label><input type="text" id="eName" value="${p.name||''}"></div><div class="form-group"><label class="form-label">Lokasi</label><select id="eLokasi"><option value="">Pilih</option><option value="Rak A" ${p.lokasi==='Rak A'?'selected':''}>📍 Rak A</option><option value="Rak B" ${p.lokasi==='Rak B'?'selected':''}>📍 Rak B</option><option value="Gudang 1" ${p.lokasi==='Gudang 1'?'selected':''}>🏭 Gudang 1</option></select></div><div class="input-row"><div class="form-group"><label class="form-label">Stok</label><input type="number" id="eStock" value="${p.stock||0}"></div><div class="form-group"><label class="form-label">Min</label><input type="number" id="eMin" value="${p.minStock||5}"></div></div><div class="form-group"><label class="form-label">Harga</label><input type="number" id="ePrice" value="${p.price||0}"></div><div style="display:flex;gap:8px;"><button class="btn btn-primary" id="updProd" style="flex:1;">💾 Update</button><button class="btn btn-danger" id="delProd" style="flex:1;">🗑️ Hapus</button></div>`);
-      document.getElementById('updProd').addEventListener('click', async ()=>{
-        await updateDoc(doc(db,"products",id),{sku:document.getElementById('eSKU').value,name:document.getElementById('eName').value,lokasi:document.getElementById('eLokasi').value,stock:parseInt(document.getElementById('eStock').value)||0,minStock:parseInt(document.getElementById('eMin').value)||5,price:parseInt(document.getElementById('ePrice').value)||0,updatedAt:new Date()});
-        playSuccessSound();closeModal();await loadDashboardData();renderPage('products');toast('✅ Diupdate');
-      });
-      document.getElementById('delProd').addEventListener('click', async ()=>{if(confirm('Hapus?')){await deleteDoc(doc(db,"products",id));closeModal();await loadDashboardData();renderPage('products');toast('🗑️ Dihapus');}});
-    };
-
-    window.showProductTracking = function(productId) {
+    // Tracking Modal (dipanggil dari tab Tracking)
+    function showProductTrackingModal(productId) {
       const product = products.find(p => p.id === productId);
       if (!product) return;
-      const productTransactions = transactions.filter(t => t.productId === productId).sort((a,b) => {const da=a.timestamp?.toDate?.()||new Date(a.timestamp);const db=b.timestamp?.toDate?.()||new Date(b.timestamp);return db-da;});
-      let rs = product.stock||0;
-      const timelineItems = productTransactions.map(t => {const date=t.timestamp?.toDate?.()||new Date(t.timestamp);const item={date,type:t.type,qty:t.qty,purpose:t.purpose||t.note||'',stockAfter:rs};rs=t.type==='IN'?rs-t.qty:rs+t.qty;return item;});
-      showModal(`<h3>📈 ${product.name}</h3><p style="color:#64748b;font-size:0.8rem;margin-bottom:12px;">SKU: ${product.sku} | Stok: <strong>${product.stock||0}</strong></p><div class="card" style="margin-bottom:12px;"><div class="card-title">📊 Grafik Stok</div><div class="chart-container"><canvas id="trackingChart"></canvas></div></div><div class="card"><div class="card-title">📜 Riwayat (${timelineItems.length})</div>${timelineItems.length===0?'<div style="text-align:center;padding:20px;">Belum ada</div>':`<div class="timeline">${timelineItems.map(item=>`<div class="timeline-item ${item.type==='OUT'?'out':''}"><div class="timeline-date">${item.date.toLocaleDateString('id-ID',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</div><div class="timeline-desc">${item.type==='IN'?'📥 Masuk':'📤 Keluar'} ${item.purpose}</div><div class="timeline-qty ${item.type==='IN'?'in':'out'}">${item.type==='IN'?'+':'-'}${item.qty} | Stok: ${item.stockAfter}</div></div>`).join('')}</div>`}</div><button class="btn btn-outline btn-block" onclick="document.getElementById('modalOverlay').classList.remove('show')" style="margin-top:12px;">Tutup</button>`);
-      setTimeout(()=>{const canvas=document.getElementById('trackingChart');if(!canvas||timelineItems.length===0)return;if(currentChart)currentChart.destroy();const labels=[],dataPoints=[];const today=new Date();for(let i=6;i>=0;i--){const d=new Date(today);d.setDate(d.getDate()-i);labels.push(d.toLocaleDateString('id-ID',{day:'numeric',month:'short'}));let stock=product.stock||0;productTransactions.forEach(t=>{const td=t.timestamp?.toDate?.()||new Date(t.timestamp);if(td>d)stock+=(t.type==='OUT'?t.qty:-t.qty);});dataPoints.push(Math.max(0,stock));}currentChart=new Chart(canvas.getContext('2d'),{type:'line',data:{labels,datasets:[{label:'Stok',data:dataPoints,borderColor:'#8b5cf6',backgroundColor:'rgba(139,92,246,0.1)',fill:true,tension:0.4,pointRadius:5,pointBackgroundColor:'#8b5cf6'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1,font:{size:10}}},x:{ticks:{font:{size:9}}}}}});},300);
-    };
+      
+      const productTransactions = transactions
+        .filter(t => t.productId === productId)
+        .sort((a, b) => {
+          const da = a.timestamp?.toDate?.() || new Date(a.timestamp);
+          const db = b.timestamp?.toDate?.() || new Date(b.timestamp);
+          return db - da;
+        });
+
+      let rs = product.stock || 0;
+      const timelineItems = productTransactions.map(t => {
+        const date = t.timestamp?.toDate?.() || new Date(t.timestamp);
+        const item = { date, type: t.type, qty: t.qty, purpose: t.purpose || t.note || '', stockAfter: rs };
+        rs = t.type === 'IN' ? rs - t.qty : rs + t.qty;
+        return item;
+      });
+
+      showModal(`
+        <h3 style="margin-bottom:4px;">📈 Tracking: ${product.name}</h3>
+        <p style="color:#64748b;font-size:0.8rem;margin-bottom:12px;">
+          SKU: ${product.sku || '-'} | Lokasi: ${product.lokasi || '-'} | Stok: <strong>${product.stock||0}</strong>
+        </p>
+        
+        <div class="card" style="margin-bottom:12px;">
+          <div class="card-title">📊 Grafik Stok 7 Hari</div>
+          <div class="chart-container">
+            <canvas id="trackingChart"></canvas>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-title">📜 Riwayat Transaksi (${timelineItems.length})</div>
+          ${timelineItems.length === 0 
+            ? '<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada transaksi</div>'
+            : `<div class="timeline">
+                ${timelineItems.map(item => `
+                  <div class="timeline-item ${item.type === 'OUT' ? 'out' : ''}">
+                    <div class="timeline-date">${item.date.toLocaleDateString('id-ID', { day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' })}</div>
+                    <div class="timeline-desc">
+                      ${item.type === 'IN' ? '📥 Barang Masuk' : '📤 Barang Keluar'}
+                      ${item.purpose ? ` - ${item.purpose}` : ''}
+                    </div>
+                    <div class="timeline-qty ${item.type === 'IN' ? 'in' : 'out'}">
+                      ${item.type === 'IN' ? '+' : '-'}${item.qty} unit | Stok setelah: ${item.stockAfter}
+                    </div>
+                  </div>
+                `).join('')}
+              </div>`
+          }
+        </div>
+        <button class="btn btn-outline btn-block" onclick="document.getElementById('modalOverlay').classList.remove('show')" style="margin-top:12px;">Tutup</button>
+      `);
+
+      // Render chart
+      setTimeout(() => {
+        const canvas = document.getElementById('trackingChart');
+        if (!canvas || timelineItems.length === 0) return;
+        if (currentChart) currentChart.destroy();
+        
+        const labels = [], dataPoints = [];
+        const today = new Date();
+        for (let i = 6; i >= 0; i--) {
+          const d = new Date(today);
+          d.setDate(d.getDate() - i);
+          labels.push(d.toLocaleDateString('id-ID', { day:'numeric', month:'short' }));
+          let stock = product.stock || 0;
+          productTransactions.forEach(t => {
+            const td = t.timestamp?.toDate?.() || new Date(t.timestamp);
+            if (td > d) stock += (t.type === 'OUT' ? t.qty : -t.qty);
+          });
+          dataPoints.push(Math.max(0, stock));
+        }
+        
+        currentChart = new Chart(canvas.getContext('2d'), {
+          type: 'line',
+          data: {
+            labels,
+            datasets: [{
+              label: 'Stok',
+              data: dataPoints,
+              borderColor: '#8b5cf6',
+              backgroundColor: 'rgba(139,92,246,0.1)',
+              fill: true,
+              tension: 0.4,
+              pointRadius: 5,
+              pointBackgroundColor: '#8b5cf6'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } } },
+              x: { ticks: { font: { size: 9 } } }
+            }
+          }
+        });
+      }, 300);
+    }
 
     // ==================== REPORTS ====================
     async function reportsHTML() {
@@ -1154,7 +1398,7 @@
     });
 
     window.addEventListener('beforeunload', () => stopAllScanners());
-    console.log('✅ InventoryPro - Halaman Produk Clean Redesign!');
+    console.log('✅ InventoryPro - Edit Fixed & Tracking Simplified!');
     loadDashboardData();
   </script>
 </body>
