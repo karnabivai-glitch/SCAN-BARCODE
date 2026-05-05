@@ -93,23 +93,69 @@
       color: var(--text); display: flex; align-items: center; gap: 6px;
     }
 
+    /* Stats Grid */
     .stats-grid {
       display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
     }
-    .stat-card {
-      padding: 14px; border-radius: 14px;
-      border: 1px solid #e2e8f0; text-align: center;
+    .stats-grid-3 {
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;
     }
+    .stats-grid-4 {
+      display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px;
+    }
+    .stat-card {
+      padding: 14px 10px; border-radius: 14px;
+      border: 1px solid #e2e8f0; text-align: center;
+      transition: 0.15s;
+    }
+    .stat-card:active { transform: scale(0.97); }
     .stat-card.blue { background: #eff6ff; border-color: #bfdbfe; }
     .stat-card.green { background: #ecfdf5; border-color: #a7f3d0; }
     .stat-card.orange { background: #fffbeb; border-color: #fde68a; }
     .stat-card.red { background: #fef2f2; border-color: #fecaca; }
-    .stat-value { font-size: 1.6rem; font-weight: 700; }
-    .stat-label { font-size: 0.72rem; color: #64748b; margin-top: 2px; }
-    .blue .stat-value { color: #1e40af; }
-    .green .stat-value { color: #059669; }
-    .orange .stat-value { color: #d97706; }
-    .red .stat-value { color: #dc2626; }
+    .stat-card.purple { background: #f5f3ff; border-color: #ddd6fe; }
+    .stat-card.indigo { background: #eef2ff; border-color: #c7d2fe; }
+    .stat-value { font-size: 1.5rem; font-weight: 700; }
+    .stat-value-sm { font-size: 1.2rem; font-weight: 700; }
+    .stat-label { font-size: 0.7rem; color: #64748b; margin-top: 2px; }
+    .blue .stat-value, .blue .stat-value-sm { color: #1e40af; }
+    .green .stat-value, .green .stat-value-sm { color: #059669; }
+    .orange .stat-value, .orange .stat-value-sm { color: #d97706; }
+    .red .stat-value, .red .stat-value-sm { color: #dc2626; }
+    .purple .stat-value, .purple .stat-value-sm { color: #7c3aed; }
+    .indigo .stat-value, .indigo .stat-value-sm { color: #4f46e5; }
+
+    /* Mini chart bar */
+    .mini-bar {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 40px;
+      margin-top: 8px;
+    }
+    .mini-bar-item {
+      flex: 1;
+      border-radius: 4px 4px 0 0;
+      min-height: 4px;
+      transition: 0.3s;
+    }
+
+    /* Progress bar */
+    .progress-bar {
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: 10px;
+      transition: width 0.5s ease;
+    }
+    .progress-fill.green { background: #10b981; }
+    .progress-fill.orange { background: #f59e0b; }
+    .progress-fill.red { background: #ef4444; }
 
     .form-group { margin-bottom: 10px; }
     .form-label {
@@ -146,30 +192,32 @@
     .btn-block { width: 100%; }
     .btn-icon { width: 34px; height: 34px; padding: 0; border-radius: 10px; font-size: 1rem; }
 
-    .list { list-style: none; max-height: 350px; overflow-y: auto; }
+    .list { list-style: none; max-height: 300px; overflow-y: auto; }
     .list-item {
       display: flex; align-items: center; gap: 10px;
-      padding: 12px; border-bottom: 1px solid #f1f5f9; transition: 0.15s;
+      padding: 10px 0; border-bottom: 1px solid #f8fafc; transition: 0.15s;
     }
-    .list-item:active { background: #f8fafc; }
+    .list-item:active { background: #fafafa; }
     .item-avatar {
-      width: 42px; height: 42px; border-radius: 12px;
+      width: 38px; height: 38px; border-radius: 10px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem; flex-shrink: 0;
+      font-size: 1rem; flex-shrink: 0;
     }
     .avatar-blue { background: #eff6ff; }
     .avatar-green { background: #ecfdf5; }
     .avatar-orange { background: #fffbeb; }
     .item-detail { flex: 1; min-width: 0; }
-    .item-name { font-weight: 600; font-size: 0.9rem; color: #1e293b; }
-    .item-info { font-size: 0.75rem; color: #64748b; }
-    .item-stock {
+    .item-name { font-weight: 600; font-size: 0.85rem; color: #1e293b; }
+    .item-info { font-size: 0.72rem; color: #64748b; }
+    .item-value {
       font-weight: 700; font-size: 0.85rem;
-      padding: 4px 10px; border-radius: 20px;
+      padding: 3px 8px; border-radius: 12px;
+      flex-shrink: 0;
     }
-    .stock-high { background: #ecfdf5; color: #059669; }
-    .stock-mid { background: #fffbeb; color: #d97706; }
-    .stock-low { background: #fef2f2; color: #dc2626; }
+    .value-green { background: #ecfdf5; color: #059669; }
+    .value-red { background: #fef2f2; color: #dc2626; }
+    .value-blue { background: #eff6ff; color: #1e40af; }
+    .value-orange { background: #fffbeb; color: #d97706; }
 
     .bottom-nav {
       position: fixed; bottom: 0; left: 0; right: 0;
@@ -225,85 +273,40 @@
     .badge-green { background: #ecfdf5; color: #059669; }
     .badge-red { background: #fef2f2; color: #dc2626; }
 
-    /* Chart container */
     .chart-container {
       position: relative;
       width: 100%;
-      height: 200px;
-      margin: 10px 0;
+      height: 180px;
+      margin: 8px 0;
     }
-    .chart-container canvas {
-      width: 100% !important;
-      height: 100% !important;
-    }
-    
-    /* Tracking timeline */
-    .timeline {
-      position: relative;
-      padding-left: 24px;
-    }
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 8px;
-      top: 0;
-      bottom: 0;
-      width: 2px;
-      background: #e2e8f0;
-    }
-    .timeline-item {
-      position: relative;
-      padding: 8px 0 8px 16px;
-      margin-bottom: 4px;
-    }
-    .timeline-item::before {
-      content: '';
-      position: absolute;
-      left: -20px;
-      top: 14px;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #3b82f6;
-      border: 2px solid white;
-      box-shadow: 0 0 0 2px #3b82f6;
-    }
-    .timeline-item.out::before {
-      background: #f59e0b;
-      box-shadow: 0 0 0 2px #f59e0b;
-    }
-    .timeline-date {
-      font-size: 0.7rem;
-      color: #64748b;
-      margin-bottom: 2px;
-    }
-    .timeline-desc {
-      font-size: 0.85rem;
-      color: #1e293b;
-      font-weight: 500;
-    }
-    .timeline-qty {
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-    .timeline-qty.in { color: #059669; }
-    .timeline-qty.out { color: #dc2626; }
+    .chart-container canvas { width: 100% !important; height: 100% !important; }
 
-    .tabs {
-      display: flex; gap: 4px;
-      background: #f1f5f9; padding: 4px;
-      border-radius: 12px; margin-bottom: 12px;
+    .divider {
+      height: 1px;
+      background: #e2e8f0;
+      margin: 8px 0;
     }
-    .tab {
-      flex: 1; padding: 8px; text-align: center;
-      border-radius: 10px; font-size: 0.78rem;
-      font-weight: 500; cursor: pointer; border: none;
-      background: transparent; color: #64748b;
+
+    .highlight-number {
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #1e40af, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    .tab.active {
-      background: white; color: #1e40af;
-      font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+
+    .alert-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      margin-bottom: 6px;
+      font-size: 0.8rem;
     }
+    .alert-warning { background: #fffbeb; color: #92400e; }
+    .alert-info { background: #eff6ff; color: #1e40af; }
+    .alert-success { background: #ecfdf5; color: #065f46; }
   </style>
 </head>
 <body>
@@ -358,27 +361,22 @@
     let scannerIn = null;
     let scannerOut = null;
     let currentChart = null;
+    let productViewMode = 'list';
 
-    // ==================== SOUND SYSTEM ====================
     function playScanBeep() {
       try {
         const ctx = new(window.AudioContext || window.webkitAudioContext)();
-        const osc1 = ctx.createOscillator();
-        const gain1 = ctx.createGain();
-        osc1.connect(gain1); gain1.connect(ctx.destination);
-        osc1.type = 'square';
-        osc1.frequency.setValueAtTime(1200, ctx.currentTime);
-        gain1.gain.setValueAtTime(0.15, ctx.currentTime);
-        gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
-        osc1.start(ctx.currentTime); osc1.stop(ctx.currentTime + 0.08);
-        const osc2 = ctx.createOscillator();
-        const gain2 = ctx.createGain();
-        osc2.connect(gain2); gain2.connect(ctx.destination);
-        osc2.type = 'square';
-        osc2.frequency.setValueAtTime(1800, ctx.currentTime + 0.08);
-        gain2.gain.setValueAtTime(0.15, ctx.currentTime + 0.08);
-        gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
-        osc2.start(ctx.currentTime + 0.08); osc2.stop(ctx.currentTime + 0.2);
+        [1200, 1800].forEach((freq, i) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.08);
+          gain.gain.setValueAtTime(0.15, ctx.currentTime + i * 0.08);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.08 + 0.08);
+          osc.start(ctx.currentTime + i * 0.08);
+          osc.stop(ctx.currentTime + i * 0.08 + 0.08);
+        });
       } catch(e) {}
     }
 
@@ -407,7 +405,6 @@
         osc.connect(gain); gain.connect(ctx.destination);
         osc.type = 'sawtooth';
         osc.frequency.setValueAtTime(200, ctx.currentTime);
-        osc.frequency.setValueAtTime(150, ctx.currentTime + 0.2);
         gain.gain.setValueAtTime(0.2, ctx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
         osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.4);
@@ -443,6 +440,7 @@
 
     function closeModal() {
       document.getElementById('modalOverlay').classList.remove('show');
+      if (currentChart) { currentChart.destroy(); currentChart = null; }
     }
 
     document.getElementById('modalOverlay').addEventListener('click', function(e) {
@@ -450,8 +448,8 @@
     });
 
     async function stopAllScanners() {
-      if (scannerIn?.isScanning) { try { await scannerIn.stop(); } catch(e) {} }
-      if (scannerOut?.isScanning) { try { await scannerOut.stop(); } catch(e) {} }
+      if (scannerIn?.isScanning) { try { await scannerIn.stop(); } catch(e) {} scannerIn = null; }
+      if (scannerOut?.isScanning) { try { await scannerOut.stop(); } catch(e) {} scannerOut = null; }
     }
 
     // ==================== AUTH ====================
@@ -488,10 +486,8 @@
       const email = document.getElementById('loginEmail').value.trim();
       const password = document.getElementById('loginPassword').value;
       if (!email || !password) { playErrorSound(); return toast('⚠️ Lengkapi email & password'); }
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        playSuccessSound();
-      } catch(e) { playErrorSound(); toast('❌ ' + e.message); }
+      try { await signInWithEmailAndPassword(auth, email, password); playSuccessSound(); }
+      catch(e) { playErrorSound(); toast('❌ ' + e.message); }
     }
 
     document.getElementById('logoutBtn').addEventListener('click', async () => {
@@ -511,10 +507,10 @@
     async function renderPage(page) {
       const content = document.getElementById('contentArea');
       switch(page) {
-        case 'dashboard': content.innerHTML = await dashboardHTML(); break;
+        case 'dashboard': content.innerHTML = await dashboardHTML(); initDashboard(); break;
         case 'stockIn': content.innerHTML = stockInHTML(); await initStockIn(); break;
         case 'stockOut': content.innerHTML = stockOutHTML(); await initStockOut(); break;
-        case 'products': content.innerHTML = productsHTML(); initProducts(); break;
+        case 'products': content.innerHTML = await productsHTML(); initProducts(); break;
         case 'reports': content.innerHTML = await reportsHTML(); initReports(); break;
       }
     }
@@ -524,50 +520,261 @@
         const prodSnap = await getDocs(collection(db, "products"));
         products = [];
         prodSnap.forEach(d => products.push({ id:d.id, ...d.data() }));
-        const transSnap = await getDocs(query(collection(db, "transactions"), orderBy("timestamp","desc"), limit(200)));
+        const transSnap = await getDocs(query(collection(db, "transactions"), orderBy("timestamp","desc"), limit(500)));
         transactions = [];
         transSnap.forEach(d => transactions.push({ id:d.id, ...d.data() }));
       } catch(e) { console.error('Load error:', e); }
     }
 
-    // ==================== DASHBOARD ====================
+    // ==================== DASHBOARD SUPER LENGKAP ====================
     async function dashboardHTML() {
+      const now = new Date();
+      const today = new Date(); today.setHours(0,0,0,0);
+      const thisWeek = new Date(today); thisWeek.setDate(thisWeek.getDate() - 7);
+      const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+      
+      // Hitung statistik
       const totalProducts = products.length;
       const totalStock = products.reduce((s,p) => s+(p.stock||0), 0);
-      const lowStock = products.filter(p => (p.stock||0) <= (p.minStock||5)).length;
-      const today = new Date(); today.setHours(0,0,0,0);
-      const todayIn = transactions.filter(t => {
-        if (t.type!=='IN') return false;
-        try { return (t.timestamp?.toDate?.()||new Date(t.timestamp)) >= today; } catch { return false; }
+      const totalValue = products.reduce((s,p) => s+(p.stock||0)*(p.price||0), 0);
+      
+      // Transaksi hari ini
+      const todayTrans = transactions.filter(t => (t.timestamp?.toDate?.()||new Date(t.timestamp)) >= today);
+      const todayIn = todayTrans.filter(t => t.type==='IN');
+      const todayOut = todayTrans.filter(t => t.type==='OUT');
+      const todayInQty = todayIn.reduce((s,t) => s+(t.qty||0), 0);
+      const todayOutQty = todayOut.reduce((s,t) => s+(t.qty||0), 0);
+      
+      // Transaksi minggu ini
+      const weekTrans = transactions.filter(t => (t.timestamp?.toDate?.()||new Date(t.timestamp)) >= thisWeek);
+      const weekIn = weekTrans.filter(t => t.type==='IN').reduce((s,t) => s+(t.qty||0), 0);
+      const weekOut = weekTrans.filter(t => t.type==='OUT').reduce((s,t) => s+(t.qty||0), 0);
+      
+      // Transaksi bulan ini
+      const monthTrans = transactions.filter(t => (t.timestamp?.toDate?.()||new Date(t.timestamp)) >= thisMonth);
+      const monthIn = monthTrans.filter(t => t.type==='IN').reduce((s,t) => s+(t.qty||0), 0);
+      const monthOut = monthTrans.filter(t => t.type==='OUT').reduce((s,t) => s+(t.qty||0), 0);
+      
+      // Rata-rata per hari (minggu ini)
+      const daysPassed = Math.max(1, Math.ceil((now - thisWeek) / 86400000));
+      const avgDailyIn = Math.round(weekIn / daysPassed);
+      const avgDailyOut = Math.round(weekOut / daysPassed);
+      
+      // Produk terbaru (7 hari)
+      const newProducts = products.filter(p => {
+        const d = p.created?.toDate?.() || new Date(p.created);
+        return d >= thisWeek;
       }).length;
-      const todayOut = transactions.filter(t => {
-        if (t.type!=='OUT') return false;
-        try { return (t.timestamp?.toDate?.()||new Date(t.timestamp)) >= today; } catch { return false; }
-      }).length;
-
+      
+      // Kategori transaksi OUT
+      const soldOut = transactions.filter(t => t.type==='OUT' && t.purpose==='💰 Terjual').reduce((s,t) => s+(t.qty||0), 0);
+      const damagedOut = transactions.filter(t => t.type==='OUT' && t.purpose==='🔨 Rusak').reduce((s,t) => s+(t.qty||0), 0);
+      const expiredOut = transactions.filter(t => t.type==='OUT' && t.purpose==='⏰ Kadaluarsa').reduce((s,t) => s+(t.qty||0), 0);
+      
+      // Top produk (paling banyak transaksi)
+      const productScore = products.map(p => {
+        const trans = transactions.filter(t => t.productId === p.id);
+        return { ...p, transCount: trans.length, lastActivity: trans[0]?.timestamp || null };
+      }).sort((a,b) => b.transCount - a.transCount).slice(0, 5);
+      
+      // Stok rendah
+      const lowStockProducts = products.filter(p => (p.stock||0) <= (p.minStock||5));
+      const lowStockCount = lowStockProducts.length;
+      
+      // Persentase stok sehat
+      const healthyPercent = totalProducts > 0 ? Math.round(((totalProducts - lowStockCount) / totalProducts) * 100) : 100;
+      
       return `
-        <div class="stats-grid">
-          <div class="stat-card blue"><div class="stat-value">${totalProducts}</div><div class="stat-label">Total Produk</div></div>
-          <div class="stat-card green"><div class="stat-value">${totalStock}</div><div class="stat-label">Total Stok</div></div>
-          <div class="stat-card orange"><div class="stat-value">${todayIn}</div><div class="stat-label">📥 Masuk Hari Ini</div></div>
-          <div class="stat-card red"><div class="stat-value">${todayOut}</div><div class="stat-label">📤 Keluar Hari Ini</div></div>
+        <!-- HEADLINE STATS -->
+        <div class="card" style="background:linear-gradient(135deg,#1e40af,#3b82f6);color:white;border:none;">
+          <div style="text-align:center;">
+            <div style="font-size:0.8rem;opacity:0.8;">Total Nilai Inventory</div>
+            <div style="font-size:2.2rem;font-weight:800;margin:4px 0;">${formatRupiah(totalValue)}</div>
+            <div style="font-size:0.75rem;opacity:0.9;">${totalProducts} produk · ${totalStock} unit total stok</div>
+          </div>
         </div>
+        
+        <!-- QUICK STATS 4 KOLOM -->
+        <div class="stats-grid-4">
+          <div class="stat-card blue"><div class="stat-value-sm">${totalProducts}</div><div class="stat-label">Produk</div></div>
+          <div class="stat-card green"><div class="stat-value-sm">${totalStock}</div><div class="stat-label">Stok</div></div>
+          <div class="stat-card orange"><div class="stat-value-sm">${todayInQty}</div><div class="stat-label">Masuk</div></div>
+          <div class="stat-card red"><div class="stat-value-sm">${todayOutQty}</div><div class="stat-label">Keluar</div></div>
+        </div>
+        
+        <!-- HEALTH STATUS -->
         <div class="card">
-          <div class="card-header"><span class="card-title">⚠️ Stok Menipis</span><span class="badge badge-red">${lowStock} produk</span></div>
-          <div class="list">
-            ${products.filter(p=>(p.stock||0)<=(p.minStock||5)).slice(0,5).map(p=>`
-              <div class="list-item">
-                <div class="item-avatar avatar-red">📦</div>
-                <div class="item-detail"><div class="item-name">${p.name||'-'}</div><div class="item-info">SKU: ${p.sku||'-'}</div></div>
-                <span class="item-stock stock-low">${p.stock||0}</span>
+          <div class="card-header">
+            <span class="card-title">💚 Kesehatan Stok</span>
+            <span class="badge ${healthyPercent >= 80 ? 'badge-green' : healthyPercent >= 50 ? 'badge-blue' : 'badge-red'}">${healthyPercent}% Sehat</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill ${healthyPercent >= 80 ? 'green' : healthyPercent >= 50 ? 'orange' : 'red'}" style="width:${healthyPercent}%;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:0.7rem;color:#64748b;">
+            <span>⚠️ ${lowStockCount} stok rendah</span>
+            <span>✅ ${totalProducts - lowStockCount} stok aman</span>
+          </div>
+          ${lowStockCount > 0 ? `
+            <div class="divider"></div>
+            <div style="font-size:0.75rem;color:#64748b;margin-bottom:6px;">Perlu perhatian:</div>
+            ${lowStockProducts.slice(0,3).map(p => `
+              <div class="alert-row alert-warning">
+                <span>⚠️</span>
+                <span style="flex:1;">${p.name} (SKU: ${p.sku})</span>
+                <strong>Stok: ${p.stock||0}</strong>
               </div>
-            `).join('')||'<div style="text-align:center;padding:20px;color:#94a3b8;">✅ Semua stok aman</div>'}
+            `).join('')}
+          ` : `
+            <div class="alert-row alert-success" style="margin-top:8px;">
+              <span>✅</span> Semua stok dalam kondisi aman!
+            </div>
+          `}
+        </div>
+        
+        <!-- RINGKASAN PERIODE -->
+        <div class="card">
+          <div class="card-title">📅 Ringkasan Periode</div>
+          <div class="stats-grid-3">
+            <div class="stat-card blue">
+              <div class="stat-value-sm">${todayInQty + todayOutQty}</div>
+              <div class="stat-label">Hari Ini</div>
+              <div style="font-size:0.65rem;color:#64748b;">📥${todayInQty} 📤${todayOutQty}</div>
+            </div>
+            <div class="stat-card green">
+              <div class="stat-value-sm">${weekIn + weekOut}</div>
+              <div class="stat-label">Minggu Ini</div>
+              <div style="font-size:0.65rem;color:#64748b;">📥${weekIn} 📤${weekOut}</div>
+            </div>
+            <div class="stat-card purple">
+              <div class="stat-value-sm">${monthIn + monthOut}</div>
+              <div class="stat-label">Bulan Ini</div>
+              <div style="font-size:0.65rem;color:#64748b;">📥${monthIn} 📤${monthOut}</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- RATA-RATA & PRODUK BARU -->
+        <div class="stats-grid">
+          <div class="stat-card indigo">
+            <div class="stat-value">${avgDailyIn}</div>
+            <div class="stat-label">📥 Rata² Masuk/Hari</div>
+          </div>
+          <div class="stat-card orange">
+            <div class="stat-value">${avgDailyOut}</div>
+            <div class="stat-label">📤 Rata² Keluar/Hari</div>
+          </div>
+        </div>
+        
+        <!-- BREAKDOWN OUT -->
+        <div class="card">
+          <div class="card-title">📤 Breakdown Barang Keluar</div>
+          <div class="stats-grid-4">
+            <div class="stat-card green"><div class="stat-value-sm">${soldOut}</div><div class="stat-label">💰 Terjual</div></div>
+            <div class="stat-card orange"><div class="stat-value-sm">${damagedOut}</div><div class="stat-label">🔨 Rusak</div></div>
+            <div class="stat-card red"><div class="stat-value-sm">${expiredOut}</div><div class="stat-label">⏰ Expired</div></div>
+            <div class="stat-card blue"><div class="stat-value-sm">${newProducts}</div><div class="stat-label">🆕 Baru</div></div>
+          </div>
+        </div>
+        
+        <!-- TOP PRODUK -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🏆 Top 5 Produk Aktif</span>
+            <span class="badge badge-blue">Transaksi</span>
+          </div>
+          <div class="list">
+            ${productScore.length > 0 ? productScore.map((p, i) => `
+              <div class="list-item">
+                <div class="item-avatar ${i === 0 ? 'avatar-green' : 'avatar-blue'}">${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '📦'}</div>
+                <div class="item-detail">
+                  <div class="item-name">${p.name || 'Tanpa Nama'}</div>
+                  <div class="item-info">SKU: ${p.sku || '-'} | Stok: ${p.stock||0}</div>
+                </div>
+                <span class="item-value value-blue">${p.transCount}x</span>
+              </div>
+            `).join('') : '<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada aktivitas</div>'}
+          </div>
+        </div>
+        
+        <!-- TRANSAKSI TERAKHIR -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📜 Aktivitas Terakhir</span>
+            <span class="badge badge-green">Live</span>
+          </div>
+          <div class="list">
+            ${transactions.slice(0, 5).map(t => `
+              <div class="list-item">
+                <div class="item-avatar ${t.type==='IN'?'avatar-green':'avatar-orange'}">${t.type==='IN'?'📥':'📤'}</div>
+                <div class="item-detail">
+                  <div class="item-name">${t.productName || '-'}</div>
+                  <div class="item-info">${formatDate(t.timestamp)} · ${t.userEmail || ''}</div>
+                </div>
+                <span class="item-value ${t.type==='IN'?'value-green':'value-red'}">${t.type==='IN'?'+':'-'}${t.qty||0}</span>
+              </div>
+            `).join('') || '<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada transaksi</div>'}
+          </div>
+        </div>
+        
+        <!-- CHART MINI -->
+        <div class="card">
+          <div class="card-title">📈 Tren 7 Hari Terakhir</div>
+          <div class="chart-container">
+            <canvas id="dashChart"></canvas>
           </div>
         </div>
       `;
     }
 
-    // ==================== STOCK IN/OUT (sama seperti sebelumnya) ====================
+    function initDashboard() {
+      setTimeout(() => {
+        const canvas = document.getElementById('dashChart');
+        if (!canvas) return;
+        if (currentChart) currentChart.destroy();
+        
+        const labels = [], inData = [], outData = [];
+        const today = new Date();
+        for (let i = 6; i >= 0; i--) {
+          const d = new Date(today); d.setDate(d.getDate() - i);
+          labels.push(d.toLocaleDateString('id-ID', { day:'numeric', month:'short' }));
+          let di = 0, dio = 0;
+          transactions.forEach(t => {
+            try {
+              const td = t.timestamp?.toDate?.() || new Date(t.timestamp);
+              if (td.toDateString() === d.toDateString()) {
+                if (t.type === 'IN') di += t.qty||0;
+                else dio += t.qty||0;
+              }
+            } catch {}
+          });
+          inData.push(di); outData.push(dio);
+        }
+        
+        const ctx = canvas.getContext('2d');
+        currentChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels,
+            datasets: [
+              { label: 'Masuk', data: inData, borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.1)', fill: true, tension: 0.3, pointRadius: 3 },
+              { label: 'Keluar', data: outData, borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.05)', fill: true, tension: 0.3, pointRadius: 3 }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 9 } } } },
+            scales: {
+              y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 9 } } },
+              x: { ticks: { font: { size: 8 } } }
+            }
+          }
+        });
+      }, 300);
+    }
+
+    // ==================== STOCK IN/OUT ====================
     function stockInHTML() {
       return `
         <div class="card">
@@ -603,6 +810,7 @@
       `;
     }
 
+    // ... (Stock In/Out functions sama seperti sebelumnya) ...
     async function initStockIn() {
       await loadInHistory();
       document.getElementById('scanInBtn').addEventListener('click', ()=>scannerIn?.isScanning?stopScanner('in'):startScanner('in','inScannerView'));
@@ -700,312 +908,158 @@
     async function loadInHistory() {
       const list=document.getElementById('inHistoryList'); if(!list)return;
       const today=new Date(); today.setHours(0,0,0,0);
-      const items=transactions.filter(t=>{if(t.type!=='IN')return false;try{return(t.timestamp?.toDate?.()||new Date(t.timestamp))>=today;}catch{return false;}});
-      list.innerHTML=items.length?items.map(i=>`<div class="list-item"><div class="item-avatar avatar-green">📥</div><div class="item-detail"><div class="item-name">${i.productName} (+${i.qty})</div><div class="item-info">${formatDate(i.timestamp)}</div></div></div>`).join(''):'<div style="text-align:center;padding:20px;">Belum ada</div>';
+      const items=transactions.filter(t=>t.type==='IN'&&(t.timestamp?.toDate?.()||new Date(t.timestamp))>=today);
+      list.innerHTML=items.length?items.map(i=>`<div class="list-item"><div class="item-avatar avatar-green">📥</div><div class="item-detail"><div class="item-name">${i.productName} (+${i.qty})</div><div class="item-info">${formatDate(i.timestamp)}</div></div></div>`).join(''):'<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada</div>';
     }
 
     async function loadOutHistory() {
       const list=document.getElementById('outHistoryList'); if(!list)return;
       const today=new Date(); today.setHours(0,0,0,0);
-      const items=transactions.filter(t=>{if(t.type!=='OUT')return false;try{return(t.timestamp?.toDate?.()||new Date(t.timestamp))>=today;}catch{return false;}});
-      list.innerHTML=items.length?items.map(i=>`<div class="list-item"><div class="item-avatar avatar-orange">📤</div><div class="item-detail"><div class="item-name">${i.productName} (-${i.qty})</div><div class="item-info">${i.purpose} | ${formatDate(i.timestamp)}</div></div></div>`).join(''):'<div style="text-align:center;padding:20px;">Belum ada</div>';
+      const items=transactions.filter(t=>t.type==='OUT'&&(t.timestamp?.toDate?.()||new Date(t.timestamp))>=today);
+      list.innerHTML=items.length?items.map(i=>`<div class="list-item"><div class="item-avatar avatar-orange">📤</div><div class="item-detail"><div class="item-name">${i.productName} (-${i.qty})</div><div class="item-info">${i.purpose} | ${formatDate(i.timestamp)}</div></div></div>`).join(''):'<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada</div>';
     }
 
-    // ==================== PRODUCTS ====================
-    function productsHTML() {
+    // ==================== PRODUCTS PAGE ====================
+    async function productsHTML() {
+      const productStats = products.map(p => {
+        const trans = transactions.filter(t => t.productId === p.id);
+        const lastTrans = trans.length > 0 ? trans[0] : null;
+        return { ...p, transCount: trans.length, lastTransDate: lastTrans ? (lastTrans.timestamp?.toDate?.() || new Date(lastTrans.timestamp)) : null };
+      });
+
       return `
-        <div style="display:flex;gap:8px;margin-bottom:12px;"><input type="text" id="productSearch" placeholder="🔍 Cari..." style="flex:1;"><button class="btn btn-primary btn-sm" id="addProductBtn">+ Baru</button></div>
-        <div class="card"><div class="card-header"><span class="card-title">📦 Produk</span><span class="badge badge-blue">${products.length}</span></div><div class="list" id="productList">${renderProductList(products)}</div></div>
+        <div class="search-bar">
+          <input type="text" id="productSearch" placeholder="🔍 Cari produk atau SKU..." style="flex:1;">
+          <button class="btn btn-primary btn-sm" id="addProductBtn">+ Baru</button>
+        </div>
+        <div class="tabs" id="productTabs">
+          <button class="tab active" data-mode="list">📋 Daftar Produk</button>
+          <button class="tab" data-mode="tracking">📈 Product Tracking</button>
+        </div>
+        <div id="productListView">
+          <div class="card">
+            <div class="card-header"><span class="card-title">📦 Semua Produk</span><span class="badge badge-blue">${products.length} item</span></div>
+            <div class="product-grid" id="productGrid">${renderProductCards(productStats)}</div>
+          </div>
+        </div>
+        <div id="productTrackingView" style="display:none;">
+          <div class="card">
+            <div class="card-title">📈 Tracking Semua Produk</div>
+            <p style="font-size:0.8rem;color:#64748b;margin-bottom:12px;">Klik produk untuk melihat riwayat transaksi lengkap</p>
+            <div class="product-grid" id="trackingGrid">${renderTrackingCards(productStats)}</div>
+          </div>
+        </div>
       `;
     }
 
-    function renderProductList(arr) {
-      return arr.length?arr.map(p=>{const cls=(p.stock||0)<=(p.minStock||5)?'stock-low':(p.stock||0)<=(p.minStock||5)*2?'stock-mid':'stock-high';
-        return `<div class="list-item"><div class="item-avatar avatar-blue">📦</div><div class="item-detail"><div class="item-name">${p.name}</div><div class="item-info">SKU:${p.sku}</div></div><span class="item-stock ${cls}">${p.stock||0}</span><button class="btn btn-sm btn-outline" onclick="window.editProduct('${p.id}')">✏️</button><button class="btn btn-sm btn-outline" onclick="window.trackProduct('${p.id}')" style="margin-left:4px;">📈</button></div>`;
-      }).join(''):'<div style="text-align:center;padding:20px;">Belum ada</div>';
+    function renderProductCards(productStats) {
+      if (productStats.length === 0) return '<div style="text-align:center;padding:30px;color:#94a3b8;">📭 Belum ada produk</div>';
+      return productStats.map(p => {
+        const stockClass = (p.stock||0) <= (p.minStock||5) ? 'stock-low' : (p.stock||0) <= (p.minStock||5)*2 ? 'stock-mid' : 'stock-high';
+        const iconClass = (p.stock||0) <= (p.minStock||5) ? 'icon-red' : 'icon-blue';
+        return `
+          <div class="product-card">
+            <div class="product-icon ${iconClass}">📦</div>
+            <div class="product-info">
+              <div class="product-name">${p.name || 'Tanpa Nama'}</div>
+              <div class="product-meta"><span>🔢 ${p.sku || '-'}</span><span>📍 ${p.lokasi || '-'}</span><span class="item-stock ${stockClass}" style="font-size:0.75rem;">Stok: ${p.stock||0}</span></div>
+            </div>
+            <div class="product-actions">
+              <button class="action-btn track" onclick="window.showProductTracking('${p.id}')">📈</button>
+              <button class="action-btn" onclick="window.editProduct('${p.id}')">✏️</button>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function renderTrackingCards(productStats) {
+      if (productStats.length === 0) return '<div style="text-align:center;padding:30px;color:#94a3b8;">📭 Belum ada produk</div>';
+      return productStats.map(p => {
+        const lastDate = p.lastTransDate ? p.lastTransDate.toLocaleDateString('id-ID', { day:'numeric', month:'short' }) : 'Belum ada';
+        return `
+          <div class="product-card" onclick="window.showProductTracking('${p.id}')">
+            <div class="product-icon icon-blue">📦</div>
+            <div class="product-info">
+              <div class="product-name">${p.name || 'Tanpa Nama'}</div>
+              <div class="product-meta"><span>📊 ${p.transCount} transaksi</span><span>🕐 ${lastDate}</span><span style="font-weight:600;color:#1e40af;">Stok: ${p.stock||0}</span></div>
+            </div>
+            <div style="color:#8b5cf6;font-size:1.2rem;">▶</div>
+          </div>`;
+      }).join('');
     }
 
     function initProducts() {
-      document.getElementById('addProductBtn').addEventListener('click', ()=>{
-        showModal(`<h3>➕ Tambah</h3><div class="form-group"><label class="form-label">SKU</label><input type="text" id="newSKU"></div><div class="form-group"><label class="form-label">Nama</label><input type="text" id="newName"></div><div class="input-row"><div class="form-group"><label class="form-label">Stok</label><input type="number" id="newStock" value="0"></div><div class="form-group"><label class="form-label">Min</label><input type="number" id="newMinStock" value="5"></div></div><button class="btn btn-primary btn-block" id="saveNew">💾 Simpan</button>`);
-        document.getElementById('saveNew').addEventListener('click', async ()=>{
-          const s=document.getElementById('newSKU').value.trim(), n=document.getElementById('newName').value.trim();
-          if(!s||!n){playErrorSound();return toast('⚠️ Lengkapi');}
-          await addDoc(collection(db,"products"),{sku:s,name:n,stock:parseInt(document.getElementById('newStock').value)||0,minStock:parseInt(document.getElementById('newMinStock').value)||5,price:0,created:new Date(),userId:currentUser.uid});
-          playSuccessSound();closeModal();await loadDashboardData();renderPage('products');
+      document.querySelectorAll('#productTabs .tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+          document.querySelectorAll('#productTabs .tab').forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          productViewMode = this.dataset.mode;
+          document.getElementById('productListView').style.display = productViewMode === 'list' ? 'block' : 'none';
+          document.getElementById('productTrackingView').style.display = productViewMode === 'tracking' ? 'block' : 'none';
         });
       });
-      document.getElementById('productSearch').addEventListener('input', function(){
-        const t=this.value.toLowerCase();
-        document.getElementById('productList').innerHTML=renderProductList(products.filter(p=>(p.name||'').toLowerCase().includes(t)||(p.sku||'').toLowerCase().includes(t)));
+      document.getElementById('addProductBtn').addEventListener('click', showAddProductModal);
+      document.getElementById('productSearch').addEventListener('input', function() {
+        const term = this.value.toLowerCase();
+        const filtered = products.filter(p => (p.name||'').toLowerCase().includes(term) || (p.sku||'').toLowerCase().includes(term));
+        const stats = filtered.map(p => {
+          const trans = transactions.filter(t => t.productId === p.id);
+          return { ...p, transCount: trans.length, lastTransDate: trans[0] ? (trans[0].timestamp?.toDate?.() || new Date(trans[0].timestamp)) : null };
+        });
+        document.getElementById('productGrid').innerHTML = renderProductCards(stats);
+        document.getElementById('trackingGrid').innerHTML = renderTrackingCards(stats);
+      });
+    }
+
+    function showAddProductModal() {
+      showModal(`
+        <h3 style="margin-bottom:12px;">➕ Tambah Produk</h3>
+        <div class="form-group"><label class="form-label">SKU</label><input type="text" id="newSKU"></div>
+        <div class="form-group"><label class="form-label">Nama</label><input type="text" id="newName"></div>
+        <div class="form-group"><label class="form-label">Lokasi</label><select id="newLokasi"><option value="">Pilih</option><option>📍 Rak A</option><option>📍 Rak B</option><option>🏭 Gudang 1</option></select></div>
+        <div class="input-row"><div class="form-group"><label class="form-label">Stok</label><input type="number" id="newStock" value="0"></div><div class="form-group"><label class="form-label">Min</label><input type="number" id="newMinStock" value="5"></div></div>
+        <div class="form-group"><label class="form-label">Harga</label><input type="number" id="newPrice" value="0"></div>
+        <button class="btn btn-primary btn-block" id="saveNewProduct">💾 Simpan</button>
+      `);
+      document.getElementById('saveNewProduct').addEventListener('click', async () => {
+        const s=document.getElementById('newSKU').value.trim(), n=document.getElementById('newName').value.trim();
+        if(!s||!n){playErrorSound();return toast('⚠️ Lengkapi');}
+        await addDoc(collection(db,"products"),{sku:s,name:n,lokasi:document.getElementById('newLokasi').value,stock:parseInt(document.getElementById('newStock').value)||0,minStock:parseInt(document.getElementById('newMinStock').value)||5,price:parseInt(document.getElementById('newPrice').value)||0,created:new Date(),userId:currentUser.uid});
+        playSuccessSound();closeModal();await loadDashboardData();renderPage('products');toast('✅ Ditambahkan');
       });
     }
 
     window.editProduct = function(id) {
       const p=products.find(x=>x.id===id); if(!p)return;
-      showModal(`<h3>✏️ Edit</h3><div class="form-group"><label class="form-label">SKU</label><input type="text" id="eSKU" value="${p.sku}"></div><div class="form-group"><label class="form-label">Nama</label><input type="text" id="eName" value="${p.name}"></div><div class="input-row"><div class="form-group"><label class="form-label">Stok</label><input type="number" id="eStock" value="${p.stock||0}"></div><div class="form-group"><label class="form-label">Min</label><input type="number" id="eMin" value="${p.minStock||5}"></div></div><div style="display:flex;gap:8px;"><button class="btn btn-primary" id="upd" style="flex:1;">💾</button><button class="btn btn-danger" id="del" style="flex:1;">🗑️</button></div>`);
-      document.getElementById('upd').addEventListener('click', async ()=>{
-        await updateDoc(doc(db,"products",id),{sku:document.getElementById('eSKU').value,name:document.getElementById('eName').value,stock:parseInt(document.getElementById('eStock').value)||0,minStock:parseInt(document.getElementById('eMin').value)||5,updatedAt:new Date()});
-        playSuccessSound();closeModal();await loadDashboardData();renderPage('products');
+      showModal(`<h3>✏️ Edit</h3><div class="form-group"><label class="form-label">SKU</label><input type="text" id="eSKU" value="${p.sku||''}"></div><div class="form-group"><label class="form-label">Nama</label><input type="text" id="eName" value="${p.name||''}"></div><div class="form-group"><label class="form-label">Lokasi</label><select id="eLokasi"><option value="">Pilih</option><option value="Rak A" ${p.lokasi==='Rak A'?'selected':''}>📍 Rak A</option><option value="Rak B" ${p.lokasi==='Rak B'?'selected':''}>📍 Rak B</option><option value="Gudang 1" ${p.lokasi==='Gudang 1'?'selected':''}>🏭 Gudang 1</option></select></div><div class="input-row"><div class="form-group"><label class="form-label">Stok</label><input type="number" id="eStock" value="${p.stock||0}"></div><div class="form-group"><label class="form-label">Min</label><input type="number" id="eMin" value="${p.minStock||5}"></div></div><div class="form-group"><label class="form-label">Harga</label><input type="number" id="ePrice" value="${p.price||0}"></div><div style="display:flex;gap:8px;"><button class="btn btn-primary" id="updProd" style="flex:1;">💾</button><button class="btn btn-danger" id="delProd" style="flex:1;">🗑️</button></div>`);
+      document.getElementById('updProd').addEventListener('click', async ()=>{
+        await updateDoc(doc(db,"products",id),{sku:document.getElementById('eSKU').value,name:document.getElementById('eName').value,lokasi:document.getElementById('eLokasi').value,stock:parseInt(document.getElementById('eStock').value)||0,minStock:parseInt(document.getElementById('eMin').value)||5,price:parseInt(document.getElementById('ePrice').value)||0,updatedAt:new Date()});
+        playSuccessSound();closeModal();await loadDashboardData();renderPage('products');toast('✅ Diupdate');
       });
-      document.getElementById('del').addEventListener('click', async ()=>{
-        if(confirm('Hapus?')){await deleteDoc(doc(db,"products",id));closeModal();await loadDashboardData();renderPage('products');}
-      });
+      document.getElementById('delProd').addEventListener('click', async ()=>{if(confirm('Hapus?')){await deleteDoc(doc(db,"products",id));closeModal();await loadDashboardData();renderPage('products');toast('🗑️ Dihapus');}});
     };
 
-    // ==================== PRODUCT TRACKING ====================
-    window.trackProduct = function(productId) {
+    window.showProductTracking = function(productId) {
       const product = products.find(p => p.id === productId);
       if (!product) return;
-      
-      // Ambil semua transaksi produk ini
-      const productTransactions = transactions
-        .filter(t => t.productId === productId)
-        .sort((a, b) => {
-          const da = a.timestamp?.toDate?.() || new Date(a.timestamp);
-          const db = b.timestamp?.toDate?.() || new Date(b.timestamp);
-          return db - da;
-        });
-
-      // Hitung running stock
-      let runningStock = product.stock || 0;
-      const timelineItems = productTransactions.map(t => {
-        const date = t.timestamp?.toDate?.() || new Date(t.timestamp);
-        const item = {
-          date,
-          type: t.type,
-          qty: t.qty,
-          purpose: t.purpose || t.note || '',
-          stockAfter: runningStock
-        };
-        runningStock = t.type === 'IN' ? runningStock - t.qty : runningStock + t.qty;
-        return item;
-      });
-
-      showModal(`
-        <h3 style="margin-bottom:4px;">📈 Tracking: ${product.name}</h3>
-        <p style="color:#64748b;font-size:0.8rem;margin-bottom:12px;">SKU: ${product.sku} | Stok Saat Ini: <strong>${product.stock||0}</strong></p>
-        
-        <!-- Mini Chart -->
-        <div class="card" style="margin-bottom:12px;">
-          <div class="card-title">📊 Stok Over Time</div>
-          <div class="chart-container">
-            <canvas id="trackingChart"></canvas>
-          </div>
-        </div>
-        
-        <!-- Timeline -->
-        <div class="card">
-          <div class="card-title">📜 Riwayat Transaksi</div>
-          ${timelineItems.length === 0 
-            ? '<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada transaksi</div>'
-            : `<div class="timeline">
-                ${timelineItems.map(item => `
-                  <div class="timeline-item ${item.type === 'OUT' ? 'out' : ''}">
-                    <div class="timeline-date">${item.date.toLocaleDateString('id-ID', { day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' })}</div>
-                    <div class="timeline-desc">
-                      ${item.type === 'IN' ? '📥 Barang Masuk' : '📤 Barang Keluar'}
-                      ${item.purpose ? ` - ${item.purpose}` : ''}
-                    </div>
-                    <div class="timeline-qty ${item.type === 'IN' ? 'in' : 'out'}">
-                      ${item.type === 'IN' ? '+' : '-'}${item.qty} | Stok setelah: ${item.stockAfter}
-                    </div>
-                  </div>
-                `).join('')}
-              </div>`
-          }
-        </div>
-        <button class="btn btn-outline btn-block" onclick="document.getElementById('modalOverlay').classList.remove('show')" style="margin-top:12px;">Tutup</button>
-      `);
-
-      // Render chart setelah modal tampil
-      setTimeout(() => {
-        const canvas = document.getElementById('trackingChart');
-        if (!canvas || timelineItems.length === 0) return;
-        
-        // Hancurkan chart lama
-        if (currentChart) currentChart.destroy();
-        
-        // Siapkan data chart (7 hari terakhir)
-        const labels = [];
-        const dataPoints = [];
-        const today = new Date();
-        
-        for (let i = 6; i >= 0; i--) {
-          const d = new Date(today);
-          d.setDate(d.getDate() - i);
-          labels.push(d.toLocaleDateString('id-ID', { day:'numeric', month:'short' }));
-          
-          // Hitung stok pada tanggal tersebut
-          let stockAtDate = product.stock || 0;
-          productTransactions.forEach(t => {
-            const tDate = t.timestamp?.toDate?.() || new Date(t.timestamp);
-            if (tDate > d) {
-              stockAtDate += (t.type === 'OUT' ? t.qty : -t.qty);
-            }
-          });
-          dataPoints.push(Math.max(0, stockAtDate));
-        }
-        
-        const ctx = canvas.getContext('2d');
-        currentChart = new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: labels,
-            datasets: [{
-              label: 'Stok',
-              data: dataPoints,
-              borderColor: '#3b82f6',
-              backgroundColor: 'rgba(59,130,246,0.1)',
-              fill: true,
-              tension: 0.4,
-              pointRadius: 4,
-              pointBackgroundColor: '#3b82f6'
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { display: false }
-            },
-            scales: {
-              y: {
-                beginAtZero: true,
-                ticks: { stepSize: 1, font: { size: 10 } }
-              },
-              x: {
-                ticks: { font: { size: 9 } }
-              }
-            }
-          }
-        });
-      }, 300);
+      const productTransactions = transactions.filter(t => t.productId === productId).sort((a,b) => {const da=a.timestamp?.toDate?.()||new Date(a.timestamp);const db=b.timestamp?.toDate?.()||new Date(b.timestamp);return db-da;});
+      let rs = product.stock||0;
+      const timelineItems = productTransactions.map(t => {const date=t.timestamp?.toDate?.()||new Date(t.timestamp);const item={date,type:t.type,qty:t.qty,purpose:t.purpose||t.note||'',stockAfter:rs};rs=t.type==='IN'?rs-t.qty:rs+t.qty;return item;});
+      showModal(`<h3>📈 ${product.name}</h3><p style="color:#64748b;font-size:0.8rem;margin-bottom:12px;">SKU: ${product.sku} | Stok: <strong>${product.stock||0}</strong></p><div class="card" style="margin-bottom:12px;"><div class="card-title">📊 Grafik Stok</div><div class="chart-container"><canvas id="trackingChart"></canvas></div></div><div class="card"><div class="card-title">📜 Riwayat (${timelineItems.length})</div>${timelineItems.length===0?'<div style="text-align:center;padding:20px;">Belum ada</div>':`<div class="timeline">${timelineItems.map(item=>`<div class="timeline-item ${item.type==='OUT'?'out':''}"><div class="timeline-date">${item.date.toLocaleDateString('id-ID',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</div><div class="timeline-desc">${item.type==='IN'?'📥 Masuk':'📤 Keluar'} ${item.purpose}</div><div class="timeline-qty ${item.type==='IN'?'in':'out'}">${item.type==='IN'?'+':'-'}${item.qty} | Stok: ${item.stockAfter}</div></div>`).join('')}</div>`}</div><button class="btn btn-outline btn-block" onclick="document.getElementById('modalOverlay').classList.remove('show')" style="margin-top:12px;">Tutup</button>`);
+      setTimeout(()=>{const canvas=document.getElementById('trackingChart');if(!canvas||timelineItems.length===0)return;if(currentChart)currentChart.destroy();const labels=[],dataPoints=[];const today=new Date();for(let i=6;i>=0;i--){const d=new Date(today);d.setDate(d.getDate()-i);labels.push(d.toLocaleDateString('id-ID',{day:'numeric',month:'short'}));let stock=product.stock||0;productTransactions.forEach(t=>{const td=t.timestamp?.toDate?.()||new Date(t.timestamp);if(td>d)stock+=(t.type==='OUT'?t.qty:-t.qty);});dataPoints.push(Math.max(0,stock));}currentChart=new Chart(canvas.getContext('2d'),{type:'line',data:{labels,datasets:[{label:'Stok',data:dataPoints,borderColor:'#8b5cf6',backgroundColor:'rgba(139,92,246,0.1)',fill:true,tension:0.4,pointRadius:5,pointBackgroundColor:'#8b5cf6'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1,font:{size:10}}},x:{ticks:{font:{size:9}}}}}});},300);
     };
 
-    // ==================== REPORTS WITH CHART ====================
+    // ==================== REPORTS ====================
     async function reportsHTML() {
       const totalValue = products.reduce((s,p)=>s+(p.stock||0)*(p.price||0),0);
       const now=new Date();
       const inMonth = transactions.filter(t=>{if(t.type!=='IN')return false;try{const d=t.timestamp?.toDate?.()||new Date(t.timestamp);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();}catch{return false;}}).reduce((s,t)=>s+(t.qty||0),0);
       const outMonth = transactions.filter(t=>{if(t.type!=='OUT')return false;try{const d=t.timestamp?.toDate?.()||new Date(t.timestamp);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();}catch{return false;}}).reduce((s,t)=>s+(t.qty||0),0);
-
-      return `
-        <div class="card"><div class="card-title">📊 Bulan Ini</div>
-          <div class="stats-grid">
-            <div class="stat-card green"><div class="stat-value">${inMonth}</div><div class="stat-label">📥 Masuk</div></div>
-            <div class="stat-card orange"><div class="stat-value">${outMonth}</div><div class="stat-label">📤 Keluar</div></div>
-            <div class="stat-card blue"><div class="stat-value">${products.length}</div><div class="stat-label">Produk</div></div>
-            <div class="stat-card green"><div class="stat-value">${formatRupiah(totalValue)}</div><div class="stat-label">Nilai</div></div>
-          </div>
-        </div>
-        
-        <!-- CHART -->
-        <div class="card">
-          <div class="card-title">📈 Grafik Transaksi 7 Hari Terakhir</div>
-          <div class="chart-container">
-            <canvas id="reportChart"></canvas>
-          </div>
-        </div>
-        
-        <!-- PRODUCT TRACKING LIST -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">📦 Product Tracking</span>
-            <span class="badge badge-blue">${products.length} produk</span>
-          </div>
-          <div class="list">
-            ${products.slice(0, 10).map(p => {
-              const productTrans = transactions.filter(t => t.productId === p.id).length;
-              return `
-                <div class="list-item" onclick="window.trackProduct('${p.id}')" style="cursor:pointer;">
-                  <div class="item-avatar avatar-blue">📦</div>
-                  <div class="item-detail">
-                    <div class="item-name">${p.name}</div>
-                    <div class="item-info">${productTrans} transaksi | Stok: ${p.stock||0}</div>
-                  </div>
-                  <span style="color:#3b82f6;">📈</span>
-                </div>
-              `;
-            }).join('') || '<div style="text-align:center;padding:20px;">Belum ada produk</div>'}
-          </div>
-        </div>
-        
-        <button class="btn btn-outline btn-block" id="exportReportBtn">📥 Export CSV</button>
-      `;
+      return `<div class="card"><div class="card-title">📊 Bulan Ini</div><div class="stats-grid"><div class="stat-card green"><div class="stat-value">${inMonth}</div><div class="stat-label">📥 Masuk</div></div><div class="stat-card orange"><div class="stat-value">${outMonth}</div><div class="stat-label">📤 Keluar</div></div><div class="stat-card blue"><div class="stat-value">${products.length}</div><div class="stat-label">Produk</div></div><div class="stat-card green"><div class="stat-value">${formatRupiah(totalValue)}</div><div class="stat-label">Nilai</div></div></div></div><div class="card"><div class="card-title">📈 Grafik 7 Hari</div><div class="chart-container"><canvas id="reportChart"></canvas></div></div><button class="btn btn-outline btn-block" id="exportReportBtn">📥 Export CSV</button>`;
     }
 
     function initReports() {
-      // Render chart
-      setTimeout(() => {
-        const canvas = document.getElementById('reportChart');
-        if (!canvas) return;
-        
-        if (currentChart) currentChart.destroy();
-        
-        // Data 7 hari terakhir
-        const labels = [];
-        const inData = [];
-        const outData = [];
-        const today = new Date();
-        
-        for (let i = 6; i >= 0; i--) {
-          const d = new Date(today);
-          d.setDate(d.getDate() - i);
-          labels.push(d.toLocaleDateString('id-ID', { day:'numeric', month:'short' }));
-          
-          let dayIn = 0, dayOut = 0;
-          transactions.forEach(t => {
-            try {
-              const td = t.timestamp?.toDate?.() || new Date(t.timestamp);
-              if (td.toDateString() === d.toDateString()) {
-                if (t.type === 'IN') dayIn += t.qty || 0;
-                else dayOut += t.qty || 0;
-              }
-            } catch {}
-          });
-          inData.push(dayIn);
-          outData.push(dayOut);
-        }
-        
-        const ctx = canvas.getContext('2d');
-        currentChart = new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: labels,
-            datasets: [
-              {
-                label: 'Masuk',
-                data: inData,
-                backgroundColor: 'rgba(5,150,105,0.7)',
-                borderRadius: 6
-              },
-              {
-                label: 'Keluar',
-                data: outData,
-                backgroundColor: 'rgba(220,38,38,0.7)',
-                borderRadius: 6
-              }
-            ]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10 } } }
-            },
-            scales: {
-              y: {
-                beginAtZero: true,
-                ticks: { stepSize: 1, font: { size: 10 } }
-              },
-              x: {
-                ticks: { font: { size: 9 } }
-              }
-            }
-          }
-        });
-      }, 300);
+      setTimeout(()=>{const canvas=document.getElementById('reportChart');if(!canvas)return;if(currentChart)currentChart.destroy();const labels=[],inData=[],outData=[];const today=new Date();for(let i=6;i>=0;i--){const d=new Date(today);d.setDate(d.getDate()-i);labels.push(d.toLocaleDateString('id-ID',{day:'numeric',month:'short'}));let di=0,dio=0;transactions.forEach(t=>{try{const td=t.timestamp?.toDate?.()||new Date(t.timestamp);if(td.toDateString()===d.toDateString()){if(t.type==='IN')di+=t.qty||0;else dio+=t.qty||0;}}catch{}});inData.push(di);outData.push(dio);}currentChart=new Chart(canvas.getContext('2d'),{type:'bar',data:{labels,datasets:[{label:'Masuk',data:inData,backgroundColor:'rgba(5,150,105,0.7)',borderRadius:6},{label:'Keluar',data:outData,backgroundColor:'rgba(220,38,38,0.7)',borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:12,font:{size:10}}}},scales:{y:{beginAtZero:true,ticks:{stepSize:1,font:{size:10}}},x:{ticks:{font:{size:9}}}}}});},300);
     }
 
     document.addEventListener('click', function(e) {
@@ -1029,8 +1083,7 @@
     });
 
     window.addEventListener('beforeunload', () => stopAllScanners());
-
-    console.log('✅ InventoryPro siap! 📊 Chart & Tracking aktif');
+    console.log('✅ InventoryPro Dashboard Super Lengkap!');
     loadDashboardData();
   </script>
 </body>
