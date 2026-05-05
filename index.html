@@ -8,52 +8,27 @@
   <title>InventoryPro - WMS System</title>
   <style>
     :root {
-      --primary: #1e40af;
-      --primary-light: #3b82f6;
-      --success: #059669;
-      --warning: #d97706;
-      --danger: #dc2626;
-      --bg: #f1f5f9;
-      --card: #ffffff;
-      --text: #1e293b;
-      --subtext: #64748b;
-      --border: #e2e8f0;
-      --radius: 16px;
-      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --primary: #1e40af; --primary-light: #3b82f6;
+      --success: #059669; --warning: #d97706; --danger: #dc2626;
+      --bg: #f1f5f9; --card: #ffffff; --text: #1e293b;
+      --subtext: #64748b; --border: #e2e8f0;
+      --radius: 16px; --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      background: #f1f5f9;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      padding: 0;
-      margin: 0;
+      background: #f1f5f9; min-height: 100vh;
+      display: flex; justify-content: center; padding: 0; margin: 0;
     }
-
     .app {
-      width: 100%;
-      max-width: 480px;
-      min-height: 100vh;
-      background: #fff;
-      position: relative;
-      display: flex;
-      flex-direction: column;
+      width: 100%; max-width: 480px; min-height: 100vh;
+      background: #fff; position: relative; display: flex; flex-direction: column;
     }
-
     .header {
       background: linear-gradient(135deg, #1e40af, #3b82f6);
-      color: white;
-      padding: 16px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 50;
+      color: white; padding: 16px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 50;
       box-shadow: 0 2px 10px rgba(30,64,175,0.2);
     }
     .header h1 { font-size: 1.15rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
@@ -63,13 +38,11 @@
       background: rgba(255,255,255,0.2); color: white; font-size: 1.1rem;
       cursor: pointer; display: flex; align-items: center; justify-content: center;
     }
-
     .content {
       flex: 1; padding: 16px;
       display: flex; flex-direction: column; gap: 14px;
       padding-bottom: 80px; overflow-y: auto;
     }
-
     .card {
       background: white; border-radius: var(--radius);
       padding: 16px; border: 1px solid var(--border);
@@ -99,12 +72,6 @@
     .red .stat-value, .red .stat-value-sm { color: #dc2626; }
     .purple .stat-value, .purple .stat-value-sm { color: #7c3aed; }
 
-    .progress-bar { height: 8px; background: #e2e8f0; border-radius: 10px; overflow: hidden; margin-top: 6px; }
-    .progress-fill { height: 100%; border-radius: 10px; }
-    .progress-fill.green { background: #10b981; }
-    .progress-fill.orange { background: #f59e0b; }
-    .progress-fill.red { background: #ef4444; }
-
     .form-group { margin-bottom: 10px; }
     .form-label { display: block; font-size: 0.78rem; font-weight: 600; color: #475569; margin-bottom: 4px; }
     input, select, textarea {
@@ -113,18 +80,13 @@
       font-size: 14px; color: #1e293b; background: #fff;
       outline: none; transition: 0.15s;
     }
-    input:focus, select:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
-    }
+    input:focus, select:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
     .input-row { display: flex; gap: 8px; align-items: flex-end; }
     .input-row > * { flex: 1; }
-
     .btn {
-      padding: 12px 16px; border-radius: 12px;
-      border: none; font-weight: 600; font-size: 0.88rem;
-      cursor: pointer; display: flex;
-      align-items: center; justify-content: center;
+      padding: 12px 16px; border-radius: 12px; border: none;
+      font-weight: 600; font-size: 0.88rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
       gap: 6px; transition: 0.15s;
     }
     .btn:active { transform: scale(0.97); }
@@ -141,7 +103,6 @@
       display: flex; align-items: center; gap: 10px;
       padding: 10px 0; border-bottom: 1px solid #f8fafc;
     }
-
     .bottom-nav {
       position: fixed; bottom: 0; left: 0; right: 0;
       background: white; display: flex;
@@ -179,15 +140,9 @@
       font-weight: 500; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
       animation: slideDown 0.3s ease; pointer-events: none;
     }
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateX(-50%) translateY(-30px); }
-      to { opacity: 1; transform: translateX(-50%) translateY(0); }
-    }
+    @keyframes slideDown { from { opacity: 0; transform: translateX(-50%) translateY(-30px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
 
-    .badge {
-      display: inline-block; padding: 3px 8px;
-      border-radius: 12px; font-size: 0.7rem; font-weight: 600;
-    }
+    .badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; }
     .badge-blue { background: #eff6ff; color: #1e40af; }
     .badge-green { background: #ecfdf5; color: #059669; }
     .badge-red { background: #fef2f2; color: #dc2626; }
@@ -201,7 +156,6 @@
     .alert-warning { background: #fffbeb; color: #92400e; }
     .alert-success { background: #ecfdf5; color: #065f46; }
 
-    /* Product Styles */
     .product-toolbar { display: flex; gap: 8px; align-items: center; }
     .search-box { flex: 1; position: relative; display: flex; gap: 6px; align-items: center; }
     .search-box input { padding-left: 36px; background: #f8fafc; border-color: #e2e8f0; flex: 1; }
@@ -260,6 +214,10 @@
     .transfer-badge { background: #f5f3ff; color: #7c3aed; padding: 2px 8px; border-radius: 10px; font-size: 0.65rem; font-weight: 600; }
     .do-badge { background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 10px; font-size: 0.65rem; font-weight: 600; }
     .to-badge { background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 10px; font-size: 0.65rem; font-weight: 600; }
+
+    /* Scanner container */
+    .scanner-container { margin-top: 10px; border-radius: 12px; overflow: hidden; display: none; }
+    .scanner-container.active { display: block; }
   </style>
 </head>
 <body>
@@ -268,8 +226,7 @@
     <div class="content" id="contentArea"></div>
     <div class="bottom-nav" id="bottomNav" style="display:none;">
       <button class="nav-item active" data-page="dashboard"><span class="icon">📊</span>Dashboard</button>
-      <button class="nav-item" data-page="stockIn"><span class="icon">📥</span>Stock In</button>
-      <button class="nav-item" data-page="stockOut"><span class="icon">📤</span>Transfer Out</button>
+      <button class="nav-item" data-page="transaction"><span class="icon">🔄</span>Transaksi</button>
       <button class="nav-item" data-page="products"><span class="icon">📦</span>Produk</button>
       <button class="nav-item" data-page="reports"><span class="icon">📋</span>Laporan</button>
     </div>
@@ -300,13 +257,11 @@
     let products = [];
     let inventoryItems = [];
     let transactions = [];
-    let scannerIn = null;
-    let scannerOut = null;
     let scannerSearch = null;
+    let scannerTransaction = null;
     let currentChart = null;
     let productViewMode = 'bin';
-
-    // Counter untuk generate No TO
+    let transactionMode = 'in'; // 'in' atau 'out'
     let toCounter = JSON.parse(localStorage.getItem('wms_to_counter') || '0');
 
     function generateNoTO() {
@@ -314,11 +269,9 @@
       localStorage.setItem('wms_to_counter', JSON.stringify(toCounter));
       const now = new Date();
       const dateStr = now.toISOString().slice(0,10).replace(/-/g,'');
-      const num = String(toCounter).padStart(4, '0');
-      return `TO-${dateStr}-${num}`;
+      return `TO-${dateStr}-${String(toCounter).padStart(4,'0')}`;
     }
 
-    // ==================== SOUNDS ====================
     function playScanBeep() {
       try { const ctx = new(window.AudioContext || window.webkitAudioContext)(); [1200, 1800].forEach((freq, i) => { const osc = ctx.createOscillator(); const gain = ctx.createGain(); osc.connect(gain); gain.connect(ctx.destination); osc.type = 'square'; osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.08); gain.gain.setValueAtTime(0.15, ctx.currentTime + i * 0.08); gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.08 + 0.08); osc.start(ctx.currentTime + i * 0.08); osc.stop(ctx.currentTime + i * 0.08 + 0.08); }); } catch(e) {}
     }
@@ -348,11 +301,12 @@
     document.getElementById('modalOverlay').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
 
     async function stopAllScanners() {
-      if (scannerIn?.isScanning) { try { await scannerIn.stop(); } catch(e) {} scannerIn = null; }
-      if (scannerOut?.isScanning) { try { await scannerOut.stop(); } catch(e) {} scannerOut = null; }
+      if (scannerTransaction?.isScanning) { try { await scannerTransaction.stop(); } catch(e) {} scannerTransaction = null; }
       if (scannerSearch?.isScanning) { try { await scannerSearch.stop(); } catch(e) {} scannerSearch = null; }
       const scanBtn = document.getElementById('scanSearchBtn'); if (scanBtn) { scanBtn.classList.remove('scanning'); scanBtn.textContent = '📷'; }
       const scannerCont = document.getElementById('searchScannerContainer'); if (scannerCont) scannerCont.classList.remove('active');
+      const transScanBtn = document.getElementById('transScanBtn'); if (transScanBtn) { transScanBtn.classList.remove('scanning'); transScanBtn.textContent = '📷'; }
+      const transScannerCont = document.getElementById('transScannerContainer'); if (transScannerCont) transScannerCont.classList.remove('active');
     }
 
     // ==================== AUTH ====================
@@ -386,8 +340,7 @@
       const content = document.getElementById('contentArea');
       switch(page) {
         case 'dashboard': content.innerHTML = await dashboardHTML(); initDashboard(); break;
-        case 'stockIn': content.innerHTML = stockInHTML(); await initStockIn(); break;
-        case 'stockOut': content.innerHTML = stockOutHTML(); await initStockOut(); break;
+        case 'transaction': content.innerHTML = await transactionHTML(); initTransaction(); break;
         case 'products': content.innerHTML = await productsHTML(); initProducts(); break;
         case 'reports': content.innerHTML = await reportsHTML(); initReports(); break;
       }
@@ -428,26 +381,110 @@
       setTimeout(()=>{const c=document.getElementById('dashChart');if(!c)return;if(currentChart)currentChart.destroy();const lbs=[],ind=[],oud=[];const td=new Date();for(let i=6;i>=0;i--){const d=new Date(td);d.setDate(d.getDate()-i);lbs.push(d.toLocaleDateString('id-ID',{day:'numeric',month:'short'}));let di=0,du=0;transactions.forEach(t=>{try{const dd=t.timestamp?.toDate?.()||new Date(t.timestamp);if(dd.toDateString()===d.toDateString()){if(t.type==='IN'||t.type==='MOVE_IN')di+=t.qty||0;else if(t.type==='OUT'||t.type==='MOVE_OUT')du+=t.qty||0;}}catch{}});ind.push(di);oud.push(du);}currentChart=new Chart(c.getContext('2d'),{type:'line',data:{labels:lbs,datasets:[{label:'Masuk',data:ind,borderColor:'#10b981',backgroundColor:'rgba(16,185,129,0.1)',fill:true,tension:0.3,pointRadius:3},{label:'Keluar',data:oud,borderColor:'#ef4444',backgroundColor:'rgba(239,68,68,0.05)',fill:true,tension:0.3,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:9}}}},scales:{y:{beginAtZero:true,ticks:{stepSize:1,font:{size:9}}},x:{ticks:{font:{size:8}}}}}});},300);
     }
 
-    // ==================== STOCK IN (dengan No DO) ====================
-    function stockInHTML() {
+    // ==================== TRANSACTION PAGE (GABUNGAN) ====================
+    async function transactionHTML() {
+      const today = new Date(); today.setHours(0,0,0,0);
+      const todayIn = transactions.filter(t=>(t.type==='IN'||t.type==='MOVE_IN')&&(t.timestamp?.toDate?.()||new Date(t.timestamp))>=today);
+      const todayOut = transactions.filter(t=>(t.type==='OUT'||t.type==='MOVE_OUT')&&(t.timestamp?.toDate?.()||new Date(t.timestamp))>=today);
+      const noTO = generateNoTO();
+
       return `
-        <div class="card"><div class="card-title">📥 Barang Masuk (WMS)</div>
-          <div class="form-group"><label class="form-label">Scan Barcode / SKU</label><div style="display:flex;gap:8px;"><input type="text" id="inSKU" placeholder="Scan atau ketik SKU" style="flex:1;"><button class="btn btn-outline btn-sm" id="scanInBtn">📷</button></div></div>
-          <div id="inScannerContainer" style="display:none;margin-bottom:10px;"><div id="inScannerView" style="width:100%;border-radius:12px;overflow:hidden;"></div><button class="btn btn-sm btn-outline" id="stopInScan" style="margin-top:6px;">❌ Tutup</button></div>
-          <div id="inProductInfo" style="display:none;margin-bottom:10px;"><div style="background:#f8fafc;padding:12px;border-radius:12px;"><strong id="inProductName">-</strong><br><span style="font-size:0.8rem;color:#64748b;">Total Stok: <span id="inTotalStock">0</span> | Bin: <span id="inBinsList">-</span></span></div></div>
-          <div class="input-row"><div class="form-group"><label class="form-label">Jumlah Masuk</label><input type="number" id="inQty" value="1" min="1"></div><div class="form-group"><label class="form-label">Bin Tujuan (ketik)</label><input type="text" id="inBin" placeholder="Contoh: A1, Rack-01"></div></div>
-          <div class="input-row"><div class="form-group"><label class="form-label">No DO (optional)</label><input type="text" id="inNoDO" placeholder="No Delivery Order"></div><div class="form-group"><label class="form-label">Catatan (optional)</label><input type="text" id="inNote" placeholder="Opsional"></div></div>
-          <button class="btn btn-success btn-block" id="saveStockIn">✅ Simpan Barang Masuk</button>
+        <div class="tabs" id="transTabs">
+          <button class="tab active" data-mode="in">📥 Stock In</button>
+          <button class="tab" data-mode="out">📤 Transfer Out</button>
         </div>
-        <div class="card"><div class="card-title">📋 Riwayat Hari Ini</div><div class="list" id="inHistoryList"><div style="text-align:center;padding:20px;">Memuat...</div></div></div>`;
+        
+        <!-- STOCK IN FORM -->
+        <div id="transInForm">
+          <div class="card"><div class="card-title">📥 Barang Masuk (WMS)</div>
+            <div class="form-group"><label class="form-label">Scan Barcode / SKU</label><div style="display:flex;gap:8px;"><input type="text" id="inSKU" placeholder="Scan atau ketik SKU" style="flex:1;"><button class="btn btn-outline btn-sm" id="transScanBtn">📷</button></div></div>
+            <div class="scanner-container" id="transScannerContainer"><div id="transScannerView" style="width:100%;border-radius:12px;overflow:hidden;"></div><button class="btn btn-sm btn-outline" id="stopTransScan" style="margin-top:6px;width:100%;">❌ Tutup Scanner</button></div>
+            <div id="inProductInfo" style="display:none;margin-bottom:10px;"><div style="background:#f8fafc;padding:12px;border-radius:12px;"><strong id="inProductName">-</strong><br><span style="font-size:0.8rem;color:#64748b;">Total Stok: <span id="inTotalStock">0</span> | Bin: <span id="inBinsList">-</span></span></div></div>
+            <div class="input-row"><div class="form-group"><label class="form-label">Jumlah Masuk</label><input type="number" id="inQty" value="1" min="1"></div><div class="form-group"><label class="form-label">Bin Tujuan (ketik)</label><input type="text" id="inBin" placeholder="Contoh: A1, Rack-01"></div></div>
+            <div class="input-row"><div class="form-group"><label class="form-label">No DO (optional)</label><input type="text" id="inNoDO" placeholder="No Delivery Order"></div><div class="form-group"><label class="form-label">Catatan (optional)</label><input type="text" id="inNote" placeholder="Opsional"></div></div>
+            <button class="btn btn-success btn-block" id="saveStockIn">✅ Simpan Barang Masuk</button>
+          </div>
+          <div class="card"><div class="card-title">📋 Riwayat Masuk Hari Ini (${todayIn.length})</div><div class="list" id="inHistoryList">${renderInHistory(todayIn)}</div></div>
+        </div>
+        
+        <!-- TRANSFER OUT FORM -->
+        <div id="transOutForm" style="display:none;">
+          <div class="card"><div class="card-title">📤 Transfer Out (WMS)</div>
+            <div class="form-group"><label class="form-label">Scan Barcode / SKU</label><div style="display:flex;gap:8px;"><input type="text" id="outSKU" style="flex:1;"><button class="btn btn-outline btn-sm" id="transScanBtnOut">📷</button></div></div>
+            <div id="outProductInfo" style="display:none;margin-bottom:10px;"><div style="background:#fef2f2;padding:12px;border-radius:12px;"><strong id="outProductName">-</strong><br><span style="font-size:0.8rem;">Total Stok: <span id="outTotalStock">0</span> | Bin: <span id="outBinsList">-</span></span></div></div>
+            <div class="input-row"><div class="form-group"><label class="form-label">Jumlah Keluar</label><input type="number" id="outQty" value="1" min="1"></div><div class="form-group"><label class="form-label">Dari Bin (ketik)</label><input type="text" id="outBin" placeholder="Bin asal"></div></div>
+            <div class="form-group"><label class="form-label">No TO (auto-generated)</label><input type="text" id="outNoTO" value="${noTO}" readonly style="background:#f1f5f9;font-weight:600;color:#1e40af;"></div>
+            <div class="form-group"><label class="form-label">Catatan</label><input type="text" id="outNote" placeholder="Opsional"></div>
+            <button class="btn btn-danger btn-block" id="saveStockOut">📤 Simpan Transfer Out</button>
+          </div>
+          <div class="card"><div class="card-title">📋 Riwayat Keluar Hari Ini (${todayOut.length})</div><div class="list" id="outHistoryList">${renderOutHistory(todayOut)}</div></div>
+        </div>`;
     }
 
-    async function initStockIn() {
-      await loadInHistory();
-      document.getElementById('scanInBtn').addEventListener('click', ()=>scannerIn?.isScanning?stopScanner('in'):startScanner('in','inScannerView','inScannerContainer'));
-      document.getElementById('stopInScan').addEventListener('click', ()=>stopScanner('in'));
+    function renderInHistory(items) {
+      if(!items.length) return '<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada transaksi masuk</div>';
+      return items.map(i=>{
+        const doBadge = i.noDO ? ` <span class="do-badge">DO: ${i.noDO}</span>` : '';
+        return `<div class="list-item"><span>${i.type==='MOVE_IN'?'🔄':'📥'}</span><div style="flex:1;"><div style="font-weight:600;font-size:0.85rem;">${i.productName} (+${i.qty})${i.type==='MOVE_IN'?' <span class="transfer-badge">Transfer</span>':''}${doBadge}</div><div style="font-size:0.72rem;color:#64748b;">Bin: ${i.bin||'-'} | ${formatDate(i.timestamp)}${i.note?` | ${i.note}`:''}</div></div></div>`;
+      }).join('');
+    }
+
+    function renderOutHistory(items) {
+      if(!items.length) return '<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada transaksi keluar</div>';
+      return items.map(i=>{
+        const toBadge = i.noTO ? ` <span class="to-badge">${i.noTO}</span>` : '';
+        return `<div class="list-item"><span>${i.type==='MOVE_OUT'?'🔄':'📤'}</span><div style="flex:1;"><div style="font-weight:600;font-size:0.85rem;">${i.productName} (-${i.qty})${i.type==='MOVE_OUT'?' <span class="transfer-badge">Transfer</span>':''}${toBadge}</div><div style="font-size:0.72rem;color:#64748b;">Bin: ${i.bin||'-'} | Transfer Out | ${formatDate(i.timestamp)}${i.note?` | ${i.note}`:''}</div></div></div>`;
+      }).join('');
+    }
+
+    function initTransaction() {
+      // Tab switching
+      document.querySelectorAll('#transTabs .tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+          document.querySelectorAll('#transTabs .tab').forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          transactionMode = this.dataset.mode;
+          document.getElementById('transInForm').style.display = transactionMode === 'in' ? 'block' : 'none';
+          document.getElementById('transOutForm').style.display = transactionMode === 'out' ? 'block' : 'none';
+        });
+      });
+
+      // Scan button (shared)
+      document.getElementById('transScanBtn').addEventListener('click', ()=>toggleTransScanner('in'));
+      document.getElementById('transScanBtnOut').addEventListener('click', ()=>toggleTransScanner('out'));
+      document.getElementById('stopTransScan').addEventListener('click', ()=>stopTransScanner());
+      
+      // In handlers
       document.getElementById('inSKU').addEventListener('input', lookupInProduct);
       document.getElementById('saveStockIn').addEventListener('click', saveStockIn);
+      
+      // Out handlers
+      document.getElementById('outSKU').addEventListener('input', lookupOutProduct);
+      document.getElementById('saveStockOut').addEventListener('click', saveStockOut);
+    }
+
+    async function toggleTransScanner(mode) {
+      if (scannerTransaction?.isScanning) { await stopTransScanner(); return; }
+      document.getElementById('transScannerContainer').classList.add('active');
+      document.getElementById('transScanBtn').classList.add('scanning');
+      document.getElementById('transScanBtn').textContent = '⏹';
+      try {
+        scannerTransaction = new Html5Qrcode("transScannerView");
+        await scannerTransaction.start({facingMode:"environment"},{fps:10,qrbox:{width:250,height:250}},
+          (decoded)=>{ playScanBeep();
+            if(mode==='in'){ document.getElementById('inSKU').value=decoded; lookupInProduct(); }
+            else { document.getElementById('outSKU').value=decoded; lookupOutProduct(); }
+            stopTransScanner();
+          }, ()=>{});
+      } catch(e) { toast('⚠️ Gagal kamera'); document.getElementById('transScannerContainer').classList.remove('active'); }
+    }
+
+    async function stopTransScanner() {
+      if (scannerTransaction?.isScanning) try{await scannerTransaction.stop();}catch(e){}
+      scannerTransaction = null;
+      document.getElementById('transScannerContainer').classList.remove('active');
+      document.getElementById('transScanBtn').classList.remove('scanning');
+      document.getElementById('transScanBtn').textContent = '📷';
     }
 
     function lookupInProduct() {
@@ -465,58 +502,19 @@
     async function saveStockIn() {
       const sku=document.getElementById('inSKU').value.trim(), qty=parseInt(document.getElementById('inQty').value)||0;
       const bin=document.getElementById('inBin').value.trim(), noDO=document.getElementById('inNoDO').value.trim(), note=document.getElementById('inNote').value.trim();
-      if(!sku||qty<1){playErrorSound();return toast('⚠️ Lengkapi SKU & Qty');}
-      if(!bin){playErrorSound();return toast('⚠️ Isi Bin tujuan');}
+      if(!sku||qty<1){playErrorSound();return toast('⚠️ Lengkapi');}
+      if(!bin){playErrorSound();return toast('⚠️ Isi Bin');}
       try{
         let pid=document.getElementById('inProductInfo').dataset.productId;
-        if(!pid){const name=prompt('Nama produk baru:')||sku;const ref=await addDoc(collection(db,"products"),{sku,name,minStock:5,price:0,created:new Date(),userId:currentUser.uid});pid=ref.id;products.push({id:pid,sku,name,minStock:5,price:0});}
+        if(!pid){const name=prompt('Nama:')||sku;const ref=await addDoc(collection(db,"products"),{sku,name,minStock:5,price:0,created:new Date(),userId:currentUser.uid});pid=ref.id;products.push({id:pid,sku,name,minStock:5,price:0});}
         let ei=inventoryItems.find(i=>i.productId===pid&&i.bin.toLowerCase()===bin.toLowerCase());
-        if(ei) await updateDoc(doc(db,"inventory",ei.id),{qty:(ei.qty||0)+qty,updatedAt:new Date()});
+        if(ei) await updateDoc(doc(db,"inventory",ei.id),{qty:(ei.qty||0)+qty});
         else await addDoc(collection(db,"inventory"),{productId:pid,sku,bin,qty,created:new Date(),userId:currentUser.uid});
         await addDoc(collection(db,"transactions"),{type:'IN',productId:pid,productName:products.find(x=>x.id===pid)?.name||sku,sku,qty,bin,noDO,note,timestamp:new Date(),userId:currentUser.uid,userEmail:currentUser.email});
-        playSuccessSound(); 
-        const doMsg = noDO ? ` (DO: ${noDO})` : '';
-        toast(`✅ +${qty} ke Bin ${bin}${doMsg}`);
+        playSuccessSound(); toast(`✅ +${qty} ke Bin ${bin}${noDO?' (DO:'+noDO+')':''}`);
         document.getElementById('inSKU').value='';document.getElementById('inQty').value='1';document.getElementById('inBin').value='';document.getElementById('inNoDO').value='';document.getElementById('inNote').value='';document.getElementById('inProductInfo').style.display='none';
-        await loadAllData(); await loadInHistory();
+        await loadAllData(); refreshTransactionPage();
       }catch(e){playErrorSound();toast('❌ '+e.message);}
-    }
-
-    async function loadInHistory() {
-      const list=document.getElementById('inHistoryList'); if(!list)return;
-      const today=new Date(); today.setHours(0,0,0,0);
-      const items=transactions.filter(t=>(t.type==='IN'||t.type==='MOVE_IN')&&(t.timestamp?.toDate?.()||new Date(t.timestamp))>=today);
-      list.innerHTML=items.length?items.map(i=>{
-        const doBadge = i.noDO ? ` <span class="do-badge">DO: ${i.noDO}</span>` : '';
-        return `<div class="list-item"><span>${i.type==='MOVE_IN'?'🔄':'📥'}</span><div style="flex:1;"><div style="font-weight:600;font-size:0.85rem;">${i.productName} (+${i.qty})${i.type==='MOVE_IN'?' <span class="transfer-badge">Transfer</span>':''}${doBadge}</div><div style="font-size:0.72rem;color:#64748b;">Bin: ${i.bin||'-'} | ${formatDate(i.timestamp)}${i.note?` | ${i.note}`:''}</div></div></div>`;
-      }).join(''):'<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada</div>';
-    }
-
-    // ==================== STOCK OUT (Transfer Out dengan No TO) ====================
-    function stockOutHTML() {
-      return `
-        <div class="card"><div class="card-title">📤 Transfer Out (WMS)</div>
-          <div class="form-group"><label class="form-label">Scan Barcode / SKU</label><div style="display:flex;gap:8px;"><input type="text" id="outSKU" style="flex:1;"><button class="btn btn-outline btn-sm" id="scanOutBtn">📷</button></div></div>
-          <div id="outScannerContainer" style="display:none;margin-bottom:10px;"><div id="outScannerView" style="width:100%;border-radius:12px;overflow:hidden;"></div><button class="btn btn-sm btn-outline" id="stopOutScan" style="margin-top:6px;">❌ Tutup</button></div>
-          <div id="outProductInfo" style="display:none;margin-bottom:10px;"><div style="background:#fef2f2;padding:12px;border-radius:12px;"><strong id="outProductName">-</strong><br><span style="font-size:0.8rem;">Total Stok: <span id="outTotalStock">0</span> | Bin: <span id="outBinsList">-</span></span></div></div>
-          <div class="input-row"><div class="form-group"><label class="form-label">Jumlah Keluar</label><input type="number" id="outQty" value="1" min="1"></div><div class="form-group"><label class="form-label">Dari Bin (ketik)</label><input type="text" id="outBin" placeholder="Bin asal"></div></div>
-          <div class="form-group"><label class="form-label">No TO (auto-generated)</label><input type="text" id="outNoTO" readonly style="background:#f1f5f9;font-weight:600;color:#1e40af;"></div>
-          <div class="form-group"><label class="form-label">Catatan</label><input type="text" id="outNote" placeholder="Opsional"></div>
-          <button class="btn btn-danger btn-block" id="saveStockOut">📤 Simpan Transfer Out</button>
-        </div>
-        <div class="card"><div class="card-title">📋 Riwayat Hari Ini</div><div class="list" id="outHistoryList"><div style="text-align:center;padding:20px;">Memuat...</div></div></div>`;
-    }
-
-    async function initStockOut() {
-      // Generate No TO otomatis
-      const noTO = generateNoTO();
-      document.getElementById('outNoTO').value = noTO;
-      
-      await loadOutHistory();
-      document.getElementById('scanOutBtn').addEventListener('click', ()=>scannerOut?.isScanning?stopScanner('out'):startScanner('out','outScannerView','outScannerContainer'));
-      document.getElementById('stopOutScan').addEventListener('click', ()=>stopScanner('out'));
-      document.getElementById('outSKU').addEventListener('input', lookupOutProduct);
-      document.getElementById('saveStockOut').addEventListener('click', saveStockOut);
     }
 
     function lookupOutProduct() {
@@ -535,59 +533,33 @@
       const sku=document.getElementById('outSKU').value.trim(), qty=parseInt(document.getElementById('outQty').value)||0;
       const bin=document.getElementById('outBin').value.trim(), noTO=document.getElementById('outNoTO').value.trim(), note=document.getElementById('outNote').value.trim();
       const pid=document.getElementById('outProductInfo').dataset.productId;
-      if(!sku||qty<1||!pid){playErrorSound();return toast('⚠️ Lengkapi SKU & Qty');}
-      if(!bin){playErrorSound();return toast('⚠️ Isi Bin asal');}
+      if(!sku||qty<1||!pid){playErrorSound();return toast('⚠️ Lengkapi');}
+      if(!bin){playErrorSound();return toast('⚠️ Isi Bin');}
       const inv=inventoryItems.find(i=>i.productId===pid&&i.bin.toLowerCase()===bin.toLowerCase());
       if(!inv||(inv.qty||0)<qty){playErrorSound();return toast('⚠️ Stok di bin tidak cukup');}
       try{
         const ns=(inv.qty||0)-qty;
         if(ns<=0) await deleteDoc(doc(db,"inventory",inv.id));
-        else await updateDoc(doc(db,"inventory",inv.id),{qty:ns,updatedAt:new Date()});
+        else await updateDoc(doc(db,"inventory",inv.id),{qty:ns});
         await addDoc(collection(db,"transactions"),{type:'OUT',productId:pid,productName:products.find(x=>x.id===pid)?.name||sku,sku,qty,bin,purpose:'Transfer Out',noTO,note,timestamp:new Date(),userId:currentUser.uid,userEmail:currentUser.email});
         playSuccessSound(); toast(`📤 -${qty} dari Bin ${bin} (${noTO})`);
-        document.getElementById('outSKU').value='';document.getElementById('outQty').value='1';document.getElementById('outBin').value='';document.getElementById('outNote').value='';
-        document.getElementById('outProductInfo').style.display='none';
-        // Generate No TO baru untuk transaksi berikutnya
+        document.getElementById('outSKU').value='';document.getElementById('outQty').value='1';document.getElementById('outBin').value='';document.getElementById('outNote').value='';document.getElementById('outProductInfo').style.display='none';
         document.getElementById('outNoTO').value = generateNoTO();
-        await loadAllData(); await loadOutHistory();
+        await loadAllData(); refreshTransactionPage();
       }catch(e){playErrorSound();toast('❌ '+e.message);}
     }
 
-    async function loadOutHistory() {
-      const list=document.getElementById('outHistoryList'); if(!list)return;
-      const today=new Date(); today.setHours(0,0,0,0);
-      const items=transactions.filter(t=>(t.type==='OUT'||t.type==='MOVE_OUT')&&(t.timestamp?.toDate?.()||new Date(t.timestamp))>=today);
-      list.innerHTML=items.length?items.map(i=>{
-        const toBadge = i.noTO ? ` <span class="to-badge">${i.noTO}</span>` : '';
-        return `<div class="list-item"><span>${i.type==='MOVE_OUT'?'🔄':'📤'}</span><div style="flex:1;"><div style="font-weight:600;font-size:0.85rem;">${i.productName} (-${i.qty})${i.type==='MOVE_OUT'?' <span class="transfer-badge">Transfer</span>':''}${toBadge}</div><div style="font-size:0.72rem;color:#64748b;">Bin: ${i.bin||'-'} | ${i.purpose||''} | ${formatDate(i.timestamp)}${i.note?` | ${i.note}`:''}</div></div></div>`;
-      }).join(''):'<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada</div>';
+    function refreshTransactionPage() {
+      const today = new Date(); today.setHours(0,0,0,0);
+      const todayIn = transactions.filter(t=>(t.type==='IN'||t.type==='MOVE_IN')&&(t.timestamp?.toDate?.()||new Date(t.timestamp))>=today);
+      const todayOut = transactions.filter(t=>(t.type==='OUT'||t.type==='MOVE_OUT')&&(t.timestamp?.toDate?.()||new Date(t.timestamp))>=today);
+      const inList = document.getElementById('inHistoryList');
+      const outList = document.getElementById('outHistoryList');
+      if(inList) inList.innerHTML = renderInHistory(todayIn);
+      if(outList) outList.innerHTML = renderOutHistory(todayOut);
     }
 
-    // ==================== SCANNER ====================
-    async function startScanner(type, elementId, containerId) {
-      await stopAllScanners();
-      document.getElementById(containerId).style.display='block';
-      try {
-        const scanner = new Html5Qrcode(elementId);
-        if(type==='in') scannerIn=scanner; else if(type==='out') scannerOut=scanner; else scannerSearch=scanner;
-        await scanner.start({facingMode:"environment"},{fps:10,qrbox:{width:250,height:250}},
-          (decoded)=>{ playScanBeep();
-            if(type==='in'){ document.getElementById('inSKU').value=decoded; lookupInProduct(); }
-            else if(type==='out'){ document.getElementById('outSKU').value=decoded; lookupOutProduct(); }
-            else if(type==='search'){ handleSearchScan(decoded); }
-            stopScanner(type);
-          }, ()=>{});
-      } catch(e) { toast('⚠️ Gagal kamera'); document.getElementById(containerId).style.display='none'; if(type==='search'){ document.getElementById('scanSearchBtn').classList.remove('scanning'); document.getElementById('scanSearchBtn').textContent='📷'; } }
-    }
-
-    async function stopScanner(type) {
-      const scanner = type==='in'?scannerIn:type==='out'?scannerOut:scannerSearch;
-      if(scanner?.isScanning) try{await scanner.stop();}catch(e){}
-      if(type==='in') scannerIn=null; else if(type==='out') scannerOut=null;
-      else { scannerSearch=null; const btn=document.getElementById('scanSearchBtn'); if(btn){btn.classList.remove('scanning');btn.textContent='📷';} const cont=document.getElementById('searchScannerContainer'); if(cont)cont.classList.remove('active'); }
-      if(type!=='search') document.getElementById(type==='in'?'inScannerContainer':'outScannerContainer').style.display='none';
-    }
-
+    // ==================== HANDLE SEARCH SCAN ====================
     function handleSearchScan(decodedText) {
       const searchInput = document.getElementById('productSearch');
       if (searchInput) { searchInput.value = decodedText; searchInput.dispatchEvent(new Event('input')); }
@@ -654,7 +626,7 @@
 
     function initProducts() {
       document.getElementById('scanSearchBtn').addEventListener('click', toggleSearchScanner);
-      document.getElementById('stopSearchScan').addEventListener('click', ()=>stopScanner('search'));
+      document.getElementById('stopSearchScan').addEventListener('click', ()=>stopSearchScanner());
       document.querySelectorAll('#productTabs .tab').forEach(tab => { tab.addEventListener('click', function() { document.querySelectorAll('#productTabs .tab').forEach(t=>t.classList.remove('active')); this.classList.add('active'); productViewMode = this.dataset.mode; document.getElementById('productListView').style.display = productViewMode==='list'?'block':'none'; document.getElementById('productBinView').style.display = productViewMode==='bin'?'block':'none'; document.getElementById('productTrackingView').style.display = productViewMode==='tracking'?'block':'none'; }); });
       document.getElementById('addProductBtn').addEventListener('click', showAddProductModal);
       document.getElementById('productSearch').addEventListener('input', function(){ const t=this.value.toLowerCase(); const filtered=products.filter(p=>(p.name||'').toLowerCase().includes(t)||(p.sku||'').toLowerCase().includes(t)||getProductBins(p.id).some(b=>b.bin.toLowerCase().includes(t))); const stats=filtered.map(p=>{const totalStock=getProductTotalStock(p.id);const bins=getProductBins(p.id);const trans=transactions.filter(tr=>tr.productId===p.id);const last=trans[0];return{...p,totalStock,bins,transCount:trans.length,lastTransDate:last?(last.timestamp?.toDate?.()||new Date(last.timestamp)):null};}); document.getElementById('productListView').innerHTML=renderProductList(stats); document.getElementById('productTrackingView').innerHTML=renderTrackingList(stats); document.querySelectorAll('.bin-card').forEach(c => c.classList.remove('highlight')); if(t && productViewMode==='bin') { stats.forEach(p => { p.bins.forEach(b => { const binCard = document.querySelector(`.bin-card[data-bin="${b.bin}"]`); if(binCard) binCard.classList.add('highlight'); }); }); } attachListeners(); });
@@ -667,7 +639,9 @@
       document.querySelectorAll('#binGrid .bin-card').forEach(c=>c.addEventListener('click',function(){showBinDetailModal(this.dataset.bin);}));
     }
 
-    async function toggleSearchScanner() { if (scannerSearch?.isScanning) { await stopScanner('search'); return; } document.getElementById('searchScannerContainer').classList.add('active'); document.getElementById('scanSearchBtn').classList.add('scanning'); document.getElementById('scanSearchBtn').textContent = '⏹'; await startScanner('search', 'searchScannerView', 'searchScannerContainer'); }
+    async function toggleSearchScanner() { if (scannerSearch?.isScanning) { await stopSearchScanner(); return; } document.getElementById('searchScannerContainer').classList.add('active'); document.getElementById('scanSearchBtn').classList.add('scanning'); document.getElementById('scanSearchBtn').textContent = '⏹'; try { scannerSearch = new Html5Qrcode("searchScannerView"); await scannerSearch.start({facingMode:"environment"},{fps:10,qrbox:{width:250,height:250}},(decoded)=>{ playScanBeep(); handleSearchScan(decoded); stopSearchScanner(); },()=>{}); } catch(e) { toast('⚠️ Gagal kamera'); document.getElementById('searchScannerContainer').classList.remove('active'); } }
+
+    async function stopSearchScanner() { if(scannerSearch?.isScanning) try{await scannerSearch.stop();}catch(e){} scannerSearch=null; document.getElementById('searchScannerContainer').classList.remove('active'); document.getElementById('scanSearchBtn').classList.remove('scanning'); document.getElementById('scanSearchBtn').textContent='📷'; }
 
     function showBinDetailModal(bin) {
       const items = inventoryItems.filter(i => i.bin === bin);
@@ -683,17 +657,17 @@
 
     function showMoveModal(productId, fromBin) { const p=products.find(x=>x.id===productId); if(!p)return; const invItem=inventoryItems.find(i=>i.productId===productId&&i.bin===fromBin); const maxQty=invItem?.qty||0; showModal(`<div style="text-align:center;margin-bottom:12px;"><span style="font-size:2rem;">🔄</span><h3>Pindah Bin</h3></div><div style="background:#f8fafc;padding:12px;border-radius:12px;margin-bottom:12px;"><strong>${p.name}</strong><br><span style="font-size:0.8rem;">SKU:${p.sku} | Dari: ${fromBin} (${maxQty} unit)</span></div><div class="form-group"><label class="form-label">Ke Bin</label><input type="text" id="moveToBin" placeholder="Bin tujuan"></div><div class="form-group"><label class="form-label">Jumlah</label><input type="number" id="moveQty" value="1" min="1" max="${maxQty}"><span style="font-size:0.7rem;">Maks: ${maxQty}</span></div><button class="btn btn-warning btn-block" id="execMove">🔄 Pindahkan</button><button class="btn btn-outline btn-block" id="cancelMove" style="margin-top:6px;">Batal</button>`); document.getElementById('execMove').addEventListener('click',async()=>{const toBin=document.getElementById('moveToBin').value.trim();const mQty=parseInt(document.getElementById('moveQty').value)||0;if(!toBin){playErrorSound();return toast('⚠️ Isi Bin');}if(mQty<1||mQty>maxQty){playErrorSound();return toast('⚠️ Invalid');}try{const ns=maxQty-mQty;if(ns<=0)await deleteDoc(doc(db,"inventory",invItem.id));else await updateDoc(doc(db,"inventory",invItem.id),{qty:ns});let ti=inventoryItems.find(i=>i.productId===productId&&i.bin.toLowerCase()===toBin.toLowerCase());if(ti)await updateDoc(doc(db,"inventory",ti.id),{qty:(ti.qty||0)+mQty});else await addDoc(collection(db,"inventory"),{productId,sku:p.sku,bin:toBin,qty:mQty,created:new Date(),userId:currentUser.uid});await addDoc(collection(db,"transactions"),{type:'MOVE_OUT',productId,productName:p.name,sku:p.sku,qty:mQty,bin:fromBin,purpose:`Pindah ke ${toBin}`,timestamp:new Date(),userId:currentUser.uid,userEmail:currentUser.email});await addDoc(collection(db,"transactions"),{type:'MOVE_IN',productId,productName:p.name,sku:p.sku,qty:mQty,bin:toBin,purpose:`Dari ${fromBin}`,timestamp:new Date(),userId:currentUser.uid,userEmail:currentUser.email});playSuccessSound();toast(`✅ ${mQty}: ${fromBin} → ${toBin}`);closeModal();await loadAllData();renderPage('products');}catch(e){playErrorSound();toast('❌ '+e.message);}}); document.getElementById('cancelMove').addEventListener('click',closeModal); }
 
-    function showTrackingModal(pid) { const p=products.find(x=>x.id===pid); if(!p)return; const ptr=transactions.filter(t=>t.productId===pid).sort((a,b)=>{const da=a.timestamp?.toDate?.()||new Date(a.timestamp);const db=b.timestamp?.toDate?.()||new Date(b.timestamp);return db-da;}); let rs=getProductTotalStock(pid); const tl=ptr.map(t=>{const d=t.timestamp?.toDate?.()||new Date(t.timestamp);const it={date:d,type:t.type,qty:t.qty,purpose:t.purpose||t.note||'',note:t.note||'',bin:t.bin||'',noDO:t.noDO||'',noTO:t.noTO||'',stockAfter:rs};rs=t.type==='IN'||t.type==='MOVE_IN'?rs-t.qty:rs+t.qty;return it;}); showModal(`<h3>📈 ${p.name}</h3><p style="color:#64748b;font-size:0.8rem;">SKU:${p.sku} | Total Stok:<strong>${getProductTotalStock(pid)}</strong></p><div class="card" style="margin-bottom:10px;"><div class="card-title">📊 Grafik</div><div class="chart-container"><canvas id="trackChart"></canvas></div></div><div class="card"><div class="card-title">📜 Riwayat (${tl.length})</div>${tl.length===0?'<div style="text-align:center;padding:20px;">Belum ada</div>':`<div class="timeline">${tl.map(i=>{let typeLabel,typeClass;if(i.type==='IN'){typeLabel='📥 Barang Masuk';typeClass='type-in';}else if(i.type==='MOVE_IN'){typeLabel='🔄 Transfer Masuk';typeClass='type-move';}else if(i.type==='MOVE_OUT'){typeLabel='🔄 Transfer Keluar';typeClass='type-move';}else{typeLabel='📤 Transfer Out';typeClass='type-out';}const docInfo=i.noDO?`<span class="do-badge">DO:${i.noDO}</span>`:'';const toInfo=i.noTO?`<span class="to-badge">${i.noTO}</span>`:'';return`<div class="timeline-item ${i.type==='OUT'||i.type==='MOVE_OUT'?'out':''} ${i.type==='MOVE_IN'||i.type==='MOVE_OUT'?'move':''}"><div class="timeline-header"><span class="timeline-type ${typeClass}">${typeLabel}</span><span class="timeline-date">${i.date.toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}</span></div><div class="timeline-detail"><strong>${i.type==='IN'||i.type==='MOVE_IN'?'+':'-'}${i.qty} unit</strong> → Bin: <strong>${i.bin||'-'}</strong> ${i.purpose?`· ${i.purpose}`:''} ${docInfo}${toInfo}</div><div class="timeline-meta">Stok setelah: ${i.stockAfter} unit${i.note?` · ${i.note}`:''}</div></div>`;}).join('')}</div>`}</div><button class="btn btn-outline btn-block" onclick="document.getElementById('modalOverlay').classList.remove('show')" style="margin-top:10px;">Tutup</button>`); setTimeout(()=>{const c=document.getElementById('trackChart');if(!c||!tl.length)return;if(currentChart)currentChart.destroy();const lbs=[],dps=[];const td=new Date();for(let i=6;i>=0;i--){const d=new Date(td);d.setDate(d.getDate()-i);lbs.push(d.toLocaleDateString('id-ID',{day:'numeric',month:'short'}));let s=getProductTotalStock(pid);ptr.forEach(t=>{const dd=t.timestamp?.toDate?.()||new Date(t.timestamp);if(dd>d)s+=(t.type==='OUT'||t.type==='MOVE_OUT'?t.qty:-t.qty);});dps.push(Math.max(0,s));}currentChart=new Chart(c.getContext('2d'),{type:'line',data:{labels:lbs,datasets:[{label:'Stok',data:dps,borderColor:'#8b5cf6',backgroundColor:'rgba(139,92,246,0.1)',fill:true,tension:0.4,pointRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}},x:{ticks:{font:{size:9}}}}}});},300); }
+    function showTrackingModal(pid) { const p=products.find(x=>x.id===pid); if(!p)return; const ptr=transactions.filter(t=>t.productId===pid).sort((a,b)=>{const da=a.timestamp?.toDate?.()||new Date(a.timestamp);const db=b.timestamp?.toDate?.()||new Date(b.timestamp);return db-da;}); let rs=getProductTotalStock(pid); const tl=ptr.map(t=>{const d=t.timestamp?.toDate?.()||new Date(t.timestamp);const it={date:d,type:t.type,qty:t.qty,purpose:t.purpose||t.note||'',note:t.note||'',bin:t.bin||'',noDO:t.noDO||'',noTO:t.noTO||'',stockAfter:rs};rs=t.type==='IN'||t.type==='MOVE_IN'?rs-t.qty:rs+t.qty;return it;}); showModal(`<h3>📈 ${p.name}</h3><p style="color:#64748b;font-size:0.8rem;">SKU:${p.sku} | Stok:<strong>${getProductTotalStock(pid)}</strong></p><div class="card"><div class="card-title">📊 Grafik</div><div class="chart-container"><canvas id="trackChart"></canvas></div></div><div class="card"><div class="card-title">📜 Riwayat</div>${tl.length?`<div class="timeline">${tl.map(i=>{let tlbl,tc;if(i.type==='IN'){tlbl='📥 Masuk';tc='type-in';}else if(i.type==='MOVE_IN'){tlbl='🔄 Transfer Masuk';tc='type-move';}else if(i.type==='MOVE_OUT'){tlbl='🔄 Transfer Keluar';tc='type-move';}else{tlbl='📤 Transfer Out';tc='type-out';}const di=i.noDO?`<span class="do-badge">DO:${i.noDO}</span>`:'';const ti=i.noTO?`<span class="to-badge">${i.noTO}</span>`:'';return`<div class="timeline-item ${i.type==='OUT'||i.type==='MOVE_OUT'?'out':''}"><div class="timeline-header"><span class="timeline-type ${tc}">${tlbl}</span><span class="timeline-date">${i.date.toLocaleDateString('id-ID',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</span></div><div class="timeline-detail"><strong>${i.type==='IN'||i.type==='MOVE_IN'?'+':'-'}${i.qty} unit</strong> → Bin: <strong>${i.bin}</strong> ${i.purpose?`· ${i.purpose}`:''} ${di}${ti}</div><div class="timeline-meta">Stok: ${i.stockAfter}${i.note?` · ${i.note}`:''}</div></div>`;}).join('')}</div>`:'<div style="text-align:center;padding:20px;">Belum ada</div>'}</div><button class="btn btn-outline btn-block" onclick="document.getElementById('modalOverlay').classList.remove('show')" style="margin-top:10px;">Tutup</button>`); setTimeout(()=>{const c=document.getElementById('trackChart');if(!c||!tl.length)return;if(currentChart)currentChart.destroy();const lbs=[],dps=[];const td=new Date();for(let i=6;i>=0;i--){const d=new Date(td);d.setDate(d.getDate()-i);lbs.push(d.toLocaleDateString('id-ID',{day:'numeric',month:'short'}));let s=getProductTotalStock(pid);ptr.forEach(t=>{const dd=t.timestamp?.toDate?.()||new Date(t.timestamp);if(dd>d)s+=(t.type==='OUT'||t.type==='MOVE_OUT'?t.qty:-t.qty);});dps.push(Math.max(0,s));}currentChart=new Chart(c.getContext('2d'),{type:'line',data:{labels:lbs,datasets:[{label:'Stok',data:dps,borderColor:'#8b5cf6',backgroundColor:'rgba(139,92,246,0.1)',fill:true,tension:0.4,pointRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}},x:{ticks:{font:{size:9}}}}});},300); }
 
     // ==================== REPORTS ====================
     async function reportsHTML() { const tv=products.reduce((s,p)=>s+getProductTotalStock(p.id)*(p.price||0),0); return `<div class="card"><div class="card-title">📊 Ringkasan</div><div class="stats-grid"><div class="stat-card blue"><div class="stat-value">${products.length}</div><div class="stat-label">Produk</div></div><div class="stat-card green"><div class="stat-value">${formatRupiah(tv)}</div><div class="stat-label">Nilai</div></div></div></div><div class="card"><div class="card-title">📈 Grafik 7 Hari</div><div class="chart-container"><canvas id="reportChart"></canvas></div></div><button class="btn btn-outline btn-block" id="exportBtn">📥 Export CSV</button>`; }
     function initReports() { setTimeout(()=>{const c=document.getElementById('reportChart');if(!c)return;if(currentChart)currentChart.destroy();const lbs=[],ind=[],oud=[];const td=new Date();for(let i=6;i>=0;i--){const d=new Date(td);d.setDate(d.getDate()-i);lbs.push(d.toLocaleDateString('id-ID',{day:'numeric',month:'short'}));let di=0,du=0;transactions.forEach(t=>{try{const dd=t.timestamp?.toDate?.()||new Date(t.timestamp);if(dd.toDateString()===d.toDateString()){if(t.type==='IN'||t.type==='MOVE_IN')di+=t.qty||0;else if(t.type==='OUT'||t.type==='MOVE_OUT')du+=t.qty||0;}}catch{}});ind.push(di);oud.push(du);}currentChart=new Chart(c.getContext('2d'),{type:'bar',data:{labels:lbs,datasets:[{label:'Masuk',data:ind,backgroundColor:'rgba(5,150,105,0.7)',borderRadius:6},{label:'Keluar',data:oud,backgroundColor:'rgba(220,38,38,0.7)',borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{y:{beginAtZero:true}}}});},300); }
 
-    document.addEventListener('click',function(e){if(e.target.id==='exportBtn'){if(!transactions.length)return toast('⚠️ Tidak ada data');let csv='Tipe,Produk,SKU,Qty,Bin,No DO/TO,Keperluan,Tanggal\n';transactions.forEach(t=>{csv+=`${t.type},"${t.productName||''}",${t.sku||''},${t.qty||0},${t.bin||''},"${t.noDO||t.noTO||''}","${t.purpose||''}",${formatDate(t.timestamp)}\n`;});const b=new Blob([csv],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='laporan.csv';a.click();toast('📥 Terdownload');}});
+    document.addEventListener('click',function(e){if(e.target.id==='exportBtn'){if(!transactions.length)return toast('⚠️ Tidak ada data');let csv='Tipe,Produk,SKU,Qty,Bin,No DO/TO,Tanggal\n';transactions.forEach(t=>{csv+=`${t.type},"${t.productName||''}",${t.sku||''},${t.qty||0},${t.bin||''},"${t.noDO||t.noTO||''}",${formatDate(t.timestamp)}\n`;});const b=new Blob([csv],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='laporan.csv';a.click();toast('📥 Terdownload');}});
 
     document.getElementById('syncBtn').addEventListener('click',async()=>{toast('🔄 Sync...');await stopAllScanners();await loadAllData();await renderPage(currentPage);playSuccessSound();toast('✅ Tersinkron');});
     window.addEventListener('beforeunload',()=>stopAllScanners());
-    console.log('✅ InventoryPro WMS - No DO & Transfer Out System!');
+    console.log('✅ InventoryPro WMS - Halaman Transaksi Gabungan!');
     loadAllData();
   </script>
 </body>
