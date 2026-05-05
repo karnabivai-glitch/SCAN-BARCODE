@@ -19,7 +19,7 @@
       --subtext: #64748b;
       --border: #e2e8f0;
       --radius: 16px;
-      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -57,7 +57,7 @@
       box-shadow: 0 2px 10px rgba(30,64,175,0.2);
     }
     .header h1 {
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       font-weight: 700;
       display: flex;
       align-items: center;
@@ -93,20 +93,13 @@
       color: var(--text); display: flex; align-items: center; gap: 6px;
     }
 
-    /* Stats Grid */
-    .stats-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
-    }
-    .stats-grid-3 {
-      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;
-    }
-    .stats-grid-4 {
-      display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px;
-    }
+    /* Stats */
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .stats-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+    .stats-grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; }
     .stat-card {
       padding: 14px 10px; border-radius: 14px;
-      border: 1px solid #e2e8f0; text-align: center;
-      transition: 0.15s;
+      border: 1px solid #e2e8f0; text-align: center; transition: 0.15s;
     }
     .stat-card:active { transform: scale(0.97); }
     .stat-card.blue { background: #eff6ff; border-color: #bfdbfe; }
@@ -114,7 +107,6 @@
     .stat-card.orange { background: #fffbeb; border-color: #fde68a; }
     .stat-card.red { background: #fef2f2; border-color: #fecaca; }
     .stat-card.purple { background: #f5f3ff; border-color: #ddd6fe; }
-    .stat-card.indigo { background: #eef2ff; border-color: #c7d2fe; }
     .stat-value { font-size: 1.5rem; font-weight: 700; }
     .stat-value-sm { font-size: 1.2rem; font-weight: 700; }
     .stat-label { font-size: 0.7rem; color: #64748b; margin-top: 2px; }
@@ -123,45 +115,18 @@
     .orange .stat-value, .orange .stat-value-sm { color: #d97706; }
     .red .stat-value, .red .stat-value-sm { color: #dc2626; }
     .purple .stat-value, .purple .stat-value-sm { color: #7c3aed; }
-    .indigo .stat-value, .indigo .stat-value-sm { color: #4f46e5; }
 
-    /* Mini chart bar */
-    .mini-bar {
-      display: flex;
-      align-items: flex-end;
-      gap: 3px;
-      height: 40px;
-      margin-top: 8px;
-    }
-    .mini-bar-item {
-      flex: 1;
-      border-radius: 4px 4px 0 0;
-      min-height: 4px;
-      transition: 0.3s;
-    }
-
-    /* Progress bar */
     .progress-bar {
-      height: 8px;
-      background: #e2e8f0;
-      border-radius: 10px;
-      overflow: hidden;
-      margin-top: 6px;
+      height: 8px; background: #e2e8f0;
+      border-radius: 10px; overflow: hidden; margin-top: 6px;
     }
-    .progress-fill {
-      height: 100%;
-      border-radius: 10px;
-      transition: width 0.5s ease;
-    }
+    .progress-fill { height: 100%; border-radius: 10px; transition: width 0.5s ease; }
     .progress-fill.green { background: #10b981; }
     .progress-fill.orange { background: #f59e0b; }
     .progress-fill.red { background: #ef4444; }
 
     .form-group { margin-bottom: 10px; }
-    .form-label {
-      display: block; font-size: 0.78rem;
-      font-weight: 600; color: #475569; margin-bottom: 4px;
-    }
+    .form-label { display: block; font-size: 0.78rem; font-weight: 600; color: #475569; margin-bottom: 4px; }
     input, select, textarea {
       width: 100%; padding: 11px 14px;
       border: 2px solid #e2e8f0; border-radius: 12px;
@@ -195,29 +160,8 @@
     .list { list-style: none; max-height: 300px; overflow-y: auto; }
     .list-item {
       display: flex; align-items: center; gap: 10px;
-      padding: 10px 0; border-bottom: 1px solid #f8fafc; transition: 0.15s;
+      padding: 10px 0; border-bottom: 1px solid #f8fafc;
     }
-    .list-item:active { background: #fafafa; }
-    .item-avatar {
-      width: 38px; height: 38px; border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem; flex-shrink: 0;
-    }
-    .avatar-blue { background: #eff6ff; }
-    .avatar-green { background: #ecfdf5; }
-    .avatar-orange { background: #fffbeb; }
-    .item-detail { flex: 1; min-width: 0; }
-    .item-name { font-weight: 600; font-size: 0.85rem; color: #1e293b; }
-    .item-info { font-size: 0.72rem; color: #64748b; }
-    .item-value {
-      font-weight: 700; font-size: 0.85rem;
-      padding: 3px 8px; border-radius: 12px;
-      flex-shrink: 0;
-    }
-    .value-green { background: #ecfdf5; color: #059669; }
-    .value-red { background: #fef2f2; color: #dc2626; }
-    .value-blue { background: #eff6ff; color: #1e40af; }
-    .value-orange { background: #fffbeb; color: #d97706; }
 
     .bottom-nav {
       position: fixed; bottom: 0; left: 0; right: 0;
@@ -272,41 +216,235 @@
     .badge-blue { background: #eff6ff; color: #1e40af; }
     .badge-green { background: #ecfdf5; color: #059669; }
     .badge-red { background: #fef2f2; color: #dc2626; }
+    .badge-orange { background: #fffbeb; color: #d97706; }
 
     .chart-container {
-      position: relative;
-      width: 100%;
-      height: 180px;
-      margin: 8px 0;
+      position: relative; width: 100%; height: 180px; margin: 8px 0;
     }
     .chart-container canvas { width: 100% !important; height: 100% !important; }
 
-    .divider {
-      height: 1px;
-      background: #e2e8f0;
-      margin: 8px 0;
-    }
-
-    .highlight-number {
-      font-size: 2rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, #1e40af, #7c3aed);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
+    .divider { height: 1px; background: #e2e8f0; margin: 8px 0; }
     .alert-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 10px;
-      margin-bottom: 6px;
-      font-size: 0.8rem;
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 12px; border-radius: 10px;
+      margin-bottom: 6px; font-size: 0.8rem;
     }
     .alert-warning { background: #fffbeb; color: #92400e; }
-    .alert-info { background: #eff6ff; color: #1e40af; }
     .alert-success { background: #ecfdf5; color: #065f46; }
+
+    /* ============ PRODUCT PAGE REDESIGN ============ */
+    .product-toolbar {
+      display: flex; gap: 8px; align-items: center;
+    }
+    .search-box {
+      flex: 1; position: relative;
+    }
+    .search-box input {
+      padding-left: 36px;
+      background: #f8fafc;
+      border-color: #e2e8f0;
+    }
+    .search-icon {
+      position: absolute;
+      left: 12px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      color: #94a3b8;
+      pointer-events: none;
+    }
+
+    .tabs {
+      display: flex; gap: 0;
+      background: #f1f5f9;
+      padding: 3px;
+      border-radius: 12px;
+    }
+    .tab {
+      flex: 1;
+      padding: 9px 6px;
+      text-align: center;
+      border-radius: 10px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: #64748b;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .tab.active {
+      background: white;
+      color: #1e40af;
+      font-weight: 600;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    /* Product List - Clean Cards */
+    .product-list-clean {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .product-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      background: #fff;
+      border-radius: 14px;
+      border: 1px solid #f1f5f9;
+      transition: all 0.15s;
+      cursor: pointer;
+    }
+    .product-row:active {
+      background: #f8fafc;
+      border-color: #e2e8f0;
+    }
+    .product-emoji {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .emoji-blue { background: #eff6ff; }
+    .emoji-green { background: #ecfdf5; }
+    .emoji-red { background: #fef2f2; }
+    .emoji-purple { background: #f5f3ff; }
+    
+    .product-main {
+      flex: 1; min-width: 0;
+      display: flex; flex-direction: column;
+      gap: 2px;
+    }
+    .product-title {
+      font-weight: 600; font-size: 0.9rem;
+      color: #1e293b; white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .product-sub {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.73rem; color: #64748b;
+    }
+    .product-sub span {
+      display: flex; align-items: center; gap: 3px;
+    }
+    
+    .product-stock-badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      min-width: 45px;
+      text-align: center;
+    }
+    .stock-good { background: #ecfdf5; color: #059669; }
+    .stock-warn { background: #fffbeb; color: #d97706; }
+    .stock-danger { background: #fef2f2; color: #dc2626; }
+    
+    .product-arrow {
+      color: #cbd5e1; font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    /* Tracking View */
+    .tracking-list {
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .tracking-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 14px;
+      background: #fff;
+      border-radius: 14px;
+      border: 1px solid #f1f5f9;
+      transition: all 0.15s;
+      cursor: pointer;
+    }
+    .tracking-row:active {
+      background: #f8fafc;
+      border-color: #e2e8f0;
+    }
+    .tracking-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: #f5f3ff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .tracking-info {
+      flex: 1; min-width: 0;
+      display: flex; flex-direction: column; gap: 2px;
+    }
+    .tracking-name {
+      font-weight: 600; font-size: 0.9rem;
+      color: #1e293b;
+    }
+    .tracking-meta {
+      display: flex; gap: 10px;
+      font-size: 0.73rem; color: #64748b;
+    }
+    .tracking-stock {
+      font-weight: 700; font-size: 0.85rem;
+      color: #1e40af; flex-shrink: 0;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #94a3b8;
+    }
+    .empty-state .empty-icon {
+      font-size: 4rem;
+      margin-bottom: 12px;
+    }
+    .empty-state p {
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+    .empty-state .hint {
+      font-size: 0.75rem;
+      color: #cbd5e1;
+    }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      padding-left: 24px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 8px; top: 0; bottom: 0;
+      width: 2px; background: #e2e8f0;
+    }
+    .timeline-item {
+      position: relative;
+      padding: 8px 0 8px 16px;
+      margin-bottom: 4px;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -20px; top: 14px;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #3b82f6;
+      border: 2px solid white;
+      box-shadow: 0 0 0 2px #3b82f6;
+    }
+    .timeline-item.out::before {
+      background: #f59e0b;
+      box-shadow: 0 0 0 2px #f59e0b;
+    }
+    .timeline-date { font-size: 0.7rem; color: #64748b; margin-bottom: 2px; }
+    .timeline-desc { font-size: 0.85rem; color: #1e293b; font-weight: 500; }
+    .timeline-qty { font-size: 0.8rem; font-weight: 600; }
+    .timeline-qty.in { color: #059669; }
+    .timeline-qty.out { color: #dc2626; }
   </style>
 </head>
 <body>
@@ -526,66 +664,37 @@
       } catch(e) { console.error('Load error:', e); }
     }
 
-    // ==================== DASHBOARD SUPER LENGKAP ====================
+    // ==================== DASHBOARD ====================
     async function dashboardHTML() {
       const now = new Date();
       const today = new Date(); today.setHours(0,0,0,0);
       const thisWeek = new Date(today); thisWeek.setDate(thisWeek.getDate() - 7);
       const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-      
-      // Hitung statistik
       const totalProducts = products.length;
       const totalStock = products.reduce((s,p) => s+(p.stock||0), 0);
       const totalValue = products.reduce((s,p) => s+(p.stock||0)*(p.price||0), 0);
-      
-      // Transaksi hari ini
       const todayTrans = transactions.filter(t => (t.timestamp?.toDate?.()||new Date(t.timestamp)) >= today);
-      const todayIn = todayTrans.filter(t => t.type==='IN');
-      const todayOut = todayTrans.filter(t => t.type==='OUT');
-      const todayInQty = todayIn.reduce((s,t) => s+(t.qty||0), 0);
-      const todayOutQty = todayOut.reduce((s,t) => s+(t.qty||0), 0);
-      
-      // Transaksi minggu ini
-      const weekTrans = transactions.filter(t => (t.timestamp?.toDate?.()||new Date(t.timestamp)) >= thisWeek);
-      const weekIn = weekTrans.filter(t => t.type==='IN').reduce((s,t) => s+(t.qty||0), 0);
-      const weekOut = weekTrans.filter(t => t.type==='OUT').reduce((s,t) => s+(t.qty||0), 0);
-      
-      // Transaksi bulan ini
-      const monthTrans = transactions.filter(t => (t.timestamp?.toDate?.()||new Date(t.timestamp)) >= thisMonth);
-      const monthIn = monthTrans.filter(t => t.type==='IN').reduce((s,t) => s+(t.qty||0), 0);
-      const monthOut = monthTrans.filter(t => t.type==='OUT').reduce((s,t) => s+(t.qty||0), 0);
-      
-      // Rata-rata per hari (minggu ini)
+      const todayInQty = todayTrans.filter(t => t.type==='IN').reduce((s,t) => s+(t.qty||0), 0);
+      const todayOutQty = todayTrans.filter(t => t.type==='OUT').reduce((s,t) => s+(t.qty||0), 0);
+      const weekIn = transactions.filter(t => t.type==='IN' && (t.timestamp?.toDate?.()||new Date(t.timestamp)) >= thisWeek).reduce((s,t) => s+(t.qty||0), 0);
+      const weekOut = transactions.filter(t => t.type==='OUT' && (t.timestamp?.toDate?.()||new Date(t.timestamp)) >= thisWeek).reduce((s,t) => s+(t.qty||0), 0);
+      const monthIn = transactions.filter(t => t.type==='IN' && (t.timestamp?.toDate?.()||new Date(t.timestamp)) >= thisMonth).reduce((s,t) => s+(t.qty||0), 0);
+      const monthOut = transactions.filter(t => t.type==='OUT' && (t.timestamp?.toDate?.()||new Date(t.timestamp)) >= thisMonth).reduce((s,t) => s+(t.qty||0), 0);
       const daysPassed = Math.max(1, Math.ceil((now - thisWeek) / 86400000));
       const avgDailyIn = Math.round(weekIn / daysPassed);
       const avgDailyOut = Math.round(weekOut / daysPassed);
-      
-      // Produk terbaru (7 hari)
-      const newProducts = products.filter(p => {
-        const d = p.created?.toDate?.() || new Date(p.created);
-        return d >= thisWeek;
-      }).length;
-      
-      // Kategori transaksi OUT
       const soldOut = transactions.filter(t => t.type==='OUT' && t.purpose==='💰 Terjual').reduce((s,t) => s+(t.qty||0), 0);
       const damagedOut = transactions.filter(t => t.type==='OUT' && t.purpose==='🔨 Rusak').reduce((s,t) => s+(t.qty||0), 0);
       const expiredOut = transactions.filter(t => t.type==='OUT' && t.purpose==='⏰ Kadaluarsa').reduce((s,t) => s+(t.qty||0), 0);
-      
-      // Top produk (paling banyak transaksi)
       const productScore = products.map(p => {
         const trans = transactions.filter(t => t.productId === p.id);
-        return { ...p, transCount: trans.length, lastActivity: trans[0]?.timestamp || null };
+        return { ...p, transCount: trans.length };
       }).sort((a,b) => b.transCount - a.transCount).slice(0, 5);
-      
-      // Stok rendah
       const lowStockProducts = products.filter(p => (p.stock||0) <= (p.minStock||5));
       const lowStockCount = lowStockProducts.length;
-      
-      // Persentase stok sehat
       const healthyPercent = totalProducts > 0 ? Math.round(((totalProducts - lowStockCount) / totalProducts) * 100) : 100;
-      
+
       return `
-        <!-- HEADLINE STATS -->
         <div class="card" style="background:linear-gradient(135deg,#1e40af,#3b82f6);color:white;border:none;">
           <div style="text-align:center;">
             <div style="font-size:0.8rem;opacity:0.8;">Total Nilai Inventory</div>
@@ -593,137 +702,23 @@
             <div style="font-size:0.75rem;opacity:0.9;">${totalProducts} produk · ${totalStock} unit total stok</div>
           </div>
         </div>
-        
-        <!-- QUICK STATS 4 KOLOM -->
         <div class="stats-grid-4">
           <div class="stat-card blue"><div class="stat-value-sm">${totalProducts}</div><div class="stat-label">Produk</div></div>
           <div class="stat-card green"><div class="stat-value-sm">${totalStock}</div><div class="stat-label">Stok</div></div>
           <div class="stat-card orange"><div class="stat-value-sm">${todayInQty}</div><div class="stat-label">Masuk</div></div>
           <div class="stat-card red"><div class="stat-value-sm">${todayOutQty}</div><div class="stat-label">Keluar</div></div>
         </div>
-        
-        <!-- HEALTH STATUS -->
         <div class="card">
-          <div class="card-header">
-            <span class="card-title">💚 Kesehatan Stok</span>
-            <span class="badge ${healthyPercent >= 80 ? 'badge-green' : healthyPercent >= 50 ? 'badge-blue' : 'badge-red'}">${healthyPercent}% Sehat</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill ${healthyPercent >= 80 ? 'green' : healthyPercent >= 50 ? 'orange' : 'red'}" style="width:${healthyPercent}%;"></div>
-          </div>
-          <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:0.7rem;color:#64748b;">
-            <span>⚠️ ${lowStockCount} stok rendah</span>
-            <span>✅ ${totalProducts - lowStockCount} stok aman</span>
-          </div>
-          ${lowStockCount > 0 ? `
-            <div class="divider"></div>
-            <div style="font-size:0.75rem;color:#64748b;margin-bottom:6px;">Perlu perhatian:</div>
-            ${lowStockProducts.slice(0,3).map(p => `
-              <div class="alert-row alert-warning">
-                <span>⚠️</span>
-                <span style="flex:1;">${p.name} (SKU: ${p.sku})</span>
-                <strong>Stok: ${p.stock||0}</strong>
-              </div>
-            `).join('')}
-          ` : `
-            <div class="alert-row alert-success" style="margin-top:8px;">
-              <span>✅</span> Semua stok dalam kondisi aman!
-            </div>
-          `}
+          <div class="card-header"><span class="card-title">💚 Kesehatan Stok</span><span class="badge ${healthyPercent >= 80 ? 'badge-green' : healthyPercent >= 50 ? 'badge-blue' : 'badge-red'}">${healthyPercent}%</span></div>
+          <div class="progress-bar"><div class="progress-fill ${healthyPercent >= 80 ? 'green' : healthyPercent >= 50 ? 'orange' : 'red'}" style="width:${healthyPercent}%;"></div></div>
+          ${lowStockCount > 0 ? `<div class="divider"></div>${lowStockProducts.slice(0,3).map(p => `<div class="alert-row alert-warning"><span>⚠️</span><span style="flex:1;">${p.name} (${p.sku})</span><strong>Stok: ${p.stock||0}</strong></div>`).join('')}` : '<div class="alert-row alert-success" style="margin-top:8px;"><span>✅</span> Semua stok aman!</div>'}
         </div>
-        
-        <!-- RINGKASAN PERIODE -->
-        <div class="card">
-          <div class="card-title">📅 Ringkasan Periode</div>
-          <div class="stats-grid-3">
-            <div class="stat-card blue">
-              <div class="stat-value-sm">${todayInQty + todayOutQty}</div>
-              <div class="stat-label">Hari Ini</div>
-              <div style="font-size:0.65rem;color:#64748b;">📥${todayInQty} 📤${todayOutQty}</div>
-            </div>
-            <div class="stat-card green">
-              <div class="stat-value-sm">${weekIn + weekOut}</div>
-              <div class="stat-label">Minggu Ini</div>
-              <div style="font-size:0.65rem;color:#64748b;">📥${weekIn} 📤${weekOut}</div>
-            </div>
-            <div class="stat-card purple">
-              <div class="stat-value-sm">${monthIn + monthOut}</div>
-              <div class="stat-label">Bulan Ini</div>
-              <div style="font-size:0.65rem;color:#64748b;">📥${monthIn} 📤${monthOut}</div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- RATA-RATA & PRODUK BARU -->
-        <div class="stats-grid">
-          <div class="stat-card indigo">
-            <div class="stat-value">${avgDailyIn}</div>
-            <div class="stat-label">📥 Rata² Masuk/Hari</div>
-          </div>
-          <div class="stat-card orange">
-            <div class="stat-value">${avgDailyOut}</div>
-            <div class="stat-label">📤 Rata² Keluar/Hari</div>
-          </div>
-        </div>
-        
-        <!-- BREAKDOWN OUT -->
-        <div class="card">
-          <div class="card-title">📤 Breakdown Barang Keluar</div>
-          <div class="stats-grid-4">
-            <div class="stat-card green"><div class="stat-value-sm">${soldOut}</div><div class="stat-label">💰 Terjual</div></div>
-            <div class="stat-card orange"><div class="stat-value-sm">${damagedOut}</div><div class="stat-label">🔨 Rusak</div></div>
-            <div class="stat-card red"><div class="stat-value-sm">${expiredOut}</div><div class="stat-label">⏰ Expired</div></div>
-            <div class="stat-card blue"><div class="stat-value-sm">${newProducts}</div><div class="stat-label">🆕 Baru</div></div>
-          </div>
-        </div>
-        
-        <!-- TOP PRODUK -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">🏆 Top 5 Produk Aktif</span>
-            <span class="badge badge-blue">Transaksi</span>
-          </div>
-          <div class="list">
-            ${productScore.length > 0 ? productScore.map((p, i) => `
-              <div class="list-item">
-                <div class="item-avatar ${i === 0 ? 'avatar-green' : 'avatar-blue'}">${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '📦'}</div>
-                <div class="item-detail">
-                  <div class="item-name">${p.name || 'Tanpa Nama'}</div>
-                  <div class="item-info">SKU: ${p.sku || '-'} | Stok: ${p.stock||0}</div>
-                </div>
-                <span class="item-value value-blue">${p.transCount}x</span>
-              </div>
-            `).join('') : '<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada aktivitas</div>'}
-          </div>
-        </div>
-        
-        <!-- TRANSAKSI TERAKHIR -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">📜 Aktivitas Terakhir</span>
-            <span class="badge badge-green">Live</span>
-          </div>
-          <div class="list">
-            ${transactions.slice(0, 5).map(t => `
-              <div class="list-item">
-                <div class="item-avatar ${t.type==='IN'?'avatar-green':'avatar-orange'}">${t.type==='IN'?'📥':'📤'}</div>
-                <div class="item-detail">
-                  <div class="item-name">${t.productName || '-'}</div>
-                  <div class="item-info">${formatDate(t.timestamp)} · ${t.userEmail || ''}</div>
-                </div>
-                <span class="item-value ${t.type==='IN'?'value-green':'value-red'}">${t.type==='IN'?'+':'-'}${t.qty||0}</span>
-              </div>
-            `).join('') || '<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada transaksi</div>'}
-          </div>
-        </div>
-        
-        <!-- CHART MINI -->
-        <div class="card">
-          <div class="card-title">📈 Tren 7 Hari Terakhir</div>
-          <div class="chart-container">
-            <canvas id="dashChart"></canvas>
-          </div>
-        </div>
+        <div class="card"><div class="card-title">📅 Ringkasan</div><div class="stats-grid-3"><div class="stat-card blue"><div class="stat-value-sm">${todayInQty + todayOutQty}</div><div class="stat-label">Hari Ini</div></div><div class="stat-card green"><div class="stat-value-sm">${weekIn + weekOut}</div><div class="stat-label">Minggu Ini</div></div><div class="stat-card purple"><div class="stat-value-sm">${monthIn + monthOut}</div><div class="stat-label">Bulan Ini</div></div></div></div>
+        <div class="stats-grid"><div class="stat-card blue"><div class="stat-value">${avgDailyIn}</div><div class="stat-label">📥 Rata² Masuk/Hari</div></div><div class="stat-card orange"><div class="stat-value">${avgDailyOut}</div><div class="stat-label">📤 Rata² Keluar/Hari</div></div></div>
+        <div class="card"><div class="card-title">📤 Breakdown Keluar</div><div class="stats-grid-4"><div class="stat-card green"><div class="stat-value-sm">${soldOut}</div><div class="stat-label">💰 Terjual</div></div><div class="stat-card orange"><div class="stat-value-sm">${damagedOut}</div><div class="stat-label">🔨 Rusak</div></div><div class="stat-card red"><div class="stat-value-sm">${expiredOut}</div><div class="stat-label">⏰ Expired</div></div><div class="stat-card blue"><div class="stat-value-sm">${products.filter(p => {const d=p.created?.toDate?.()||new Date(p.created);return d>=thisWeek;}).length}</div><div class="stat-label">🆕 Baru</div></div></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">🏆 Top 5 Produk</span></div><div class="list">${productScore.map((p,i)=>`<div class="list-item"><span style="font-size:1.2rem;">${i===0?'🥇':i===1?'🥈':i===2?'🥉':'📦'}</span><div class="item-detail" style="flex:1;"><div class="item-name">${p.name||'-'}</div><div class="item-info">${p.transCount} transaksi · Stok: ${p.stock||0}</div></div></div>`).join('')||'<div style="text-align:center;padding:20px;">Belum ada</div>'}</div></div>
+        <div class="card"><div class="card-header"><span class="card-title">📜 Aktivitas Terakhir</span></div><div class="list">${transactions.slice(0,5).map(t=>`<div class="list-item"><span>${t.type==='IN'?'📥':'📤'}</span><div class="item-detail" style="flex:1;"><div class="item-name">${t.productName||'-'}</div><div class="item-info">${formatDate(t.timestamp)}</div></div><span style="font-weight:700;color:${t.type==='IN'?'#059669':'#dc2626'}">${t.type==='IN'?'+':'-'}${t.qty}</span></div>`).join('')||'<div style="text-align:center;padding:20px;">Belum ada</div>'}</div></div>
+        <div class="card"><div class="card-title">📈 Tren 7 Hari</div><div class="chart-container"><canvas id="dashChart"></canvas></div></div>
       `;
     }
 
@@ -732,7 +727,6 @@
         const canvas = document.getElementById('dashChart');
         if (!canvas) return;
         if (currentChart) currentChart.destroy();
-        
         const labels = [], inData = [], outData = [];
         const today = new Date();
         for (let i = 6; i >= 0; i--) {
@@ -740,36 +734,17 @@
           labels.push(d.toLocaleDateString('id-ID', { day:'numeric', month:'short' }));
           let di = 0, dio = 0;
           transactions.forEach(t => {
-            try {
-              const td = t.timestamp?.toDate?.() || new Date(t.timestamp);
-              if (td.toDateString() === d.toDateString()) {
-                if (t.type === 'IN') di += t.qty||0;
-                else dio += t.qty||0;
-              }
-            } catch {}
+            try { const td = t.timestamp?.toDate?.() || new Date(t.timestamp); if (td.toDateString() === d.toDateString()) { if (t.type === 'IN') di += t.qty||0; else dio += t.qty||0; } } catch {}
           });
           inData.push(di); outData.push(dio);
         }
-        
-        const ctx = canvas.getContext('2d');
-        currentChart = new Chart(ctx, {
+        currentChart = new Chart(canvas.getContext('2d'), {
           type: 'line',
-          data: {
-            labels,
-            datasets: [
-              { label: 'Masuk', data: inData, borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.1)', fill: true, tension: 0.3, pointRadius: 3 },
-              { label: 'Keluar', data: outData, borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.05)', fill: true, tension: 0.3, pointRadius: 3 }
-            ]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 9 } } } },
-            scales: {
-              y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 9 } } },
-              x: { ticks: { font: { size: 8 } } }
-            }
-          }
+          data: { labels, datasets: [
+            { label: 'Masuk', data: inData, borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.1)', fill: true, tension: 0.3, pointRadius: 3 },
+            { label: 'Keluar', data: outData, borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.05)', fill: true, tension: 0.3, pointRadius: 3 }
+          ]},
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 9 } } } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 9 } } }, x: { ticks: { font: { size: 8 } } } } }
         });
       }, 300);
     }
@@ -777,11 +752,8 @@
     // ==================== STOCK IN/OUT ====================
     function stockInHTML() {
       return `
-        <div class="card">
-          <div class="card-title">📥 Barang Masuk</div>
-          <div class="form-group"><label class="form-label">Scan Barcode / SKU</label>
-            <div style="display:flex;gap:8px;"><input type="text" id="inSKU" placeholder="Scan atau ketik SKU" style="flex:1;"><button class="btn btn-outline btn-sm" id="scanInBtn">📷</button></div>
-          </div>
+        <div class="card"><div class="card-title">📥 Barang Masuk</div>
+          <div class="form-group"><label class="form-label">Scan Barcode / SKU</label><div style="display:flex;gap:8px;"><input type="text" id="inSKU" placeholder="Scan atau ketik SKU" style="flex:1;"><button class="btn btn-outline btn-sm" id="scanInBtn">📷</button></div></div>
           <div id="inScannerContainer" style="display:none;margin-bottom:10px;"><div id="inScannerView" style="width:100%;border-radius:12px;overflow:hidden;"></div><button class="btn btn-sm btn-outline" id="stopInScan" style="margin-top:6px;">❌ Tutup</button></div>
           <div id="inProductInfo" style="display:none;margin-bottom:10px;"><div style="background:#f8fafc;padding:12px;border-radius:12px;"><strong id="inProductName">-</strong><br><span style="font-size:0.8rem;color:#64748b;">Stok: <span id="inCurrentStock">0</span></span></div></div>
           <div class="form-group"><label class="form-label">Jumlah</label><input type="number" id="inQty" value="1" min="1"></div>
@@ -794,11 +766,8 @@
 
     function stockOutHTML() {
       return `
-        <div class="card">
-          <div class="card-title">📤 Barang Keluar</div>
-          <div class="form-group"><label class="form-label">Scan Barcode / SKU</label>
-            <div style="display:flex;gap:8px;"><input type="text" id="outSKU" style="flex:1;"><button class="btn btn-outline btn-sm" id="scanOutBtn">📷</button></div>
-          </div>
+        <div class="card"><div class="card-title">📤 Barang Keluar</div>
+          <div class="form-group"><label class="form-label">Scan Barcode / SKU</label><div style="display:flex;gap:8px;"><input type="text" id="outSKU" style="flex:1;"><button class="btn btn-outline btn-sm" id="scanOutBtn">📷</button></div></div>
           <div id="outScannerContainer" style="display:none;margin-bottom:10px;"><div id="outScannerView" style="width:100%;border-radius:12px;overflow:hidden;"></div><button class="btn btn-sm btn-outline" id="stopOutScan" style="margin-top:6px;">❌ Tutup</button></div>
           <div id="outProductInfo" style="display:none;margin-bottom:10px;"><div style="background:#fef2f2;padding:12px;border-radius:12px;"><strong id="outProductName">-</strong><br><span style="font-size:0.8rem;">Stok: <span id="outCurrentStock">0</span></span></div></div>
           <div class="form-group"><label class="form-label">Jumlah</label><input type="number" id="outQty" value="1" min="1"></div>
@@ -810,7 +779,6 @@
       `;
     }
 
-    // ... (Stock In/Out functions sama seperti sebelumnya) ...
     async function initStockIn() {
       await loadInHistory();
       document.getElementById('scanInBtn').addEventListener('click', ()=>scannerIn?.isScanning?stopScanner('in'):startScanner('in','inScannerView'));
@@ -909,17 +877,17 @@
       const list=document.getElementById('inHistoryList'); if(!list)return;
       const today=new Date(); today.setHours(0,0,0,0);
       const items=transactions.filter(t=>t.type==='IN'&&(t.timestamp?.toDate?.()||new Date(t.timestamp))>=today);
-      list.innerHTML=items.length?items.map(i=>`<div class="list-item"><div class="item-avatar avatar-green">📥</div><div class="item-detail"><div class="item-name">${i.productName} (+${i.qty})</div><div class="item-info">${formatDate(i.timestamp)}</div></div></div>`).join(''):'<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada</div>';
+      list.innerHTML=items.length?items.map(i=>`<div class="list-item"><span>📥</span><div class="item-detail" style="flex:1;"><div class="item-name">${i.productName} (+${i.qty})</div><div class="item-info">${formatDate(i.timestamp)}</div></div></div>`).join(''):'<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada</div>';
     }
 
     async function loadOutHistory() {
       const list=document.getElementById('outHistoryList'); if(!list)return;
       const today=new Date(); today.setHours(0,0,0,0);
       const items=transactions.filter(t=>t.type==='OUT'&&(t.timestamp?.toDate?.()||new Date(t.timestamp))>=today);
-      list.innerHTML=items.length?items.map(i=>`<div class="list-item"><div class="item-avatar avatar-orange">📤</div><div class="item-detail"><div class="item-name">${i.productName} (-${i.qty})</div><div class="item-info">${i.purpose} | ${formatDate(i.timestamp)}</div></div></div>`).join(''):'<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada</div>';
+      list.innerHTML=items.length?items.map(i=>`<div class="list-item"><span>📤</span><div class="item-detail" style="flex:1;"><div class="item-name">${i.productName} (-${i.qty})</div><div class="item-info">${i.purpose} | ${formatDate(i.timestamp)}</div></div></div>`).join(''):'<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada</div>';
     }
 
-    // ==================== PRODUCTS PAGE ====================
+    // ==================== PRODUCTS PAGE (CLEAN REDESIGN) ====================
     async function productsHTML() {
       const productStats = products.map(p => {
         const trans = transactions.filter(t => t.productId === p.id);
@@ -928,67 +896,123 @@
       });
 
       return `
-        <div class="search-bar">
-          <input type="text" id="productSearch" placeholder="🔍 Cari produk atau SKU..." style="flex:1;">
-          <button class="btn btn-primary btn-sm" id="addProductBtn">+ Baru</button>
-        </div>
-        <div class="tabs" id="productTabs">
-          <button class="tab active" data-mode="list">📋 Daftar Produk</button>
-          <button class="tab" data-mode="tracking">📈 Product Tracking</button>
-        </div>
-        <div id="productListView">
-          <div class="card">
-            <div class="card-header"><span class="card-title">📦 Semua Produk</span><span class="badge badge-blue">${products.length} item</span></div>
-            <div class="product-grid" id="productGrid">${renderProductCards(productStats)}</div>
+        <!-- Toolbar -->
+        <div class="product-toolbar">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="productSearch" placeholder="Cari produk atau SKU...">
           </div>
+          <button class="btn btn-primary btn-sm" id="addProductBtn" style="flex-shrink:0;">+ Tambah</button>
         </div>
+        
+        <!-- Tabs -->
+        <div class="tabs" id="productTabs">
+          <button class="tab active" data-mode="list">📋 Semua Produk</button>
+          <button class="tab" data-mode="tracking">📈 Tracking</button>
+        </div>
+        
+        <!-- Product List View -->
+        <div id="productListView">
+          ${renderCleanProductList(productStats)}
+        </div>
+        
+        <!-- Tracking View -->
         <div id="productTrackingView" style="display:none;">
+          ${renderCleanTrackingList(productStats)}
+        </div>
+      `;
+    }
+
+    function renderCleanProductList(stats) {
+      if (stats.length === 0) {
+        return `
           <div class="card">
-            <div class="card-title">📈 Tracking Semua Produk</div>
-            <p style="font-size:0.8rem;color:#64748b;margin-bottom:12px;">Klik produk untuk melihat riwayat transaksi lengkap</p>
-            <div class="product-grid" id="trackingGrid">${renderTrackingCards(productStats)}</div>
+            <div class="empty-state">
+              <div class="empty-icon">📭</div>
+              <p>Belum ada produk</p>
+              <p class="hint">Tekan tombol + Tambah untuk menambahkan</p>
+            </div>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📦 Daftar Produk</span>
+            <span class="badge badge-blue">${stats.length} item</span>
+          </div>
+          <div class="product-list-clean" id="productListClean">
+            ${stats.map(p => {
+              const stockLevel = (p.stock||0) <= (p.minStock||5) ? 'danger' : (p.stock||0) <= (p.minStock||5)*2 ? 'warn' : 'good';
+              const stockLabel = (p.stock||0) <= (p.minStock||5) ? '⚠️' : (p.stock||0) <= (p.minStock||5)*2 ? '📦' : '✅';
+              const emojiClass = stockLevel === 'danger' ? 'emoji-red' : stockLevel === 'warn' ? 'emoji-purple' : 'emoji-green';
+              
+              return `
+                <div class="product-row" onclick="window.showProductDetail('${p.id}')">
+                  <div class="product-emoji ${emojiClass}">${stockLabel}</div>
+                  <div class="product-main">
+                    <div class="product-title">${p.name || 'Tanpa Nama'}</div>
+                    <div class="product-sub">
+                      <span>🔢 ${p.sku || '-'}</span>
+                      <span>📍 ${p.lokasi || '-'}</span>
+                    </div>
+                  </div>
+                  <div class="product-stock-badge stock-${stockLevel}">${p.stock||0}</div>
+                  <div class="product-arrow">›</div>
+                </div>
+              `;
+            }).join('')}
           </div>
         </div>
       `;
     }
 
-    function renderProductCards(productStats) {
-      if (productStats.length === 0) return '<div style="text-align:center;padding:30px;color:#94a3b8;">📭 Belum ada produk</div>';
-      return productStats.map(p => {
-        const stockClass = (p.stock||0) <= (p.minStock||5) ? 'stock-low' : (p.stock||0) <= (p.minStock||5)*2 ? 'stock-mid' : 'stock-high';
-        const iconClass = (p.stock||0) <= (p.minStock||5) ? 'icon-red' : 'icon-blue';
+    function renderCleanTrackingList(stats) {
+      if (stats.length === 0) {
         return `
-          <div class="product-card">
-            <div class="product-icon ${iconClass}">📦</div>
-            <div class="product-info">
-              <div class="product-name">${p.name || 'Tanpa Nama'}</div>
-              <div class="product-meta"><span>🔢 ${p.sku || '-'}</span><span>📍 ${p.lokasi || '-'}</span><span class="item-stock ${stockClass}" style="font-size:0.75rem;">Stok: ${p.stock||0}</span></div>
+          <div class="card">
+            <div class="empty-state">
+              <div class="empty-icon">📈</div>
+              <p>Belum ada data tracking</p>
+              <p class="hint">Lakukan transaksi untuk melihat riwayat</p>
             </div>
-            <div class="product-actions">
-              <button class="action-btn track" onclick="window.showProductTracking('${p.id}')">📈</button>
-              <button class="action-btn" onclick="window.editProduct('${p.id}')">✏️</button>
-            </div>
-          </div>`;
-      }).join('');
-    }
+          </div>
+        `;
+      }
 
-    function renderTrackingCards(productStats) {
-      if (productStats.length === 0) return '<div style="text-align:center;padding:30px;color:#94a3b8;">📭 Belum ada produk</div>';
-      return productStats.map(p => {
-        const lastDate = p.lastTransDate ? p.lastTransDate.toLocaleDateString('id-ID', { day:'numeric', month:'short' }) : 'Belum ada';
-        return `
-          <div class="product-card" onclick="window.showProductTracking('${p.id}')">
-            <div class="product-icon icon-blue">📦</div>
-            <div class="product-info">
-              <div class="product-name">${p.name || 'Tanpa Nama'}</div>
-              <div class="product-meta"><span>📊 ${p.transCount} transaksi</span><span>🕐 ${lastDate}</span><span style="font-weight:600;color:#1e40af;">Stok: ${p.stock||0}</span></div>
-            </div>
-            <div style="color:#8b5cf6;font-size:1.2rem;">▶</div>
-          </div>`;
-      }).join('');
+      return `
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📈 Product Tracking</span>
+            <span class="badge badge-blue">${stats.length} produk</span>
+          </div>
+          <p style="font-size:0.75rem;color:#94a3b8;margin-bottom:10px;">Ketuk produk untuk lihat riwayat lengkap</p>
+          <div class="tracking-list" id="trackingListClean">
+            ${stats.map(p => {
+              const lastDate = p.lastTransDate ? p.lastTransDate.toLocaleDateString('id-ID', { day:'numeric', month:'short' }) : '-';
+              return `
+                <div class="tracking-row" onclick="window.showProductTracking('${p.id}')">
+                  <div class="tracking-icon">📦</div>
+                  <div class="tracking-info">
+                    <div class="tracking-name">${p.name || 'Tanpa Nama'}</div>
+                    <div class="tracking-meta">
+                      <span>📊 ${p.transCount} transaksi</span>
+                      <span>🕐 ${lastDate}</span>
+                    </div>
+                  </div>
+                  <div class="tracking-stock">${p.stock||0}</div>
+                  <div style="color:#cbd5e1;">›</div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
     }
 
     function initProducts() {
+      // Tab switching
       document.querySelectorAll('#productTabs .tab').forEach(tab => {
         tab.addEventListener('click', function() {
           document.querySelectorAll('#productTabs .tab').forEach(t => t.classList.remove('active'));
@@ -998,27 +1022,74 @@
           document.getElementById('productTrackingView').style.display = productViewMode === 'tracking' ? 'block' : 'none';
         });
       });
+      
+      // Add product
       document.getElementById('addProductBtn').addEventListener('click', showAddProductModal);
+      
+      // Search
       document.getElementById('productSearch').addEventListener('input', function() {
         const term = this.value.toLowerCase();
-        const filtered = products.filter(p => (p.name||'').toLowerCase().includes(term) || (p.sku||'').toLowerCase().includes(term));
+        const filtered = products.filter(p => 
+          (p.name||'').toLowerCase().includes(term) || 
+          (p.sku||'').toLowerCase().includes(term)
+        );
+        
         const stats = filtered.map(p => {
           const trans = transactions.filter(t => t.productId === p.id);
-          return { ...p, transCount: trans.length, lastTransDate: trans[0] ? (trans[0].timestamp?.toDate?.() || new Date(trans[0].timestamp)) : null };
+          const lastTrans = trans.length > 0 ? trans[0] : null;
+          return { ...p, transCount: trans.length, lastTransDate: lastTrans ? (lastTrans.timestamp?.toDate?.() || new Date(lastTrans.timestamp)) : null };
         });
-        document.getElementById('productGrid').innerHTML = renderProductCards(stats);
-        document.getElementById('trackingGrid').innerHTML = renderTrackingCards(stats);
+        
+        document.getElementById('productListView').innerHTML = renderCleanProductList(stats);
+        document.getElementById('productTrackingView').innerHTML = renderCleanTrackingList(stats);
       });
     }
 
+    // Product Detail (Click on product row)
+    window.showProductDetail = function(productId) {
+      const p = products.find(x => x.id === productId);
+      if (!p) return;
+      
+      const stockLevel = (p.stock||0) <= (p.minStock||5) ? 'danger' : (p.stock||0) <= (p.minStock||5)*2 ? 'warn' : 'good';
+      const stockLabel = stockLevel === 'danger' ? '⚠️ Stok Rendah' : stockLevel === 'warn' ? '📦 Stok Sedang' : '✅ Stok Aman';
+      
+      showModal(`
+        <h3 style="margin-bottom:4px;">${p.name || 'Tanpa Nama'}</h3>
+        <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+          <span class="badge badge-blue">SKU: ${p.sku || '-'}</span>
+          <span class="badge badge-green">📍 ${p.lokasi || '-'}</span>
+          <span class="badge ${stockLevel === 'danger' ? 'badge-red' : stockLevel === 'warn' ? 'badge-orange' : 'badge-green'}">${stockLabel}</span>
+        </div>
+        <div class="stats-grid mb-2">
+          <div class="stat-card blue"><div class="stat-value">${p.stock||0}</div><div class="stat-label">Stok</div></div>
+          <div class="stat-card green"><div class="stat-value">${formatRupiah(p.price)}</div><div class="stat-label">Harga</div></div>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-primary btn-sm" onclick="window.editProduct('${p.id}');document.getElementById('modalOverlay').classList.remove('show');" style="flex:1;">✏️ Edit</button>
+          <button class="btn btn-outline btn-sm" onclick="window.showProductTracking('${p.id}');" style="flex:1;">📈 Tracking</button>
+          <button class="btn btn-danger btn-sm" onclick="if(confirm('Hapus?')){window.deleteProduct('${p.id}');}" style="flex:1;">🗑️</button>
+        </div>
+        <button class="btn btn-outline btn-block" onclick="document.getElementById('modalOverlay').classList.remove('show')" style="margin-top:8px;">Tutup</button>
+      `);
+    };
+
+    window.deleteProduct = async function(id) {
+      await deleteDoc(doc(db, "products", id));
+      playSuccessSound();
+      closeModal();
+      await loadDashboardData();
+      renderPage('products');
+      toast('🗑️ Produk dihapus');
+    };
+
     function showAddProductModal() {
       showModal(`
-        <h3 style="margin-bottom:12px;">➕ Tambah Produk</h3>
-        <div class="form-group"><label class="form-label">SKU</label><input type="text" id="newSKU"></div>
-        <div class="form-group"><label class="form-label">Nama</label><input type="text" id="newName"></div>
-        <div class="form-group"><label class="form-label">Lokasi</label><select id="newLokasi"><option value="">Pilih</option><option>📍 Rak A</option><option>📍 Rak B</option><option>🏭 Gudang 1</option></select></div>
-        <div class="input-row"><div class="form-group"><label class="form-label">Stok</label><input type="number" id="newStock" value="0"></div><div class="form-group"><label class="form-label">Min</label><input type="number" id="newMinStock" value="5"></div></div>
-        <div class="form-group"><label class="form-label">Harga</label><input type="number" id="newPrice" value="0"></div>
+        <h3 style="margin-bottom:12px;">➕ Tambah Produk Baru</h3>
+        <div class="form-group"><label class="form-label">SKU / Barcode</label><input type="text" id="newSKU" placeholder="Masukkan SKU"></div>
+        <div class="form-group"><label class="form-label">Nama Produk</label><input type="text" id="newName" placeholder="Nama produk"></div>
+        <div class="form-group"><label class="form-label">Lokasi</label><select id="newLokasi"><option value="">Pilih Lokasi</option><option>📍 Rak A</option><option>📍 Rak B</option><option>🏭 Gudang 1</option></select></div>
+        <div class="input-row"><div class="form-group"><label class="form-label">Stok Awal</label><input type="number" id="newStock" value="0"></div><div class="form-group"><label class="form-label">Min Stok</label><input type="number" id="newMinStock" value="5"></div></div>
+        <div class="form-group"><label class="form-label">Harga (Rp)</label><input type="number" id="newPrice" value="0" placeholder="Opsional"></div>
         <button class="btn btn-primary btn-block" id="saveNewProduct">💾 Simpan</button>
       `);
       document.getElementById('saveNewProduct').addEventListener('click', async () => {
@@ -1031,7 +1102,7 @@
 
     window.editProduct = function(id) {
       const p=products.find(x=>x.id===id); if(!p)return;
-      showModal(`<h3>✏️ Edit</h3><div class="form-group"><label class="form-label">SKU</label><input type="text" id="eSKU" value="${p.sku||''}"></div><div class="form-group"><label class="form-label">Nama</label><input type="text" id="eName" value="${p.name||''}"></div><div class="form-group"><label class="form-label">Lokasi</label><select id="eLokasi"><option value="">Pilih</option><option value="Rak A" ${p.lokasi==='Rak A'?'selected':''}>📍 Rak A</option><option value="Rak B" ${p.lokasi==='Rak B'?'selected':''}>📍 Rak B</option><option value="Gudang 1" ${p.lokasi==='Gudang 1'?'selected':''}>🏭 Gudang 1</option></select></div><div class="input-row"><div class="form-group"><label class="form-label">Stok</label><input type="number" id="eStock" value="${p.stock||0}"></div><div class="form-group"><label class="form-label">Min</label><input type="number" id="eMin" value="${p.minStock||5}"></div></div><div class="form-group"><label class="form-label">Harga</label><input type="number" id="ePrice" value="${p.price||0}"></div><div style="display:flex;gap:8px;"><button class="btn btn-primary" id="updProd" style="flex:1;">💾</button><button class="btn btn-danger" id="delProd" style="flex:1;">🗑️</button></div>`);
+      showModal(`<h3>✏️ Edit Produk</h3><div class="form-group"><label class="form-label">SKU</label><input type="text" id="eSKU" value="${p.sku||''}"></div><div class="form-group"><label class="form-label">Nama</label><input type="text" id="eName" value="${p.name||''}"></div><div class="form-group"><label class="form-label">Lokasi</label><select id="eLokasi"><option value="">Pilih</option><option value="Rak A" ${p.lokasi==='Rak A'?'selected':''}>📍 Rak A</option><option value="Rak B" ${p.lokasi==='Rak B'?'selected':''}>📍 Rak B</option><option value="Gudang 1" ${p.lokasi==='Gudang 1'?'selected':''}>🏭 Gudang 1</option></select></div><div class="input-row"><div class="form-group"><label class="form-label">Stok</label><input type="number" id="eStock" value="${p.stock||0}"></div><div class="form-group"><label class="form-label">Min</label><input type="number" id="eMin" value="${p.minStock||5}"></div></div><div class="form-group"><label class="form-label">Harga</label><input type="number" id="ePrice" value="${p.price||0}"></div><div style="display:flex;gap:8px;"><button class="btn btn-primary" id="updProd" style="flex:1;">💾 Update</button><button class="btn btn-danger" id="delProd" style="flex:1;">🗑️ Hapus</button></div>`);
       document.getElementById('updProd').addEventListener('click', async ()=>{
         await updateDoc(doc(db,"products",id),{sku:document.getElementById('eSKU').value,name:document.getElementById('eName').value,lokasi:document.getElementById('eLokasi').value,stock:parseInt(document.getElementById('eStock').value)||0,minStock:parseInt(document.getElementById('eMin').value)||5,price:parseInt(document.getElementById('ePrice').value)||0,updatedAt:new Date()});
         playSuccessSound();closeModal();await loadDashboardData();renderPage('products');toast('✅ Diupdate');
@@ -1053,8 +1124,8 @@
     async function reportsHTML() {
       const totalValue = products.reduce((s,p)=>s+(p.stock||0)*(p.price||0),0);
       const now=new Date();
-      const inMonth = transactions.filter(t=>{if(t.type!=='IN')return false;try{const d=t.timestamp?.toDate?.()||new Date(t.timestamp);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();}catch{return false;}}).reduce((s,t)=>s+(t.qty||0),0);
-      const outMonth = transactions.filter(t=>{if(t.type!=='OUT')return false;try{const d=t.timestamp?.toDate?.()||new Date(t.timestamp);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();}catch{return false;}}).reduce((s,t)=>s+(t.qty||0),0);
+      const inMonth = transactions.filter(t=>{if(t.type!=='IN')return false;try{return (t.timestamp?.toDate?.()||new Date(t.timestamp)).getMonth()===now.getMonth();}catch{return false;}}).reduce((s,t)=>s+(t.qty||0),0);
+      const outMonth = transactions.filter(t=>{if(t.type!=='OUT')return false;try{return (t.timestamp?.toDate?.()||new Date(t.timestamp)).getMonth()===now.getMonth();}catch{return false;}}).reduce((s,t)=>s+(t.qty||0),0);
       return `<div class="card"><div class="card-title">📊 Bulan Ini</div><div class="stats-grid"><div class="stat-card green"><div class="stat-value">${inMonth}</div><div class="stat-label">📥 Masuk</div></div><div class="stat-card orange"><div class="stat-value">${outMonth}</div><div class="stat-label">📤 Keluar</div></div><div class="stat-card blue"><div class="stat-value">${products.length}</div><div class="stat-label">Produk</div></div><div class="stat-card green"><div class="stat-value">${formatRupiah(totalValue)}</div><div class="stat-label">Nilai</div></div></div></div><div class="card"><div class="card-title">📈 Grafik 7 Hari</div><div class="chart-container"><canvas id="reportChart"></canvas></div></div><button class="btn btn-outline btn-block" id="exportReportBtn">📥 Export CSV</button>`;
     }
 
@@ -1083,7 +1154,7 @@
     });
 
     window.addEventListener('beforeunload', () => stopAllScanners());
-    console.log('✅ InventoryPro Dashboard Super Lengkap!');
+    console.log('✅ InventoryPro - Halaman Produk Clean Redesign!');
     loadDashboardData();
   </script>
 </body>
