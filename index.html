@@ -197,11 +197,7 @@
     .chart-container { position: relative; width: 100%; height: 180px; margin: 8px 0; }
     .chart-container canvas { width: 100% !important; height: 100% !important; }
 
-    .alert-row {
-      display: flex; align-items: center; gap: 8px;
-      padding: 8px 12px; border-radius: 10px;
-      margin-bottom: 6px; font-size: 0.8rem;
-    }
+    .alert-row { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 10px; margin-bottom: 6px; font-size: 0.8rem; }
     .alert-warning { background: #fffbeb; color: #92400e; }
     .alert-success { background: #ecfdf5; color: #065f46; }
 
@@ -210,84 +206,42 @@
     .search-box { flex: 1; position: relative; display: flex; gap: 6px; align-items: center; }
     .search-box input { padding-left: 36px; background: #f8fafc; border-color: #e2e8f0; flex: 1; }
     .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 16px; color: #94a3b8; pointer-events: none; z-index: 1; }
-    .scan-btn-search {
-      width: 42px; height: 42px; border-radius: 12px; border: 2px solid #bfdbfe;
-      background: #eff6ff; color: #1e40af; font-size: 1.2rem; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; transition: 0.15s;
-    }
+    .scan-btn-search { width: 42px; height: 42px; border-radius: 12px; border: 2px solid #bfdbfe; background: #eff6ff; color: #1e40af; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: 0.15s; }
     .scan-btn-search:active { background: #dbeafe; transform: scale(0.95); }
     .scan-btn-search.scanning { background: #fef2f2; border-color: #fecaca; color: #dc2626; animation: pulse 1s infinite; }
     @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.6;} }
-
     .search-scanner-container { margin-top: 8px; border-radius: 12px; overflow: hidden; display: none; }
     .search-scanner-container.active { display: block; }
 
-    .tabs {
-      display: flex; gap: 0;
-      background: #f1f5f9; padding: 3px;
-      border-radius: 12px;
-    }
-    .tab {
-      flex: 1; padding: 9px 4px; text-align: center;
-      border-radius: 10px; font-size: 0.72rem; font-weight: 500;
-      cursor: pointer; border: none; background: transparent;
-      color: #64748b; white-space: nowrap;
-    }
+    .tabs { display: flex; gap: 0; background: #f1f5f9; padding: 3px; border-radius: 12px; }
+    .tab { flex: 1; padding: 9px 4px; text-align: center; border-radius: 10px; font-size: 0.72rem; font-weight: 500; cursor: pointer; border: none; background: transparent; color: #64748b; white-space: nowrap; }
     .tab.active { background: white; color: #1e40af; font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
 
     .product-list-clean { display: flex; flex-direction: column; gap: 6px; }
-    .product-row {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 12px; background: #fff;
-      border-radius: 14px; border: 1px solid #f1f5f9;
-      cursor: pointer; transition: 0.15s;
-    }
+    .product-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: #fff; border-radius: 14px; border: 1px solid #f1f5f9; cursor: pointer; transition: 0.15s; }
     .product-row:active { background: #f8fafc; border-color: #e2e8f0; }
     .product-row.highlight { background: #eff6ff; border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59,130,246,0.2); }
-    .product-emoji {
-      width: 44px; height: 44px; border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem; flex-shrink: 0;
-    }
-    .emoji-green { background: #ecfdf5; }
-    .emoji-purple { background: #f5f3ff; }
-    .emoji-red { background: #fef2f2; }
+    .product-emoji { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+    .emoji-green { background: #ecfdf5; } .emoji-purple { background: #f5f3ff; } .emoji-red { background: #fef2f2; }
     .product-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
     .product-title { font-weight: 600; font-size: 0.9rem; color: #1e293b; }
     .product-sub { display: flex; align-items: center; gap: 6px; font-size: 0.73rem; color: #64748b; flex-wrap: wrap; }
-    .product-stock-badge {
-      padding: 4px 10px; border-radius: 20px;
-      font-size: 0.78rem; font-weight: 700; flex-shrink: 0;
-      min-width: 45px; text-align: center;
-    }
-    .stock-good { background: #ecfdf5; color: #059669; }
-    .stock-warn { background: #fffbeb; color: #d97706; }
-    .stock-danger { background: #fef2f2; color: #dc2626; }
+    .product-stock-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; flex-shrink: 0; min-width: 45px; text-align: center; }
+    .stock-good { background: #ecfdf5; color: #059669; } .stock-warn { background: #fffbeb; color: #d97706; } .stock-danger { background: #fef2f2; color: #dc2626; }
     .product-arrow { color: #cbd5e1; font-size: 1.1rem; flex-shrink: 0; }
 
-    /* Bin cards */
     .bin-grid { display: flex; flex-direction: column; gap: 8px; }
-    .bin-card {
-      display: flex; align-items: center; gap: 12px;
-      padding: 14px; background: #fff;
-      border-radius: 14px; border: 1px solid #f1f5f9;
-      cursor: pointer; transition: 0.15s;
-    }
+    .bin-card { display: flex; align-items: center; gap: 12px; padding: 14px; background: #fff; border-radius: 14px; border: 1px solid #f1f5f9; cursor: pointer; transition: 0.15s; }
     .bin-card:active { background: #f8fafc; }
     .bin-card.highlight { background: #eff6ff; border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59,130,246,0.2); }
     .bin-icon { width: 48px; height: 48px; border-radius: 14px; background: #eff6ff; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
-    .bin-info { flex: 1; }
-    .bin-name { font-weight: 600; font-size: 0.9rem; color: #1e293b; }
-    .bin-count { font-size: 0.75rem; color: #64748b; }
-    .bin-arrow { color: #cbd5e1; font-size: 1.2rem; }
+    .bin-info { flex: 1; } .bin-name { font-weight: 600; font-size: 0.9rem; color: #1e293b; } .bin-count { font-size: 0.75rem; color: #64748b; } .bin-arrow { color: #cbd5e1; font-size: 1.2rem; }
 
     .empty-state { text-align: center; padding: 40px 20px; color: #94a3b8; }
     .empty-state .empty-icon { font-size: 4rem; margin-bottom: 12px; }
     .empty-state p { font-size: 0.9rem; margin-bottom: 4px; }
     .empty-state .hint { font-size: 0.75rem; color: #cbd5e1; }
 
-    /* Timeline */
     .timeline { position: relative; padding-left: 24px; }
     .timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: #e2e8f0; }
     .timeline-item { position: relative; padding: 10px 0 10px 16px; margin-bottom: 2px; }
@@ -296,9 +250,7 @@
     .timeline-item.move::before { background: #7c3aed; box-shadow: 0 0 0 2px #7c3aed; }
     .timeline-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px; }
     .timeline-type { font-size: 0.75rem; font-weight: 700; padding: 2px 8px; border-radius: 8px; }
-    .type-in { background: #ecfdf5; color: #059669; }
-    .type-out { background: #fef2f2; color: #dc2626; }
-    .type-move { background: #f5f3ff; color: #7c3aed; }
+    .type-in { background: #ecfdf5; color: #059669; } .type-out { background: #fef2f2; color: #dc2626; } .type-move { background: #f5f3ff; color: #7c3aed; }
     .timeline-date { font-size: 0.7rem; color: #64748b; }
     .timeline-detail { font-size: 0.8rem; color: #1e293b; margin-top: 2px; }
     .timeline-meta { font-size: 0.7rem; color: #64748b; margin-top: 1px; }
@@ -306,28 +258,22 @@
     .bin-locations { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
     .bin-tag { font-size: 0.65rem; padding: 2px 8px; border-radius: 8px; background: #f1f5f9; color: #475569; }
     .transfer-badge { background: #f5f3ff; color: #7c3aed; padding: 2px 8px; border-radius: 10px; font-size: 0.65rem; font-weight: 600; }
+    .do-badge { background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 10px; font-size: 0.65rem; font-weight: 600; }
+    .to-badge { background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 10px; font-size: 0.65rem; font-weight: 600; }
   </style>
 </head>
 <body>
   <div class="app">
-    <div class="header">
-      <h1>🏭 InventoryPro</h1>
-      <div class="header-actions">
-        <button class="header-btn" id="syncBtn" title="Sync">🔄</button>
-        <button class="header-btn" id="logoutBtn" title="Logout">🚪</button>
-      </div>
-    </div>
+    <div class="header"><h1>🏭 InventoryPro</h1><div class="header-actions"><button class="header-btn" id="syncBtn">🔄</button><button class="header-btn" id="logoutBtn">🚪</button></div></div>
     <div class="content" id="contentArea"></div>
     <div class="bottom-nav" id="bottomNav" style="display:none;">
       <button class="nav-item active" data-page="dashboard"><span class="icon">📊</span>Dashboard</button>
       <button class="nav-item" data-page="stockIn"><span class="icon">📥</span>Stock In</button>
-      <button class="nav-item" data-page="stockOut"><span class="icon">📤</span>Stock Out</button>
+      <button class="nav-item" data-page="stockOut"><span class="icon">📤</span>Transfer Out</button>
       <button class="nav-item" data-page="products"><span class="icon">📦</span>Produk</button>
       <button class="nav-item" data-page="reports"><span class="icon">📋</span>Laporan</button>
     </div>
-    <div class="modal-overlay" id="modalOverlay">
-      <div class="modal" id="modalContent"></div>
-    </div>
+    <div class="modal-overlay" id="modalOverlay"><div class="modal" id="modalContent"></div></div>
   </div>
   <div id="toastContainer"></div>
 
@@ -358,7 +304,19 @@
     let scannerOut = null;
     let scannerSearch = null;
     let currentChart = null;
-    let productViewMode = 'bin'; // Default ke Bin
+    let productViewMode = 'bin';
+
+    // Counter untuk generate No TO
+    let toCounter = JSON.parse(localStorage.getItem('wms_to_counter') || '0');
+
+    function generateNoTO() {
+      toCounter++;
+      localStorage.setItem('wms_to_counter', JSON.stringify(toCounter));
+      const now = new Date();
+      const dateStr = now.toISOString().slice(0,10).replace(/-/g,'');
+      const num = String(toCounter).padStart(4, '0');
+      return `TO-${dateStr}-${num}`;
+    }
 
     // ==================== SOUNDS ====================
     function playScanBeep() {
@@ -470,7 +428,7 @@
       setTimeout(()=>{const c=document.getElementById('dashChart');if(!c)return;if(currentChart)currentChart.destroy();const lbs=[],ind=[],oud=[];const td=new Date();for(let i=6;i>=0;i--){const d=new Date(td);d.setDate(d.getDate()-i);lbs.push(d.toLocaleDateString('id-ID',{day:'numeric',month:'short'}));let di=0,du=0;transactions.forEach(t=>{try{const dd=t.timestamp?.toDate?.()||new Date(t.timestamp);if(dd.toDateString()===d.toDateString()){if(t.type==='IN'||t.type==='MOVE_IN')di+=t.qty||0;else if(t.type==='OUT'||t.type==='MOVE_OUT')du+=t.qty||0;}}catch{}});ind.push(di);oud.push(du);}currentChart=new Chart(c.getContext('2d'),{type:'line',data:{labels:lbs,datasets:[{label:'Masuk',data:ind,borderColor:'#10b981',backgroundColor:'rgba(16,185,129,0.1)',fill:true,tension:0.3,pointRadius:3},{label:'Keluar',data:oud,borderColor:'#ef4444',backgroundColor:'rgba(239,68,68,0.05)',fill:true,tension:0.3,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:9}}}},scales:{y:{beginAtZero:true,ticks:{stepSize:1,font:{size:9}}},x:{ticks:{font:{size:8}}}}}});},300);
     }
 
-    // ==================== STOCK IN/OUT (same as before) ====================
+    // ==================== STOCK IN (dengan No DO) ====================
     function stockInHTML() {
       return `
         <div class="card"><div class="card-title">📥 Barang Masuk (WMS)</div>
@@ -478,24 +436,10 @@
           <div id="inScannerContainer" style="display:none;margin-bottom:10px;"><div id="inScannerView" style="width:100%;border-radius:12px;overflow:hidden;"></div><button class="btn btn-sm btn-outline" id="stopInScan" style="margin-top:6px;">❌ Tutup</button></div>
           <div id="inProductInfo" style="display:none;margin-bottom:10px;"><div style="background:#f8fafc;padding:12px;border-radius:12px;"><strong id="inProductName">-</strong><br><span style="font-size:0.8rem;color:#64748b;">Total Stok: <span id="inTotalStock">0</span> | Bin: <span id="inBinsList">-</span></span></div></div>
           <div class="input-row"><div class="form-group"><label class="form-label">Jumlah Masuk</label><input type="number" id="inQty" value="1" min="1"></div><div class="form-group"><label class="form-label">Bin Tujuan (ketik)</label><input type="text" id="inBin" placeholder="Contoh: A1, Rack-01"></div></div>
-          <div class="form-group"><label class="form-label">Catatan</label><input type="text" id="inNote" placeholder="Opsional"></div>
+          <div class="input-row"><div class="form-group"><label class="form-label">No DO (optional)</label><input type="text" id="inNoDO" placeholder="No Delivery Order"></div><div class="form-group"><label class="form-label">Catatan (optional)</label><input type="text" id="inNote" placeholder="Opsional"></div></div>
           <button class="btn btn-success btn-block" id="saveStockIn">✅ Simpan Barang Masuk</button>
         </div>
         <div class="card"><div class="card-title">📋 Riwayat Hari Ini</div><div class="list" id="inHistoryList"><div style="text-align:center;padding:20px;">Memuat...</div></div></div>`;
-    }
-
-    function stockOutHTML() {
-      return `
-        <div class="card"><div class="card-title">📤 Barang Keluar (WMS)</div>
-          <div class="form-group"><label class="form-label">Scan Barcode / SKU</label><div style="display:flex;gap:8px;"><input type="text" id="outSKU" style="flex:1;"><button class="btn btn-outline btn-sm" id="scanOutBtn">📷</button></div></div>
-          <div id="outScannerContainer" style="display:none;margin-bottom:10px;"><div id="outScannerView" style="width:100%;border-radius:12px;overflow:hidden;"></div><button class="btn btn-sm btn-outline" id="stopOutScan" style="margin-top:6px;">❌ Tutup</button></div>
-          <div id="outProductInfo" style="display:none;margin-bottom:10px;"><div style="background:#fef2f2;padding:12px;border-radius:12px;"><strong id="outProductName">-</strong><br><span style="font-size:0.8rem;">Total Stok: <span id="outTotalStock">0</span> | Bin: <span id="outBinsList">-</span></span></div></div>
-          <div class="input-row"><div class="form-group"><label class="form-label">Jumlah Keluar</label><input type="number" id="outQty" value="1" min="1"></div><div class="form-group"><label class="form-label">Dari Bin (ketik)</label><input type="text" id="outBin" placeholder="Bin asal"></div></div>
-          <div class="form-group"><label class="form-label">Keperluan</label><select id="outPurpose"><option>💰 Terjual</option><option>🔨 Rusak</option><option>⏰ Kadaluarsa</option><option>🔄 Transfer</option><option>📋 Lainnya</option></select></div>
-          <div class="form-group"><label class="form-label">Catatan</label><input type="text" id="outNote"></div>
-          <button class="btn btn-danger btn-block" id="saveStockOut">📤 Simpan Barang Keluar</button>
-        </div>
-        <div class="card"><div class="card-title">📋 Riwayat Hari Ini</div><div class="list" id="outHistoryList"><div style="text-align:center;padding:20px;">Memuat...</div></div></div>`;
     }
 
     async function initStockIn() {
@@ -520,23 +464,54 @@
 
     async function saveStockIn() {
       const sku=document.getElementById('inSKU').value.trim(), qty=parseInt(document.getElementById('inQty').value)||0;
-      const bin=document.getElementById('inBin').value.trim(), note=document.getElementById('inNote').value.trim();
-      if(!sku||qty<1){playErrorSound();return toast('⚠️ Lengkapi');}
-      if(!bin){playErrorSound();return toast('⚠️ Isi Bin');}
+      const bin=document.getElementById('inBin').value.trim(), noDO=document.getElementById('inNoDO').value.trim(), note=document.getElementById('inNote').value.trim();
+      if(!sku||qty<1){playErrorSound();return toast('⚠️ Lengkapi SKU & Qty');}
+      if(!bin){playErrorSound();return toast('⚠️ Isi Bin tujuan');}
       try{
         let pid=document.getElementById('inProductInfo').dataset.productId;
-        if(!pid){const name=prompt('Nama:')||sku;const ref=await addDoc(collection(db,"products"),{sku,name,minStock:5,price:0,created:new Date(),userId:currentUser.uid});pid=ref.id;products.push({id:pid,sku,name,minStock:5,price:0});}
+        if(!pid){const name=prompt('Nama produk baru:')||sku;const ref=await addDoc(collection(db,"products"),{sku,name,minStock:5,price:0,created:new Date(),userId:currentUser.uid});pid=ref.id;products.push({id:pid,sku,name,minStock:5,price:0});}
         let ei=inventoryItems.find(i=>i.productId===pid&&i.bin.toLowerCase()===bin.toLowerCase());
         if(ei) await updateDoc(doc(db,"inventory",ei.id),{qty:(ei.qty||0)+qty,updatedAt:new Date()});
         else await addDoc(collection(db,"inventory"),{productId:pid,sku,bin,qty,created:new Date(),userId:currentUser.uid});
-        await addDoc(collection(db,"transactions"),{type:'IN',productId:pid,productName:products.find(x=>x.id===pid)?.name||sku,sku,qty,bin,note,timestamp:new Date(),userId:currentUser.uid,userEmail:currentUser.email});
-        playSuccessSound(); toast(`✅ +${qty} ke Bin ${bin}`);
-        document.getElementById('inSKU').value='';document.getElementById('inQty').value='1';document.getElementById('inBin').value='';document.getElementById('inNote').value='';document.getElementById('inProductInfo').style.display='none';
+        await addDoc(collection(db,"transactions"),{type:'IN',productId:pid,productName:products.find(x=>x.id===pid)?.name||sku,sku,qty,bin,noDO,note,timestamp:new Date(),userId:currentUser.uid,userEmail:currentUser.email});
+        playSuccessSound(); 
+        const doMsg = noDO ? ` (DO: ${noDO})` : '';
+        toast(`✅ +${qty} ke Bin ${bin}${doMsg}`);
+        document.getElementById('inSKU').value='';document.getElementById('inQty').value='1';document.getElementById('inBin').value='';document.getElementById('inNoDO').value='';document.getElementById('inNote').value='';document.getElementById('inProductInfo').style.display='none';
         await loadAllData(); await loadInHistory();
       }catch(e){playErrorSound();toast('❌ '+e.message);}
     }
 
+    async function loadInHistory() {
+      const list=document.getElementById('inHistoryList'); if(!list)return;
+      const today=new Date(); today.setHours(0,0,0,0);
+      const items=transactions.filter(t=>(t.type==='IN'||t.type==='MOVE_IN')&&(t.timestamp?.toDate?.()||new Date(t.timestamp))>=today);
+      list.innerHTML=items.length?items.map(i=>{
+        const doBadge = i.noDO ? ` <span class="do-badge">DO: ${i.noDO}</span>` : '';
+        return `<div class="list-item"><span>${i.type==='MOVE_IN'?'🔄':'📥'}</span><div style="flex:1;"><div style="font-weight:600;font-size:0.85rem;">${i.productName} (+${i.qty})${i.type==='MOVE_IN'?' <span class="transfer-badge">Transfer</span>':''}${doBadge}</div><div style="font-size:0.72rem;color:#64748b;">Bin: ${i.bin||'-'} | ${formatDate(i.timestamp)}${i.note?` | ${i.note}`:''}</div></div></div>`;
+      }).join(''):'<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada</div>';
+    }
+
+    // ==================== STOCK OUT (Transfer Out dengan No TO) ====================
+    function stockOutHTML() {
+      return `
+        <div class="card"><div class="card-title">📤 Transfer Out (WMS)</div>
+          <div class="form-group"><label class="form-label">Scan Barcode / SKU</label><div style="display:flex;gap:8px;"><input type="text" id="outSKU" style="flex:1;"><button class="btn btn-outline btn-sm" id="scanOutBtn">📷</button></div></div>
+          <div id="outScannerContainer" style="display:none;margin-bottom:10px;"><div id="outScannerView" style="width:100%;border-radius:12px;overflow:hidden;"></div><button class="btn btn-sm btn-outline" id="stopOutScan" style="margin-top:6px;">❌ Tutup</button></div>
+          <div id="outProductInfo" style="display:none;margin-bottom:10px;"><div style="background:#fef2f2;padding:12px;border-radius:12px;"><strong id="outProductName">-</strong><br><span style="font-size:0.8rem;">Total Stok: <span id="outTotalStock">0</span> | Bin: <span id="outBinsList">-</span></span></div></div>
+          <div class="input-row"><div class="form-group"><label class="form-label">Jumlah Keluar</label><input type="number" id="outQty" value="1" min="1"></div><div class="form-group"><label class="form-label">Dari Bin (ketik)</label><input type="text" id="outBin" placeholder="Bin asal"></div></div>
+          <div class="form-group"><label class="form-label">No TO (auto-generated)</label><input type="text" id="outNoTO" readonly style="background:#f1f5f9;font-weight:600;color:#1e40af;"></div>
+          <div class="form-group"><label class="form-label">Catatan</label><input type="text" id="outNote" placeholder="Opsional"></div>
+          <button class="btn btn-danger btn-block" id="saveStockOut">📤 Simpan Transfer Out</button>
+        </div>
+        <div class="card"><div class="card-title">📋 Riwayat Hari Ini</div><div class="list" id="outHistoryList"><div style="text-align:center;padding:20px;">Memuat...</div></div></div>`;
+    }
+
     async function initStockOut() {
+      // Generate No TO otomatis
+      const noTO = generateNoTO();
+      document.getElementById('outNoTO').value = noTO;
+      
       await loadOutHistory();
       document.getElementById('scanOutBtn').addEventListener('click', ()=>scannerOut?.isScanning?stopScanner('out'):startScanner('out','outScannerView','outScannerContainer'));
       document.getElementById('stopOutScan').addEventListener('click', ()=>stopScanner('out'));
@@ -558,23 +533,37 @@
 
     async function saveStockOut() {
       const sku=document.getElementById('outSKU').value.trim(), qty=parseInt(document.getElementById('outQty').value)||0;
-      const bin=document.getElementById('outBin').value.trim(), purpose=document.getElementById('outPurpose').value, note=document.getElementById('outNote').value.trim();
+      const bin=document.getElementById('outBin').value.trim(), noTO=document.getElementById('outNoTO').value.trim(), note=document.getElementById('outNote').value.trim();
       const pid=document.getElementById('outProductInfo').dataset.productId;
-      if(!sku||qty<1||!pid){playErrorSound();return toast('⚠️ Lengkapi');}
-      if(!bin){playErrorSound();return toast('⚠️ Isi Bin');}
+      if(!sku||qty<1||!pid){playErrorSound();return toast('⚠️ Lengkapi SKU & Qty');}
+      if(!bin){playErrorSound();return toast('⚠️ Isi Bin asal');}
       const inv=inventoryItems.find(i=>i.productId===pid&&i.bin.toLowerCase()===bin.toLowerCase());
       if(!inv||(inv.qty||0)<qty){playErrorSound();return toast('⚠️ Stok di bin tidak cukup');}
       try{
         const ns=(inv.qty||0)-qty;
         if(ns<=0) await deleteDoc(doc(db,"inventory",inv.id));
         else await updateDoc(doc(db,"inventory",inv.id),{qty:ns,updatedAt:new Date()});
-        await addDoc(collection(db,"transactions"),{type:'OUT',productId:pid,productName:products.find(x=>x.id===pid)?.name||sku,sku,qty,bin,purpose,note,timestamp:new Date(),userId:currentUser.uid,userEmail:currentUser.email});
-        playSuccessSound(); toast(`📤 -${qty} dari Bin ${bin} (${purpose})`);
-        document.getElementById('outSKU').value='';document.getElementById('outQty').value='1';document.getElementById('outBin').value='';document.getElementById('outNote').value='';document.getElementById('outProductInfo').style.display='none';
+        await addDoc(collection(db,"transactions"),{type:'OUT',productId:pid,productName:products.find(x=>x.id===pid)?.name||sku,sku,qty,bin,purpose:'Transfer Out',noTO,note,timestamp:new Date(),userId:currentUser.uid,userEmail:currentUser.email});
+        playSuccessSound(); toast(`📤 -${qty} dari Bin ${bin} (${noTO})`);
+        document.getElementById('outSKU').value='';document.getElementById('outQty').value='1';document.getElementById('outBin').value='';document.getElementById('outNote').value='';
+        document.getElementById('outProductInfo').style.display='none';
+        // Generate No TO baru untuk transaksi berikutnya
+        document.getElementById('outNoTO').value = generateNoTO();
         await loadAllData(); await loadOutHistory();
       }catch(e){playErrorSound();toast('❌ '+e.message);}
     }
 
+    async function loadOutHistory() {
+      const list=document.getElementById('outHistoryList'); if(!list)return;
+      const today=new Date(); today.setHours(0,0,0,0);
+      const items=transactions.filter(t=>(t.type==='OUT'||t.type==='MOVE_OUT')&&(t.timestamp?.toDate?.()||new Date(t.timestamp))>=today);
+      list.innerHTML=items.length?items.map(i=>{
+        const toBadge = i.noTO ? ` <span class="to-badge">${i.noTO}</span>` : '';
+        return `<div class="list-item"><span>${i.type==='MOVE_OUT'?'🔄':'📤'}</span><div style="flex:1;"><div style="font-weight:600;font-size:0.85rem;">${i.productName} (-${i.qty})${i.type==='MOVE_OUT'?' <span class="transfer-badge">Transfer</span>':''}${toBadge}</div><div style="font-size:0.72rem;color:#64748b;">Bin: ${i.bin||'-'} | ${i.purpose||''} | ${formatDate(i.timestamp)}${i.note?` | ${i.note}`:''}</div></div></div>`;
+      }).join(''):'<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada</div>';
+    }
+
+    // ==================== SCANNER ====================
     async function startScanner(type, elementId, containerId) {
       await stopAllScanners();
       document.getElementById(containerId).style.display='block';
@@ -599,54 +588,21 @@
       if(type!=='search') document.getElementById(type==='in'?'inScannerContainer':'outScannerContainer').style.display='none';
     }
 
-    // ==================== SEARCH SCAN (FOKUS KE BIN) ====================
     function handleSearchScan(decodedText) {
       const searchInput = document.getElementById('productSearch');
       if (searchInput) { searchInput.value = decodedText; searchInput.dispatchEvent(new Event('input')); }
-      
-      // Auto switch ke tab Bin
       switchToTab('bin');
-      
       const product = products.find(p => (p.sku||'').toLowerCase() === decodedText.toLowerCase());
       if (product) {
         setTimeout(() => {
-          // Hapus semua highlight
           document.querySelectorAll('.bin-card').forEach(c => c.classList.remove('highlight'));
           document.querySelectorAll('.product-row').forEach(r => r.classList.remove('highlight'));
-          
-          // Cari bin yang ada produk ini
-          const productBins = getProductBins(product.id);
-          let foundBin = false;
-          
-          productBins.forEach(pb => {
-            const binCard = document.querySelector(`.bin-card[data-bin="${pb.bin}"]`);
-            if (binCard) {
-              binCard.classList.add('highlight');
-              if (!foundBin) {
-                binCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                foundBin = true;
-              }
-            }
-          });
-          
-          if (!foundBin) {
-            // Jika tidak ada bin, highlight di list semua
-            const productRow = document.querySelector(`.product-row[data-pid="${product.id}"]`);
-            if (productRow) {
-              productRow.classList.add('highlight');
-              productRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-          }
+          const productBins = getProductBins(product.id); let foundBin = false;
+          productBins.forEach(pb => { const binCard = document.querySelector(`.bin-card[data-bin="${pb.bin}"]`); if (binCard) { binCard.classList.add('highlight'); if (!foundBin) { binCard.scrollIntoView({ behavior: 'smooth', block: 'center' }); foundBin = true; } } });
+          if (!foundBin) { const productRow = document.querySelector(`.product-row[data-pid="${product.id}"]`); if (productRow) { productRow.classList.add('highlight'); productRow.scrollIntoView({ behavior: 'smooth', block: 'center' }); } }
         }, 300);
-        
-        const totalStock = getProductTotalStock(product.id);
-        const bins = getProductBins(product.id);
-        playSuccessSound(); 
-        toast(`📍 ${product.name} | Stok: ${totalStock} | Bin: ${bins.map(b=>b.bin+':'+b.qty).join(', ')}`);
-      } else {
-        playErrorSound(); 
-        toast('❌ Tidak ditemukan: '+decodedText);
-      }
+        playSuccessSound(); toast(`📍 ${product.name} | Stok: ${getProductTotalStock(product.id)} | Bin: ${getProductBins(product.id).map(b=>b.bin+':'+b.qty).join(', ')}`);
+      } else { playErrorSound(); toast('❌ Tidak ditemukan: '+decodedText); }
     }
 
     function switchToTab(mode) {
@@ -659,36 +615,17 @@
       document.getElementById('productTrackingView').style.display = mode==='tracking'?'block':'none';
     }
 
-    async function loadInHistory() {
-      const list=document.getElementById('inHistoryList'); if(!list)return;
-      const today=new Date(); today.setHours(0,0,0,0);
-      const items=transactions.filter(t=>(t.type==='IN'||t.type==='MOVE_IN')&&(t.timestamp?.toDate?.()||new Date(t.timestamp))>=today);
-      list.innerHTML=items.length?items.map(i=>`<div class="list-item"><span>${i.type==='MOVE_IN'?'🔄':'📥'}</span><div style="flex:1;"><div style="font-weight:600;font-size:0.85rem;">${i.productName} (+${i.qty})${i.type==='MOVE_IN'?' <span class="transfer-badge">Transfer</span>':''}</div><div style="font-size:0.72rem;color:#64748b;">Bin: ${i.bin||'-'} | ${formatDate(i.timestamp)}</div></div></div>`).join(''):'<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada</div>';
-    }
-
-    async function loadOutHistory() {
-      const list=document.getElementById('outHistoryList'); if(!list)return;
-      const today=new Date(); today.setHours(0,0,0,0);
-      const items=transactions.filter(t=>(t.type==='OUT'||t.type==='MOVE_OUT')&&(t.timestamp?.toDate?.()||new Date(t.timestamp))>=today);
-      list.innerHTML=items.length?items.map(i=>`<div class="list-item"><span>${i.type==='MOVE_OUT'?'🔄':'📤'}</span><div style="flex:1;"><div style="font-weight:600;font-size:0.85rem;">${i.productName} (-${i.qty})${i.type==='MOVE_OUT'?' <span class="transfer-badge">Transfer</span>':''}</div><div style="font-size:0.72rem;color:#64748b;">Bin: ${i.bin||'-'} | ${i.purpose||''} | ${formatDate(i.timestamp)}</div></div></div>`).join(''):'<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada</div>';
-    }
-
     // ==================== PRODUCTS PAGE ====================
     async function productsHTML() {
       const stats = products.map(p => {
-        const totalStock = getProductTotalStock(p.id);
-        const bins = getProductBins(p.id);
+        const totalStock = getProductTotalStock(p.id); const bins = getProductBins(p.id);
         const trans = transactions.filter(t=>t.productId===p.id); const last = trans[0];
         return {...p, totalStock, bins, transCount:trans.length, lastTransDate:last?(last.timestamp?.toDate?.()||new Date(last.timestamp)):null};
       });
       return `
         <div class="product-toolbar"><div class="search-box"><span class="search-icon">🔍</span><input type="text" id="productSearch" placeholder="Cari / Scan SKU..."><button class="scan-btn-search" id="scanSearchBtn">📷</button></div><button class="btn btn-primary btn-sm" id="addProductBtn">+ Tambah</button></div>
         <div class="search-scanner-container" id="searchScannerContainer"><div id="searchScannerView" style="width:100%;border-radius:12px;overflow:hidden;"></div><button class="btn btn-sm btn-outline" id="stopSearchScan" style="margin-top:6px;width:100%;">❌ Tutup Scanner</button></div>
-        <div class="tabs" id="productTabs">
-          <button class="tab" data-mode="list">📋 Semua</button>
-          <button class="tab active" data-mode="bin">📦 Bin</button>
-          <button class="tab" data-mode="tracking">📈 Tracking</button>
-        </div>
+        <div class="tabs" id="productTabs"><button class="tab" data-mode="list">📋 Semua</button><button class="tab active" data-mode="bin">📦 Bin</button><button class="tab" data-mode="tracking">📈 Tracking</button></div>
         <div id="productListView" style="display:none;">${renderProductList(stats)}</div>
         <div id="productBinView">${renderBinView()}</div>
         <div id="productTrackingView" style="display:none;">${renderTrackingList(stats)}</div>`;
@@ -705,51 +642,22 @@
     }
 
     function renderBinView() {
-      const bins = getAllBins().map(bin => {
-        const items = inventoryItems.filter(i => i.bin === bin);
-        const totalQty = items.reduce((s,i) => s+(i.qty||0), 0);
-        return { bin, count: items.length, qty: totalQty };
-      });
+      const bins = getAllBins().map(bin => { const items = inventoryItems.filter(i => i.bin === bin); const totalQty = items.reduce((s,i) => s+(i.qty||0), 0); return { bin, count: items.length, qty: totalQty }; });
       if(!bins.length) return '<div class="card"><div class="empty-state"><div class="empty-icon">📦</div><p>Belum ada Bin terisi</p></div></div>';
       return `<div class="card"><div class="card-header"><span class="card-title">📦 Daftar Bin</span><span class="badge badge-blue">${bins.length} bin</span></div><div class="bin-grid" id="binGrid">${bins.map(b=>`<div class="bin-card" data-bin="${b.bin}"><div class="bin-icon">📦</div><div class="bin-info"><div class="bin-name">Bin ${b.bin}</div><div class="bin-count">${b.count} item · ${b.qty} unit</div></div><div class="bin-arrow">›</div></div>`).join('')}</div></div>`;
     }
 
     function renderTrackingList(stats) {
       if(!stats.length) return '<div class="card"><div class="empty-state"><div class="empty-icon">📈</div><p>Belum ada data</p></div></div>';
-      return `<div class="card"><div class="card-header"><span class="card-title">📈 Tracking</span></div><p style="font-size:0.75rem;color:#94a3b8;margin-bottom:10px;">Ketuk untuk riwayat detail</p><div class="product-list-clean" id="trackingListClean">${stats.map(p=>`<div class="product-row" data-pid="${p.id}"><div class="product-emoji emoji-purple">📦</div><div class="product-main"><div class="product-title">${p.name||'-'}</div><div class="product-sub"><span>📊 ${p.transCount} transaksi</span><span>🕐 ${p.lastTransDate?p.lastTransDate.toLocaleDateString('id-ID',{day:'numeric',month:'short'}):'-'}</span></div></div><span style="font-weight:700;color:#1e40af;">${p.totalStock}</span><div class="product-arrow">›</div></div>`).join('')}</div></div>`;
+      return `<div class="card"><div class="card-header"><span class="card-title">📈 Tracking</span></div><p style="font-size:0.75rem;color:#94a3b8;margin-bottom:10px;">Ketuk untuk riwayat</p><div class="product-list-clean" id="trackingListClean">${stats.map(p=>`<div class="product-row" data-pid="${p.id}"><div class="product-emoji emoji-purple">📦</div><div class="product-main"><div class="product-title">${p.name||'-'}</div><div class="product-sub"><span>📊 ${p.transCount} transaksi</span><span>🕐 ${p.lastTransDate?p.lastTransDate.toLocaleDateString('id-ID',{day:'numeric',month:'short'}):'-'}</span></div></div><span style="font-weight:700;color:#1e40af;">${p.totalStock}</span><div class="product-arrow">›</div></div>`).join('')}</div></div>`;
     }
 
     function initProducts() {
       document.getElementById('scanSearchBtn').addEventListener('click', toggleSearchScanner);
       document.getElementById('stopSearchScan').addEventListener('click', ()=>stopScanner('search'));
-      document.querySelectorAll('#productTabs .tab').forEach(tab => {
-        tab.addEventListener('click', function() {
-          document.querySelectorAll('#productTabs .tab').forEach(t=>t.classList.remove('active'));
-          this.classList.add('active'); productViewMode = this.dataset.mode;
-          document.getElementById('productListView').style.display = productViewMode==='list'?'block':'none';
-          document.getElementById('productBinView').style.display = productViewMode==='bin'?'block':'none';
-          document.getElementById('productTrackingView').style.display = productViewMode==='tracking'?'block':'none';
-        });
-      });
+      document.querySelectorAll('#productTabs .tab').forEach(tab => { tab.addEventListener('click', function() { document.querySelectorAll('#productTabs .tab').forEach(t=>t.classList.remove('active')); this.classList.add('active'); productViewMode = this.dataset.mode; document.getElementById('productListView').style.display = productViewMode==='list'?'block':'none'; document.getElementById('productBinView').style.display = productViewMode==='bin'?'block':'none'; document.getElementById('productTrackingView').style.display = productViewMode==='tracking'?'block':'none'; }); });
       document.getElementById('addProductBtn').addEventListener('click', showAddProductModal);
-      document.getElementById('productSearch').addEventListener('input', function(){
-        const t=this.value.toLowerCase();
-        const filtered=products.filter(p=>(p.name||'').toLowerCase().includes(t)||(p.sku||'').toLowerCase().includes(t)||getProductBins(p.id).some(b=>b.bin.toLowerCase().includes(t)));
-        const stats=filtered.map(p=>{const totalStock=getProductTotalStock(p.id);const bins=getProductBins(p.id);const trans=transactions.filter(tr=>tr.productId===p.id);const last=trans[0];return{...p,totalStock,bins,transCount:trans.length,lastTransDate:last?(last.timestamp?.toDate?.()||new Date(last.timestamp)):null};});
-        document.getElementById('productListView').innerHTML=renderProductList(stats);
-        document.getElementById('productTrackingView').innerHTML=renderTrackingList(stats);
-        // Highlight bin cards yang mengandung produk hasil filter
-        document.querySelectorAll('.bin-card').forEach(c => c.classList.remove('highlight'));
-        if(t && productViewMode==='bin') {
-          stats.forEach(p => {
-            p.bins.forEach(b => {
-              const binCard = document.querySelector(`.bin-card[data-bin="${b.bin}"]`);
-              if(binCard) binCard.classList.add('highlight');
-            });
-          });
-        }
-        attachListeners();
-      });
+      document.getElementById('productSearch').addEventListener('input', function(){ const t=this.value.toLowerCase(); const filtered=products.filter(p=>(p.name||'').toLowerCase().includes(t)||(p.sku||'').toLowerCase().includes(t)||getProductBins(p.id).some(b=>b.bin.toLowerCase().includes(t))); const stats=filtered.map(p=>{const totalStock=getProductTotalStock(p.id);const bins=getProductBins(p.id);const trans=transactions.filter(tr=>tr.productId===p.id);const last=trans[0];return{...p,totalStock,bins,transCount:trans.length,lastTransDate:last?(last.timestamp?.toDate?.()||new Date(last.timestamp)):null};}); document.getElementById('productListView').innerHTML=renderProductList(stats); document.getElementById('productTrackingView').innerHTML=renderTrackingList(stats); document.querySelectorAll('.bin-card').forEach(c => c.classList.remove('highlight')); if(t && productViewMode==='bin') { stats.forEach(p => { p.bins.forEach(b => { const binCard = document.querySelector(`.bin-card[data-bin="${b.bin}"]`); if(binCard) binCard.classList.add('highlight'); }); }); } attachListeners(); });
       attachListeners();
     }
 
@@ -759,13 +667,7 @@
       document.querySelectorAll('#binGrid .bin-card').forEach(c=>c.addEventListener('click',function(){showBinDetailModal(this.dataset.bin);}));
     }
 
-    async function toggleSearchScanner() {
-      if (scannerSearch?.isScanning) { await stopScanner('search'); return; }
-      document.getElementById('searchScannerContainer').classList.add('active');
-      document.getElementById('scanSearchBtn').classList.add('scanning');
-      document.getElementById('scanSearchBtn').textContent = '⏹';
-      await startScanner('search', 'searchScannerView', 'searchScannerContainer');
-    }
+    async function toggleSearchScanner() { if (scannerSearch?.isScanning) { await stopScanner('search'); return; } document.getElementById('searchScannerContainer').classList.add('active'); document.getElementById('scanSearchBtn').classList.add('scanning'); document.getElementById('scanSearchBtn').textContent = '⏹'; await startScanner('search', 'searchScannerView', 'searchScannerContainer'); }
 
     function showBinDetailModal(bin) {
       const items = inventoryItems.filter(i => i.bin === bin);
@@ -773,136 +675,25 @@
       document.querySelectorAll('.btn-warning').forEach(btn=>btn.addEventListener('click',function(e){e.stopPropagation();const pid=this.dataset.pid;const b=this.dataset.bin;closeModal();setTimeout(()=>showMoveModal(pid,b),200);}));
     }
 
-    function showDetailModal(pid) {
-      const p=products.find(x=>x.id===pid); if(!p)return;
-      const totalStock=getProductTotalStock(pid); const bins=getProductBins(pid);
-      showModal(`<h3>${p.name||'-'}</h3><div style="display:flex;gap:8px;margin-bottom:8px;"><span class="badge badge-blue">SKU:${p.sku}</span></div><div class="stats-grid"><div class="stat-card blue"><div class="stat-value">${totalStock}</div><div class="stat-label">Total Stok</div></div><div class="stat-card green"><div class="stat-value">${formatRupiah(p.price)}</div><div class="stat-label">Harga</div></div></div><div style="margin:8px 0;"><strong style="font-size:0.8rem;">Lokasi Bin:</strong><div class="bin-locations">${bins.length?bins.map(b=>`<span class="bin-tag" style="padding:4px 8px;">📍 ${b.bin}: ${b.qty}</span>`).join(''):'<span style="font-size:0.75rem;color:#94a3b8;">-</span>'}</div></div><div style="display:flex;gap:6px;"><button class="btn btn-primary btn-sm" id="editBtn" style="flex:1;">✏️</button><button class="btn btn-danger btn-sm" id="delBtn" style="flex:1;">🗑️</button></div><button class="btn btn-outline btn-block" id="closeBtn" style="margin-top:8px;">Tutup</button>`);
-      document.getElementById('editBtn').addEventListener('click',()=>{closeModal();setTimeout(()=>showEditModal(pid),200);});
-      document.getElementById('delBtn').addEventListener('click',async()=>{if(confirm('Hapus?')){const invs=inventoryItems.filter(i=>i.productId===pid);for(const inv of invs)await deleteDoc(doc(db,"inventory",inv.id));await deleteDoc(doc(db,"products",pid));closeModal();await loadAllData();renderPage('products');}});
-      document.getElementById('closeBtn').addEventListener('click',closeModal);
-    }
+    function showDetailModal(pid) { const p=products.find(x=>x.id===pid); if(!p)return; const totalStock=getProductTotalStock(pid); const bins=getProductBins(pid); showModal(`<h3>${p.name||'-'}</h3><div style="display:flex;gap:8px;margin-bottom:8px;"><span class="badge badge-blue">SKU:${p.sku}</span></div><div class="stats-grid"><div class="stat-card blue"><div class="stat-value">${totalStock}</div><div class="stat-label">Total Stok</div></div><div class="stat-card green"><div class="stat-value">${formatRupiah(p.price)}</div><div class="stat-label">Harga</div></div></div><div style="margin:8px 0;"><strong style="font-size:0.8rem;">Lokasi Bin:</strong><div class="bin-locations">${bins.length?bins.map(b=>`<span class="bin-tag" style="padding:4px 8px;">📍 ${b.bin}: ${b.qty}</span>`).join(''):'<span style="font-size:0.75rem;color:#94a3b8;">-</span>'}</div></div><div style="display:flex;gap:6px;"><button class="btn btn-primary btn-sm" id="editBtn" style="flex:1;">✏️</button><button class="btn btn-danger btn-sm" id="delBtn" style="flex:1;">🗑️</button></div><button class="btn btn-outline btn-block" id="closeBtn" style="margin-top:8px;">Tutup</button>`); document.getElementById('editBtn').addEventListener('click',()=>{closeModal();setTimeout(()=>showEditModal(pid),200);}); document.getElementById('delBtn').addEventListener('click',async()=>{if(confirm('Hapus?')){const invs=inventoryItems.filter(i=>i.productId===pid);for(const inv of invs)await deleteDoc(doc(db,"inventory",inv.id));await deleteDoc(doc(db,"products",pid));closeModal();await loadAllData();renderPage('products');}}); document.getElementById('closeBtn').addEventListener('click',closeModal); }
 
-    function showEditModal(pid) {
-      const p=products.find(x=>x.id===pid); if(!p)return;
-      showModal(`<h3>✏️ Edit</h3><div class="form-group"><label class="form-label">SKU</label><input type="text" id="eSKU" value="${p.sku}"></div><div class="form-group"><label class="form-label">Nama</label><input type="text" id="eName" value="${p.name}"></div><div class="input-row"><div class="form-group"><label class="form-label">Min</label><input type="number" id="eMin" value="${p.minStock||5}"></div><div class="form-group"><label class="form-label">Harga</label><input type="number" id="ePrice" value="${p.price||0}"></div></div><div style="display:flex;gap:8px;"><button class="btn btn-primary" id="saveEdit" style="flex:1;">💾</button><button class="btn btn-outline" id="cancelEdit" style="flex:1;">Batal</button></div>`);
-      document.getElementById('saveEdit').addEventListener('click',async()=>{await updateDoc(doc(db,"products",pid),{sku:document.getElementById('eSKU').value,name:document.getElementById('eName').value,minStock:parseInt(document.getElementById('eMin').value)||5,price:parseInt(document.getElementById('ePrice').value)||0,updatedAt:new Date()});playSuccessSound();closeModal();await loadAllData();renderPage('products');});
-      document.getElementById('cancelEdit').addEventListener('click',closeModal);
-    }
+    function showEditModal(pid) { const p=products.find(x=>x.id===pid); if(!p)return; showModal(`<h3>✏️ Edit</h3><div class="form-group"><label class="form-label">SKU</label><input type="text" id="eSKU" value="${p.sku}"></div><div class="form-group"><label class="form-label">Nama</label><input type="text" id="eName" value="${p.name}"></div><div class="input-row"><div class="form-group"><label class="form-label">Min</label><input type="number" id="eMin" value="${p.minStock||5}"></div><div class="form-group"><label class="form-label">Harga</label><input type="number" id="ePrice" value="${p.price||0}"></div></div><div style="display:flex;gap:8px;"><button class="btn btn-primary" id="saveEdit" style="flex:1;">💾</button><button class="btn btn-outline" id="cancelEdit" style="flex:1;">Batal</button></div>`); document.getElementById('saveEdit').addEventListener('click',async()=>{await updateDoc(doc(db,"products",pid),{sku:document.getElementById('eSKU').value,name:document.getElementById('eName').value,minStock:parseInt(document.getElementById('eMin').value)||5,price:parseInt(document.getElementById('ePrice').value)||0,updatedAt:new Date()});playSuccessSound();closeModal();await loadAllData();renderPage('products');}); document.getElementById('cancelEdit').addEventListener('click',closeModal); }
 
-    function showAddProductModal() {
-      showModal(`<h3>➕ Tambah</h3><div class="form-group"><label class="form-label">SKU</label><input type="text" id="nSKU"></div><div class="form-group"><label class="form-label">Nama</label><input type="text" id="nName"></div><div class="input-row"><div class="form-group"><label class="form-label">Min</label><input type="number" id="nMin" value="5"></div><div class="form-group"><label class="form-label">Harga</label><input type="number" id="nPrice" value="0"></div></div><button class="btn btn-primary btn-block" id="saveNew">💾 Simpan</button>`);
-      document.getElementById('saveNew').addEventListener('click',async()=>{const s=document.getElementById('nSKU').value.trim(),n=document.getElementById('nName').value.trim();if(!s||!n){playErrorSound();return toast('⚠️ Lengkapi');}await addDoc(collection(db,"products"),{sku:s,name:n,minStock:parseInt(document.getElementById('nMin').value)||5,price:parseInt(document.getElementById('nPrice').value)||0,created:new Date(),userId:currentUser.uid});playSuccessSound();closeModal();await loadAllData();renderPage('products');});
-    }
+    function showAddProductModal() { showModal(`<h3>➕ Tambah</h3><div class="form-group"><label class="form-label">SKU</label><input type="text" id="nSKU"></div><div class="form-group"><label class="form-label">Nama</label><input type="text" id="nName"></div><div class="input-row"><div class="form-group"><label class="form-label">Min</label><input type="number" id="nMin" value="5"></div><div class="form-group"><label class="form-label">Harga</label><input type="number" id="nPrice" value="0"></div></div><button class="btn btn-primary btn-block" id="saveNew">💾 Simpan</button>`); document.getElementById('saveNew').addEventListener('click',async()=>{const s=document.getElementById('nSKU').value.trim(),n=document.getElementById('nName').value.trim();if(!s||!n){playErrorSound();return toast('⚠️ Lengkapi');}await addDoc(collection(db,"products"),{sku:s,name:n,minStock:parseInt(document.getElementById('nMin').value)||5,price:parseInt(document.getElementById('nPrice').value)||0,created:new Date(),userId:currentUser.uid});playSuccessSound();closeModal();await loadAllData();renderPage('products');}); }
 
-    function showMoveModal(productId, fromBin) {
-      const p=products.find(x=>x.id===productId); if(!p)return;
-      const invItem=inventoryItems.find(i=>i.productId===productId&&i.bin===fromBin);
-      const maxQty=invItem?.qty||0;
-      showModal(`<div style="text-align:center;margin-bottom:12px;"><span style="font-size:2rem;">🔄</span><h3>Pindah Bin</h3></div><div style="background:#f8fafc;padding:12px;border-radius:12px;margin-bottom:12px;"><strong>${p.name}</strong><br><span style="font-size:0.8rem;">SKU:${p.sku} | Dari: ${fromBin} (${maxQty} unit)</span></div><div class="form-group"><label class="form-label">Ke Bin</label><input type="text" id="moveToBin" placeholder="Bin tujuan"></div><div class="form-group"><label class="form-label">Jumlah</label><input type="number" id="moveQty" value="1" min="1" max="${maxQty}"><span style="font-size:0.7rem;">Maks: ${maxQty}</span></div><button class="btn btn-warning btn-block" id="execMove">🔄 Pindahkan</button><button class="btn btn-outline btn-block" id="cancelMove" style="margin-top:6px;">Batal</button>`);
-      document.getElementById('execMove').addEventListener('click',async()=>{const toBin=document.getElementById('moveToBin').value.trim();const mQty=parseInt(document.getElementById('moveQty').value)||0;if(!toBin){playErrorSound();return toast('⚠️ Isi Bin');}if(mQty<1||mQty>maxQty){playErrorSound();return toast('⚠️ Invalid');}try{const ns=maxQty-mQty;if(ns<=0)await deleteDoc(doc(db,"inventory",invItem.id));else await updateDoc(doc(db,"inventory",invItem.id),{qty:ns});let ti=inventoryItems.find(i=>i.productId===productId&&i.bin.toLowerCase()===toBin.toLowerCase());if(ti)await updateDoc(doc(db,"inventory",ti.id),{qty:(ti.qty||0)+mQty});else await addDoc(collection(db,"inventory"),{productId,sku:p.sku,bin:toBin,qty:mQty,created:new Date(),userId:currentUser.uid});await addDoc(collection(db,"transactions"),{type:'MOVE_OUT',productId,productName:p.name,sku:p.sku,qty:mQty,bin:fromBin,purpose:`Pindah ke ${toBin}`,timestamp:new Date(),userId:currentUser.uid,userEmail:currentUser.email});await addDoc(collection(db,"transactions"),{type:'MOVE_IN',productId,productName:p.name,sku:p.sku,qty:mQty,bin:toBin,purpose:`Dari ${fromBin}`,timestamp:new Date(),userId:currentUser.uid,userEmail:currentUser.email});playSuccessSound();toast(`✅ ${mQty}: ${fromBin} → ${toBin}`);closeModal();await loadAllData();renderPage('products');}catch(e){playErrorSound();toast('❌ '+e.message);}});
-      document.getElementById('cancelMove').addEventListener('click',closeModal);
-    }
+    function showMoveModal(productId, fromBin) { const p=products.find(x=>x.id===productId); if(!p)return; const invItem=inventoryItems.find(i=>i.productId===productId&&i.bin===fromBin); const maxQty=invItem?.qty||0; showModal(`<div style="text-align:center;margin-bottom:12px;"><span style="font-size:2rem;">🔄</span><h3>Pindah Bin</h3></div><div style="background:#f8fafc;padding:12px;border-radius:12px;margin-bottom:12px;"><strong>${p.name}</strong><br><span style="font-size:0.8rem;">SKU:${p.sku} | Dari: ${fromBin} (${maxQty} unit)</span></div><div class="form-group"><label class="form-label">Ke Bin</label><input type="text" id="moveToBin" placeholder="Bin tujuan"></div><div class="form-group"><label class="form-label">Jumlah</label><input type="number" id="moveQty" value="1" min="1" max="${maxQty}"><span style="font-size:0.7rem;">Maks: ${maxQty}</span></div><button class="btn btn-warning btn-block" id="execMove">🔄 Pindahkan</button><button class="btn btn-outline btn-block" id="cancelMove" style="margin-top:6px;">Batal</button>`); document.getElementById('execMove').addEventListener('click',async()=>{const toBin=document.getElementById('moveToBin').value.trim();const mQty=parseInt(document.getElementById('moveQty').value)||0;if(!toBin){playErrorSound();return toast('⚠️ Isi Bin');}if(mQty<1||mQty>maxQty){playErrorSound();return toast('⚠️ Invalid');}try{const ns=maxQty-mQty;if(ns<=0)await deleteDoc(doc(db,"inventory",invItem.id));else await updateDoc(doc(db,"inventory",invItem.id),{qty:ns});let ti=inventoryItems.find(i=>i.productId===productId&&i.bin.toLowerCase()===toBin.toLowerCase());if(ti)await updateDoc(doc(db,"inventory",ti.id),{qty:(ti.qty||0)+mQty});else await addDoc(collection(db,"inventory"),{productId,sku:p.sku,bin:toBin,qty:mQty,created:new Date(),userId:currentUser.uid});await addDoc(collection(db,"transactions"),{type:'MOVE_OUT',productId,productName:p.name,sku:p.sku,qty:mQty,bin:fromBin,purpose:`Pindah ke ${toBin}`,timestamp:new Date(),userId:currentUser.uid,userEmail:currentUser.email});await addDoc(collection(db,"transactions"),{type:'MOVE_IN',productId,productName:p.name,sku:p.sku,qty:mQty,bin:toBin,purpose:`Dari ${fromBin}`,timestamp:new Date(),userId:currentUser.uid,userEmail:currentUser.email});playSuccessSound();toast(`✅ ${mQty}: ${fromBin} → ${toBin}`);closeModal();await loadAllData();renderPage('products');}catch(e){playErrorSound();toast('❌ '+e.message);}}); document.getElementById('cancelMove').addEventListener('click',closeModal); }
 
-    // ==================== TRACKING MODAL (DETAIL) ====================
-    function showTrackingModal(pid) {
-      const p=products.find(x=>x.id===pid); if(!p)return;
-      const ptr=transactions.filter(t=>t.productId===pid).sort((a,b)=>{const da=a.timestamp?.toDate?.()||new Date(a.timestamp);const db=b.timestamp?.toDate?.()||new Date(b.timestamp);return db-da;});
-      let rs=getProductTotalStock(pid);
-      const tl=ptr.map(t=>{
-        const d=t.timestamp?.toDate?.()||new Date(t.timestamp);
-        const it={date:d,type:t.type,qty:t.qty,purpose:t.purpose||'',note:t.note||'',bin:t.bin||'',stockAfter:rs};
-        rs=t.type==='IN'||t.type==='MOVE_IN'?rs-t.qty:rs+t.qty;
-        return it;
-      });
-
-      showModal(`
-        <h3>📈 ${p.name}</h3>
-        <p style="color:#64748b;font-size:0.8rem;">SKU:${p.sku} | Total Stok:<strong>${getProductTotalStock(pid)}</strong></p>
-        
-        <div class="card" style="margin-bottom:10px;">
-          <div class="card-title">📊 Grafik Stok</div>
-          <div class="chart-container"><canvas id="trackChart"></canvas></div>
-        </div>
-        
-        <div class="card">
-          <div class="card-title">📜 Riwayat Transaksi (${tl.length})</div>
-          ${tl.length===0
-            ? '<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada transaksi</div>'
-            : `<div class="timeline">
-                ${tl.map(i => {
-                  let typeLabel, typeClass;
-                  if(i.type==='IN') { typeLabel='📥 Barang Masuk'; typeClass='type-in'; }
-                  else if(i.type==='MOVE_IN') { typeLabel='🔄 Transfer Masuk'; typeClass='type-move'; }
-                  else if(i.type==='MOVE_OUT') { typeLabel='🔄 Transfer Keluar'; typeClass='type-move'; }
-                  else { typeLabel='📤 Barang Keluar'; typeClass='type-out'; }
-                  
-                  let purposeText = '';
-                  if(i.type==='OUT'||i.type==='MOVE_OUT') {
-                    purposeText = i.purpose || '';
-                  }
-                  if(i.type==='MOVE_IN') {
-                    purposeText = i.purpose || '';
-                  }
-                  
-                  return `
-                    <div class="timeline-item ${i.type==='OUT'||i.type==='MOVE_OUT'?'out':''} ${i.type==='MOVE_IN'||i.type==='MOVE_OUT'?'move':''}">
-                      <div class="timeline-header">
-                        <span class="timeline-type ${typeClass}">${typeLabel}</span>
-                        <span class="timeline-date">${i.date.toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}</span>
-                      </div>
-                      <div class="timeline-detail">
-                        <strong>${i.type==='IN'||i.type==='MOVE_IN'?'+':'-'}${i.qty} unit</strong> → Bin: <strong>${i.bin||'-'}</strong>
-                        ${purposeText ? ` · ${purposeText}` : ''}
-                      </div>
-                      <div class="timeline-meta">
-                        Stok setelah: ${i.stockAfter} unit
-                        ${i.note ? ` · Catatan: ${i.note}` : ''}
-                      </div>
-                    </div>
-                  `;
-                }).join('')}
-              </div>`
-          }
-        </div>
-        <button class="btn btn-outline btn-block" onclick="document.getElementById('modalOverlay').classList.remove('show')" style="margin-top:10px;">Tutup</button>
-      `);
-
-      setTimeout(()=>{
-        const c=document.getElementById('trackChart');
-        if(!c||!tl.length)return;
-        if(currentChart)currentChart.destroy();
-        const lbs=[],dps=[];
-        const td=new Date();
-        for(let i=6;i>=0;i--){
-          const d=new Date(td);d.setDate(d.getDate()-i);
-          lbs.push(d.toLocaleDateString('id-ID',{day:'numeric',month:'short'}));
-          let s=getProductTotalStock(pid);
-          ptr.forEach(t=>{const dd=t.timestamp?.toDate?.()||new Date(t.timestamp);if(dd>d)s+=(t.type==='OUT'||t.type==='MOVE_OUT'?t.qty:-t.qty);});
-          dps.push(Math.max(0,s));
-        }
-        currentChart=new Chart(c.getContext('2d'),{
-          type:'line',
-          data:{labels:lbs,datasets:[{label:'Stok',data:dps,borderColor:'#8b5cf6',backgroundColor:'rgba(139,92,246,0.1)',fill:true,tension:0.4,pointRadius:5,pointBackgroundColor:'#8b5cf6'}]},
-          options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}},x:{ticks:{font:{size:9}}}}}
-        });
-      },300);
-    }
+    function showTrackingModal(pid) { const p=products.find(x=>x.id===pid); if(!p)return; const ptr=transactions.filter(t=>t.productId===pid).sort((a,b)=>{const da=a.timestamp?.toDate?.()||new Date(a.timestamp);const db=b.timestamp?.toDate?.()||new Date(b.timestamp);return db-da;}); let rs=getProductTotalStock(pid); const tl=ptr.map(t=>{const d=t.timestamp?.toDate?.()||new Date(t.timestamp);const it={date:d,type:t.type,qty:t.qty,purpose:t.purpose||t.note||'',note:t.note||'',bin:t.bin||'',noDO:t.noDO||'',noTO:t.noTO||'',stockAfter:rs};rs=t.type==='IN'||t.type==='MOVE_IN'?rs-t.qty:rs+t.qty;return it;}); showModal(`<h3>📈 ${p.name}</h3><p style="color:#64748b;font-size:0.8rem;">SKU:${p.sku} | Total Stok:<strong>${getProductTotalStock(pid)}</strong></p><div class="card" style="margin-bottom:10px;"><div class="card-title">📊 Grafik</div><div class="chart-container"><canvas id="trackChart"></canvas></div></div><div class="card"><div class="card-title">📜 Riwayat (${tl.length})</div>${tl.length===0?'<div style="text-align:center;padding:20px;">Belum ada</div>':`<div class="timeline">${tl.map(i=>{let typeLabel,typeClass;if(i.type==='IN'){typeLabel='📥 Barang Masuk';typeClass='type-in';}else if(i.type==='MOVE_IN'){typeLabel='🔄 Transfer Masuk';typeClass='type-move';}else if(i.type==='MOVE_OUT'){typeLabel='🔄 Transfer Keluar';typeClass='type-move';}else{typeLabel='📤 Transfer Out';typeClass='type-out';}const docInfo=i.noDO?`<span class="do-badge">DO:${i.noDO}</span>`:'';const toInfo=i.noTO?`<span class="to-badge">${i.noTO}</span>`:'';return`<div class="timeline-item ${i.type==='OUT'||i.type==='MOVE_OUT'?'out':''} ${i.type==='MOVE_IN'||i.type==='MOVE_OUT'?'move':''}"><div class="timeline-header"><span class="timeline-type ${typeClass}">${typeLabel}</span><span class="timeline-date">${i.date.toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}</span></div><div class="timeline-detail"><strong>${i.type==='IN'||i.type==='MOVE_IN'?'+':'-'}${i.qty} unit</strong> → Bin: <strong>${i.bin||'-'}</strong> ${i.purpose?`· ${i.purpose}`:''} ${docInfo}${toInfo}</div><div class="timeline-meta">Stok setelah: ${i.stockAfter} unit${i.note?` · ${i.note}`:''}</div></div>`;}).join('')}</div>`}</div><button class="btn btn-outline btn-block" onclick="document.getElementById('modalOverlay').classList.remove('show')" style="margin-top:10px;">Tutup</button>`); setTimeout(()=>{const c=document.getElementById('trackChart');if(!c||!tl.length)return;if(currentChart)currentChart.destroy();const lbs=[],dps=[];const td=new Date();for(let i=6;i>=0;i--){const d=new Date(td);d.setDate(d.getDate()-i);lbs.push(d.toLocaleDateString('id-ID',{day:'numeric',month:'short'}));let s=getProductTotalStock(pid);ptr.forEach(t=>{const dd=t.timestamp?.toDate?.()||new Date(t.timestamp);if(dd>d)s+=(t.type==='OUT'||t.type==='MOVE_OUT'?t.qty:-t.qty);});dps.push(Math.max(0,s));}currentChart=new Chart(c.getContext('2d'),{type:'line',data:{labels:lbs,datasets:[{label:'Stok',data:dps,borderColor:'#8b5cf6',backgroundColor:'rgba(139,92,246,0.1)',fill:true,tension:0.4,pointRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}},x:{ticks:{font:{size:9}}}}}});},300); }
 
     // ==================== REPORTS ====================
-    async function reportsHTML() {
-      const tv=products.reduce((s,p)=>s+getProductTotalStock(p.id)*(p.price||0),0);
-      return `<div class="card"><div class="card-title">📊 Ringkasan</div><div class="stats-grid"><div class="stat-card blue"><div class="stat-value">${products.length}</div><div class="stat-label">Produk</div></div><div class="stat-card green"><div class="stat-value">${formatRupiah(tv)}</div><div class="stat-label">Nilai</div></div></div></div><div class="card"><div class="card-title">📈 Grafik 7 Hari</div><div class="chart-container"><canvas id="reportChart"></canvas></div></div><button class="btn btn-outline btn-block" id="exportBtn">📥 Export CSV</button>`;
-    }
+    async function reportsHTML() { const tv=products.reduce((s,p)=>s+getProductTotalStock(p.id)*(p.price||0),0); return `<div class="card"><div class="card-title">📊 Ringkasan</div><div class="stats-grid"><div class="stat-card blue"><div class="stat-value">${products.length}</div><div class="stat-label">Produk</div></div><div class="stat-card green"><div class="stat-value">${formatRupiah(tv)}</div><div class="stat-label">Nilai</div></div></div></div><div class="card"><div class="card-title">📈 Grafik 7 Hari</div><div class="chart-container"><canvas id="reportChart"></canvas></div></div><button class="btn btn-outline btn-block" id="exportBtn">📥 Export CSV</button>`; }
+    function initReports() { setTimeout(()=>{const c=document.getElementById('reportChart');if(!c)return;if(currentChart)currentChart.destroy();const lbs=[],ind=[],oud=[];const td=new Date();for(let i=6;i>=0;i--){const d=new Date(td);d.setDate(d.getDate()-i);lbs.push(d.toLocaleDateString('id-ID',{day:'numeric',month:'short'}));let di=0,du=0;transactions.forEach(t=>{try{const dd=t.timestamp?.toDate?.()||new Date(t.timestamp);if(dd.toDateString()===d.toDateString()){if(t.type==='IN'||t.type==='MOVE_IN')di+=t.qty||0;else if(t.type==='OUT'||t.type==='MOVE_OUT')du+=t.qty||0;}}catch{}});ind.push(di);oud.push(du);}currentChart=new Chart(c.getContext('2d'),{type:'bar',data:{labels:lbs,datasets:[{label:'Masuk',data:ind,backgroundColor:'rgba(5,150,105,0.7)',borderRadius:6},{label:'Keluar',data:oud,backgroundColor:'rgba(220,38,38,0.7)',borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{y:{beginAtZero:true}}}});},300); }
 
-    function initReports() {
-      setTimeout(()=>{const c=document.getElementById('reportChart');if(!c)return;if(currentChart)currentChart.destroy();const lbs=[],ind=[],oud=[];const td=new Date();for(let i=6;i>=0;i--){const d=new Date(td);d.setDate(d.getDate()-i);lbs.push(d.toLocaleDateString('id-ID',{day:'numeric',month:'short'}));let di=0,du=0;transactions.forEach(t=>{try{const dd=t.timestamp?.toDate?.()||new Date(t.timestamp);if(dd.toDateString()===d.toDateString()){if(t.type==='IN'||t.type==='MOVE_IN')di+=t.qty||0;else if(t.type==='OUT'||t.type==='MOVE_OUT')du+=t.qty||0;}}catch{}});ind.push(di);oud.push(du);}currentChart=new Chart(c.getContext('2d'),{type:'bar',data:{labels:lbs,datasets:[{label:'Masuk',data:ind,backgroundColor:'rgba(5,150,105,0.7)',borderRadius:6},{label:'Keluar',data:oud,backgroundColor:'rgba(220,38,38,0.7)',borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{y:{beginAtZero:true}}}});},300);
-    }
-
-    document.addEventListener('click',function(e){if(e.target.id==='exportBtn'){if(!transactions.length)return toast('⚠️ Tidak ada data');let csv='Tipe,Produk,SKU,Qty,Bin,Keperluan,Tanggal\n';transactions.forEach(t=>{csv+=`${t.type},"${t.productName||''}",${t.sku||''},${t.qty||0},${t.bin||''},"${t.purpose||''}",${formatDate(t.timestamp)}\n`;});const b=new Blob([csv],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='laporan.csv';a.click();toast('📥 Terdownload');}});
+    document.addEventListener('click',function(e){if(e.target.id==='exportBtn'){if(!transactions.length)return toast('⚠️ Tidak ada data');let csv='Tipe,Produk,SKU,Qty,Bin,No DO/TO,Keperluan,Tanggal\n';transactions.forEach(t=>{csv+=`${t.type},"${t.productName||''}",${t.sku||''},${t.qty||0},${t.bin||''},"${t.noDO||t.noTO||''}","${t.purpose||''}",${formatDate(t.timestamp)}\n`;});const b=new Blob([csv],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='laporan.csv';a.click();toast('📥 Terdownload');}});
 
     document.getElementById('syncBtn').addEventListener('click',async()=>{toast('🔄 Sync...');await stopAllScanners();await loadAllData();await renderPage(currentPage);playSuccessSound();toast('✅ Tersinkron');});
     window.addEventListener('beforeunload',()=>stopAllScanners());
-    console.log('✅ InventoryPro WMS - Tracking Detail & Bin Focus!');
+    console.log('✅ InventoryPro WMS - No DO & Transfer Out System!');
     loadAllData();
   </script>
 </body>
