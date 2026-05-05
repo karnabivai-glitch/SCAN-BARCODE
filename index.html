@@ -153,6 +153,7 @@
     .btn-outline { background: white; color: #1e40af; border: 2px solid #bfdbfe; }
     .btn-sm { padding: 8px 12px; font-size: 0.78rem; width: auto; }
     .btn-block { width: 100%; }
+    .btn-icon { width: 34px; height: 34px; padding: 0; border-radius: 10px; font-size: 1rem; }
 
     .list { list-style: none; max-height: 300px; overflow-y: auto; }
     .list-item {
@@ -230,9 +231,29 @@
 
     /* Product Styles */
     .product-toolbar { display: flex; gap: 8px; align-items: center; }
-    .search-box { flex: 1; position: relative; }
-    .search-box input { padding-left: 36px; background: #f8fafc; border-color: #e2e8f0; }
-    .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 16px; color: #94a3b8; pointer-events: none; }
+    .search-box { flex: 1; position: relative; display: flex; gap: 6px; align-items: center; }
+    .search-box input { padding-left: 36px; background: #f8fafc; border-color: #e2e8f0; flex: 1; }
+    .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 16px; color: #94a3b8; pointer-events: none; z-index: 1; }
+    .scan-btn-search {
+      width: 42px; height: 42px;
+      border-radius: 12px; border: 2px solid #bfdbfe;
+      background: #eff6ff; color: #1e40af;
+      font-size: 1.2rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: 0.15s;
+    }
+    .scan-btn-search:active { background: #dbeafe; transform: scale(0.95); }
+    .scan-btn-search.scanning { background: #fef2f2; border-color: #fecaca; color: #dc2626; animation: pulse 1s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.6;} }
+
+    /* Scanner di search bar */
+    .search-scanner-container {
+      margin-top: 8px;
+      border-radius: 12px;
+      overflow: hidden;
+      display: none;
+    }
+    .search-scanner-container.active { display: block; }
 
     .tabs {
       display: flex; gap: 0;
@@ -258,6 +279,11 @@
       cursor: pointer;
     }
     .product-row:active { background: #f8fafc; border-color: #e2e8f0; }
+    .product-row.highlight {
+      background: #eff6ff;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
+    }
     .product-emoji {
       width: 44px; height: 44px; border-radius: 12px;
       display: flex; align-items: center; justify-content: center;
@@ -376,7 +402,6 @@
     const auth = getAuth(firebaseApp);
     const db = getFirestore(firebaseApp);
 
-    // BIN List (bisa dikustomisasi)
     const BIN_LIST = ['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3', 'D1', 'D2', 'E1'];
 
     let currentUser = null;
@@ -385,8 +410,9 @@
     let transactions = [];
     let scannerIn = null;
     let scannerOut = null;
+    let scannerSearch = null; // Scanner khusus halaman produk
     let currentChart = null;
-    let productViewMode = 'list'; // 'list', 'tracking', 'bin'
+    let productViewMode = 'list';
 
     function playScanBeep() {
       try {
@@ -450,6 +476,12 @@
     async function stopAllScanners() {
       if (scannerIn?.isScanning) { try { await scannerIn.stop(); } catch(e) {} scannerIn = null; }
       if (scannerOut?.isScanning) { try { await scannerOut.stop(); } catch(e) {} scannerOut = null; }
+      if (scannerSearch?.isScanning) { try { await scannerSearch.stop(); } catch(e) {} scannerSearch = null; }
+      // Reset search scan button
+      const scanBtn = document.getElementById('scanSearchBtn');
+      if (scanBtn) { scanBtn.classList.remove('scanning'); scanBtn.textContent = '📷'; }
+      const scannerCont = document.getElementById('searchScannerContainer');
+      if (scannerCont) scannerCont.classList.remove('active');
     }
 
     // ==================== AUTH ====================
@@ -505,11 +537,6 @@
       const todayTrans = transactions.filter(t=>(t.timestamp?.toDate?.()||new Date(t.timestamp))>=today);
       const todayInQty = todayTrans.filter(t=>t.type==='IN').reduce((s,t)=>s+(t.qty||0),0);
       const todayOutQty = todayTrans.filter(t=>t.type==='OUT').reduce((s,t)=>s+(t.qty||0),0);
-      const weekIn = transactions.filter(t=>t.type==='IN'&&(t.timestamp?.toDate?.()||new Date(t.timestamp))>=thisWeek).reduce((s,t)=>s+(t.qty||0),0);
-      const weekOut = transactions.filter(t=>t.type==='OUT'&&(t.timestamp?.toDate?.()||new Date(t.timestamp))>=thisWeek).reduce((s,t)=>s+(t.qty||0),0);
-      const monthIn = transactions.filter(t=>t.type==='IN'&&(t.timestamp?.toDate?.()||new Date(t.timestamp))>=thisMonth).reduce((s,t)=>s+(t.qty||0),0);
-      const monthOut = transactions.filter(t=>t.type==='OUT'&&(t.timestamp?.toDate?.()||new Date(t.timestamp))>=thisMonth).reduce((s,t)=>s+(t.qty||0),0);
-      const daysPassed = Math.max(1, Math.ceil((now-thisWeek)/86400000)); const avgDailyIn = Math.round(weekIn/daysPassed); const avgDailyOut = Math.round(weekOut/daysPassed);
       const lowStockProducts = products.filter(p=>(p.stock||0)<=(p.minStock||5)); const lowStockCount = lowStockProducts.length;
       const healthyPercent = totalProducts>0?Math.round(((totalProducts-lowStockCount)/totalProducts)*100):100;
 
@@ -524,7 +551,7 @@
       setTimeout(()=>{const canvas=document.getElementById('dashChart');if(!canvas)return;if(currentChart)currentChart.destroy();const labels=[],inData=[],outData=[];const today=new Date();for(let i=6;i>=0;i--){const d=new Date(today);d.setDate(d.getDate()-i);labels.push(d.toLocaleDateString('id-ID',{day:'numeric',month:'short'}));let di=0,dio=0;transactions.forEach(t=>{try{const td=t.timestamp?.toDate?.()||new Date(t.timestamp);if(td.toDateString()===d.toDateString()){if(t.type==='IN')di+=t.qty||0;else dio+=t.qty||0;}}catch{}});inData.push(di);outData.push(dio);}currentChart=new Chart(canvas.getContext('2d'),{type:'line',data:{labels,datasets:[{label:'Masuk',data:inData,borderColor:'#10b981',backgroundColor:'rgba(16,185,129,0.1)',fill:true,tension:0.3,pointRadius:3},{label:'Keluar',data:outData,borderColor:'#ef4444',backgroundColor:'rgba(239,68,68,0.05)',fill:true,tension:0.3,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:9}}}},scales:{y:{beginAtZero:true,ticks:{stepSize:1,font:{size:9}}},x:{ticks:{font:{size:8}}}}}});},300);
     }
 
-    // ==================== STOCK IN (dengan Bin) ====================
+    // ==================== STOCK IN ====================
     function stockInHTML() {
       return `
         <div class="card"><div class="card-title">📥 Barang Masuk</div>
@@ -543,38 +570,42 @@
 
     async function initStockIn() {
       await loadInHistory();
-      document.getElementById('scanInBtn').addEventListener('click', ()=>scannerIn?.isScanning?stopScanner('in'):startScanner('in','inScannerView'));
+      document.getElementById('scanInBtn').addEventListener('click', ()=>scannerIn?.isScanning?stopScanner('in'):startScanner('in','inScannerView','inScannerContainer'));
       document.getElementById('stopInScan').addEventListener('click', ()=>stopScanner('in'));
-      document.getElementById('inSKU').addEventListener('input', ()=>{
-        const sku=document.getElementById('inSKU').value.trim(); const d=document.getElementById('inProductInfo');
-        if(!sku){d.style.display='none';return;}
-        const p=products.find(x=>(x.sku||'').toLowerCase()===sku.toLowerCase());
-        d.style.display='block';
-        document.getElementById('inProductName').textContent=p?p.name:'🆕 Produk baru';
-        document.getElementById('inCurrentStock').textContent=p?.stock||0;
-        document.getElementById('inCurrentBin').textContent=p?.bin||'-';
-        d.dataset.productId=p?.id||'';
-      });
-      document.getElementById('saveStockIn').addEventListener('click', async ()=>{
-        const sku=document.getElementById('inSKU').value.trim(), qty=parseInt(document.getElementById('inQty').value)||0;
-        const bin=document.getElementById('inBin').value, note=document.getElementById('inNote').value.trim();
-        if(!sku||qty<1){playErrorSound();return toast('⚠️ Lengkapi SKU & Qty');}
-        if(!bin){playErrorSound();return toast('⚠️ Pilih Bin tujuan');}
-        try{
-          let pid=document.getElementById('inProductInfo').dataset.productId;
-          if(!pid){const name=prompt('Nama produk:')||sku;const ref=await addDoc(collection(db,"products"),{sku,name,stock:0,bin,minStock:5,price:0,created:new Date(),userId:currentUser.uid});pid=ref.id;products.push({id:pid,sku,name,stock:0,bin,minStock:5,price:0});}
-          else { await updateDoc(doc(db,"products",pid),{bin,updatedAt:new Date()}); }
-          const p=products.find(x=>x.id===pid); const ns=(p?.stock||0)+qty;
-          await updateDoc(doc(db,"products",pid),{stock:ns,updatedAt:new Date()});
-          await addDoc(collection(db,"transactions"),{type:'IN',productId:pid,productName:p?.name,sku,qty,bin,note,timestamp:new Date(),userId:currentUser.uid,userEmail:currentUser.email});
-          playSuccessSound(); toast(`✅ +${qty} ke Bin ${bin} | Stok:${ns}`);
-          document.getElementById('inSKU').value='';document.getElementById('inQty').value='1';document.getElementById('inNote').value='';document.getElementById('inProductInfo').style.display='none';
-          await loadDashboardData(); await loadInHistory();
-        }catch(e){playErrorSound();toast('❌ '+e.message);}
-      });
+      document.getElementById('inSKU').addEventListener('input', lookupInProduct);
+      document.getElementById('saveStockIn').addEventListener('click', saveStockIn);
     }
 
-    // ==================== STOCK OUT (dengan Bin) ====================
+    function lookupInProduct() {
+      const sku=document.getElementById('inSKU').value.trim(); const d=document.getElementById('inProductInfo');
+      if(!sku){d.style.display='none';return;}
+      const p=products.find(x=>(x.sku||'').toLowerCase()===sku.toLowerCase());
+      d.style.display='block';
+      document.getElementById('inProductName').textContent=p?p.name:'🆕 Produk baru';
+      document.getElementById('inCurrentStock').textContent=p?.stock||0;
+      document.getElementById('inCurrentBin').textContent=p?.bin||'-';
+      d.dataset.productId=p?.id||'';
+    }
+
+    async function saveStockIn() {
+      const sku=document.getElementById('inSKU').value.trim(), qty=parseInt(document.getElementById('inQty').value)||0;
+      const bin=document.getElementById('inBin').value, note=document.getElementById('inNote').value.trim();
+      if(!sku||qty<1){playErrorSound();return toast('⚠️ Lengkapi SKU & Qty');}
+      if(!bin){playErrorSound();return toast('⚠️ Pilih Bin tujuan');}
+      try{
+        let pid=document.getElementById('inProductInfo').dataset.productId;
+        if(!pid){const name=prompt('Nama produk:')||sku;const ref=await addDoc(collection(db,"products"),{sku,name,stock:0,bin,minStock:5,price:0,created:new Date(),userId:currentUser.uid});pid=ref.id;products.push({id:pid,sku,name,stock:0,bin,minStock:5,price:0});}
+        else { await updateDoc(doc(db,"products",pid),{bin,updatedAt:new Date()}); }
+        const p=products.find(x=>x.id===pid); const ns=(p?.stock||0)+qty;
+        await updateDoc(doc(db,"products",pid),{stock:ns,updatedAt:new Date()});
+        await addDoc(collection(db,"transactions"),{type:'IN',productId:pid,productName:p?.name,sku,qty,bin,note,timestamp:new Date(),userId:currentUser.uid,userEmail:currentUser.email});
+        playSuccessSound(); toast(`✅ +${qty} ke Bin ${bin} | Stok:${ns}`);
+        document.getElementById('inSKU').value='';document.getElementById('inQty').value='1';document.getElementById('inNote').value='';document.getElementById('inProductInfo').style.display='none';
+        await loadDashboardData(); await loadInHistory();
+      }catch(e){playErrorSound();toast('❌ '+e.message);}
+    }
+
+    // ==================== STOCK OUT ====================
     function stockOutHTML() {
       return `
         <div class="card"><div class="card-title">📤 Barang Keluar</div>
@@ -594,59 +625,110 @@
 
     async function initStockOut() {
       await loadOutHistory();
-      document.getElementById('scanOutBtn').addEventListener('click', ()=>scannerOut?.isScanning?stopScanner('out'):startScanner('out','outScannerView'));
+      document.getElementById('scanOutBtn').addEventListener('click', ()=>scannerOut?.isScanning?stopScanner('out'):startScanner('out','outScannerView','outScannerContainer'));
       document.getElementById('stopOutScan').addEventListener('click', ()=>stopScanner('out'));
-      document.getElementById('outSKU').addEventListener('input', ()=>{
-        const sku=document.getElementById('outSKU').value.trim(); const d=document.getElementById('outProductInfo');
-        if(!sku){d.style.display='none';return;}
-        const p=products.find(x=>(x.sku||'').toLowerCase()===sku.toLowerCase());
-        d.style.display='block';
-        document.getElementById('outProductName').textContent=p?p.name:'❌ Tidak ditemukan';
-        document.getElementById('outCurrentStock').textContent=p?.stock||0;
-        document.getElementById('outCurrentBin').textContent=p?.bin||'-';
-        d.dataset.productId=p?.id||'';
-        if(p?.bin) document.getElementById('outBin').value = p.bin;
-      });
-      document.getElementById('saveStockOut').addEventListener('click', async ()=>{
-        const sku=document.getElementById('outSKU').value.trim(), qty=parseInt(document.getElementById('outQty').value)||0;
-        const bin=document.getElementById('outBin').value, purpose=document.getElementById('outPurpose').value, note=document.getElementById('outNote').value.trim();
-        const pid=document.getElementById('outProductInfo').dataset.productId;
-        if(!sku||qty<1||!pid){playErrorSound();return toast('⚠️ Lengkapi');}
-        if(!bin){playErrorSound();return toast('⚠️ Pilih Bin asal');}
-        const p=products.find(x=>x.id===pid);
-        if(!p||(p.stock||0)<qty){playErrorSound();return toast('⚠️ Stok tidak cukup');}
-        try{
-          const ns=(p.stock||0)-qty;
-          await updateDoc(doc(db,"products",pid),{stock:ns,updatedAt:new Date()});
-          await addDoc(collection(db,"transactions"),{type:'OUT',productId:pid,productName:p.name,sku,qty,bin,purpose,note,timestamp:new Date(),userId:currentUser.uid,userEmail:currentUser.email});
-          playSuccessSound(); toast(`📤 -${qty} dari Bin ${bin} | Stok:${ns}`);
-          document.getElementById('outSKU').value='';document.getElementById('outQty').value='1';document.getElementById('outNote').value='';document.getElementById('outProductInfo').style.display='none';
-          await loadDashboardData(); await loadOutHistory();
-        }catch(e){playErrorSound();toast('❌ '+e.message);}
-      });
+      document.getElementById('outSKU').addEventListener('input', lookupOutProduct);
+      document.getElementById('saveStockOut').addEventListener('click', saveStockOut);
     }
 
-    async function startScanner(type, elementId) {
+    function lookupOutProduct() {
+      const sku=document.getElementById('outSKU').value.trim(); const d=document.getElementById('outProductInfo');
+      if(!sku){d.style.display='none';return;}
+      const p=products.find(x=>(x.sku||'').toLowerCase()===sku.toLowerCase());
+      d.style.display='block';
+      document.getElementById('outProductName').textContent=p?p.name:'❌ Tidak ditemukan';
+      document.getElementById('outCurrentStock').textContent=p?.stock||0;
+      document.getElementById('outCurrentBin').textContent=p?.bin||'-';
+      d.dataset.productId=p?.id||'';
+      if(p?.bin) document.getElementById('outBin').value = p.bin;
+    }
+
+    async function saveStockOut() {
+      const sku=document.getElementById('outSKU').value.trim(), qty=parseInt(document.getElementById('outQty').value)||0;
+      const bin=document.getElementById('outBin').value, purpose=document.getElementById('outPurpose').value, note=document.getElementById('outNote').value.trim();
+      const pid=document.getElementById('outProductInfo').dataset.productId;
+      if(!sku||qty<1||!pid){playErrorSound();return toast('⚠️ Lengkapi');}
+      if(!bin){playErrorSound();return toast('⚠️ Pilih Bin asal');}
+      const p=products.find(x=>x.id===pid);
+      if(!p||(p.stock||0)<qty){playErrorSound();return toast('⚠️ Stok tidak cukup');}
+      try{
+        const ns=(p.stock||0)-qty;
+        await updateDoc(doc(db,"products",pid),{stock:ns,updatedAt:new Date()});
+        await addDoc(collection(db,"transactions"),{type:'OUT',productId:pid,productName:p.name,sku,qty,bin,purpose,note,timestamp:new Date(),userId:currentUser.uid,userEmail:currentUser.email});
+        playSuccessSound(); toast(`📤 -${qty} dari Bin ${bin} | Stok:${ns}`);
+        document.getElementById('outSKU').value='';document.getElementById('outQty').value='1';document.getElementById('outNote').value='';document.getElementById('outProductInfo').style.display='none';
+        await loadDashboardData(); await loadOutHistory();
+      }catch(e){playErrorSound();toast('❌ '+e.message);}
+    }
+
+    async function startScanner(type, elementId, containerId) {
       await stopAllScanners();
-      const contId = type==='in'?'inScannerContainer':'outScannerContainer';
-      document.getElementById(contId).style.display='block';
+      document.getElementById(containerId).style.display='block';
       try {
         const scanner = new Html5Qrcode(elementId);
-        if(type==='in') scannerIn=scanner; else scannerOut=scanner;
+        if(type==='in') scannerIn=scanner; else if(type==='out') scannerOut=scanner; else scannerSearch=scanner;
         await scanner.start({facingMode:"environment"},{fps:10,qrbox:{width:250,height:250}},
           (decoded)=>{ playScanBeep();
-            if(type==='in'){ document.getElementById('inSKU').value=decoded; document.getElementById('inSKU').dispatchEvent(new Event('input')); }
-            else { document.getElementById('outSKU').value=decoded; document.getElementById('outSKU').dispatchEvent(new Event('input')); }
+            if(type==='in'){ document.getElementById('inSKU').value=decoded; lookupInProduct(); }
+            else if(type==='out'){ document.getElementById('outSKU').value=decoded; lookupOutProduct(); }
+            else if(type==='search'){ handleSearchScan(decoded); }
             toast('✅ '+decoded); stopScanner(type);
           }, ()=>{});
-      } catch(e) { toast('⚠️ Gagal kamera'); document.getElementById(contId).style.display='none'; }
+      } catch(e) { toast('⚠️ Gagal kamera'); document.getElementById(containerId).style.display='none'; if(type==='search'){ document.getElementById('scanSearchBtn').classList.remove('scanning'); document.getElementById('scanSearchBtn').textContent='📷'; } }
     }
 
     async function stopScanner(type) {
-      const scanner = type==='in'?scannerIn:scannerOut;
+      const scanner = type==='in'?scannerIn:type==='out'?scannerOut:scannerSearch;
       if(scanner?.isScanning) try{await scanner.stop();}catch(e){}
-      if(type==='in') scannerIn=null; else scannerOut=null;
-      document.getElementById(type==='in'?'inScannerContainer':'outScannerContainer').style.display='none';
+      if(type==='in') scannerIn=null;
+      else if(type==='out') scannerOut=null;
+      else { scannerSearch=null; const btn=document.getElementById('scanSearchBtn'); if(btn){btn.classList.remove('scanning');btn.textContent='📷';} const cont=document.getElementById('searchScannerContainer'); if(cont)cont.classList.remove('active'); }
+      if(type!=='search') document.getElementById(type==='in'?'inScannerContainer':'outScannerContainer').style.display='none';
+    }
+
+    // ==================== SEARCH SCAN (Halaman Produk) ====================
+    async function toggleSearchScanner() {
+      if (scannerSearch?.isScanning) {
+        await stopScanner('search');
+        return;
+      }
+      const container = document.getElementById('searchScannerContainer');
+      const btn = document.getElementById('scanSearchBtn');
+      container.classList.add('active');
+      btn.classList.add('scanning');
+      btn.textContent = '⏹';
+      await startScanner('search', 'searchScannerView', 'searchScannerContainer');
+    }
+
+    function handleSearchScan(decodedText) {
+      // Isi search box dengan hasil scan
+      const searchInput = document.getElementById('productSearch');
+      if (searchInput) {
+        searchInput.value = decodedText;
+        searchInput.dispatchEvent(new Event('input'));
+      }
+      
+      // Cari produk berdasarkan SKU
+      const product = products.find(p => (p.sku||'').toLowerCase() === decodedText.toLowerCase());
+      
+      if (product) {
+        // Highlight produk yang ditemukan
+        setTimeout(() => {
+          const rows = document.querySelectorAll('.product-row');
+          rows.forEach(r => r.classList.remove('highlight'));
+          const targetRow = document.querySelector(`.product-row[data-pid="${product.id}"]`);
+          if (targetRow) {
+            targetRow.classList.add('highlight');
+            targetRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 300);
+        
+        playSuccessSound();
+        toast(`📍 ${product.name} | Bin: ${product.bin || '-'} | Stok: ${product.stock || 0}`);
+      } else {
+        playErrorSound();
+        toast('❌ SKU tidak ditemukan: ' + decodedText);
+      }
     }
 
     async function loadInHistory() {
@@ -663,11 +745,22 @@
       list.innerHTML=items.length?items.map(i=>`<div class="list-item"><span>📤</span><div style="flex:1;"><div style="font-weight:600;font-size:0.85rem;">${i.productName} (-${i.qty})</div><div style="font-size:0.72rem;color:#64748b;">Bin: ${i.bin||'-'} | ${i.purpose} | ${formatDate(i.timestamp)}</div></div></div>`).join(''):'<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada</div>';
     }
 
-    // ==================== PRODUCTS PAGE (dengan Tab Bin) ====================
+    // ==================== PRODUCTS PAGE ====================
     async function productsHTML() {
       const stats = products.map(p => { const trans = transactions.filter(t=>t.productId===p.id); const last = trans[0]; return {...p, transCount:trans.length, lastTransDate:last?(last.timestamp?.toDate?.()||new Date(last.timestamp)):null}; });
       return `
-        <div class="product-toolbar"><div class="search-box"><span class="search-icon">🔍</span><input type="text" id="productSearch" placeholder="Cari produk, SKU, atau Bin..."></div><button class="btn btn-primary btn-sm" id="addProductBtn" style="flex-shrink:0;">+ Tambah</button></div>
+        <div class="product-toolbar">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="productSearch" placeholder="Cari produk, SKU, atau Bin...">
+            <button class="scan-btn-search" id="scanSearchBtn" title="Scan untuk mencari">📷</button>
+          </div>
+          <button class="btn btn-primary btn-sm" id="addProductBtn" style="flex-shrink:0;">+ Tambah</button>
+        </div>
+        <div class="search-scanner-container" id="searchScannerContainer">
+          <div id="searchScannerView" style="width:100%;border-radius:12px;overflow:hidden;"></div>
+          <button class="btn btn-sm btn-outline" id="stopSearchScan" style="margin-top:6px;width:100%;">❌ Tutup Scanner</button>
+        </div>
         <div class="tabs" id="productTabs">
           <button class="tab active" data-mode="list">📋 Semua</button>
           <button class="tab" data-mode="bin">📦 Bin</button>
@@ -696,7 +789,6 @@
       }).filter(b => b.count > 0).sort((a,b) => a.bin.localeCompare(b.bin));
 
       if (!bins.length) return '<div class="card"><div class="empty-state"><div class="empty-icon">📦</div><p>Belum ada produk di Bin</p><p class="hint">Alokasikan produk ke Bin saat Stock In</p></div></div>';
-
       return `<div class="card"><div class="card-header"><span class="card-title">📦 Daftar Bin</span><span class="badge badge-blue">${bins.length} bin</span></div><div class="bin-grid" id="binGrid">${bins.map(b=>`
         <div class="bin-card" data-bin="${b.bin}">
           <div class="bin-icon">📦</div>
@@ -707,10 +799,15 @@
 
     function renderTrackingList(stats) {
       if(!stats.length) return '<div class="card"><div class="empty-state"><div class="empty-icon">📈</div><p>Belum ada data</p></div></div>';
-      return `<div class="card"><div class="card-header"><span class="card-title">📈 Tracking</span><span class="badge badge-blue">${stats.length}</span></div><p style="font-size:0.75rem;color:#94a3b8;margin-bottom:10px;">Ketuk untuk lihat riwayat</p><div class="product-list-clean" id="trackingListClean">${stats.map(p=>`<div class="product-row" data-pid="${p.id}"><div class="product-emoji emoji-purple">📦</div><div class="product-main"><div class="product-title">${p.name||'-'}</div><div class="product-sub"><span>📊 ${p.transCount} transaksi</span><span>🕐 ${p.lastTransDate?p.lastTransDate.toLocaleDateString('id-ID',{day:'numeric',month:'short'}):'-'}</span></div></div><div class="tracking-stock" style="font-weight:700;color:#1e40af;">${p.stock||0}</div><div class="product-arrow">›</div></div>`).join('')}</div></div>`;
+      return `<div class="card"><div class="card-header"><span class="card-title">📈 Tracking</span><span class="badge badge-blue">${stats.length}</span></div><p style="font-size:0.75rem;color:#94a3b8;margin-bottom:10px;">Ketuk untuk lihat riwayat</p><div class="product-list-clean" id="trackingListClean">${stats.map(p=>`<div class="product-row" data-pid="${p.id}"><div class="product-emoji emoji-purple">📦</div><div class="product-main"><div class="product-title">${p.name||'-'}</div><div class="product-sub"><span>📊 ${p.transCount} transaksi</span><span>🕐 ${p.lastTransDate?p.lastTransDate.toLocaleDateString('id-ID',{day:'numeric',month:'short'}):'-'}</span></div></div><span style="font-weight:700;color:#1e40af;">${p.stock||0}</span><div class="product-arrow">›</div></div>`).join('')}</div></div>`;
     }
 
     function initProducts() {
+      // Scanner button
+      document.getElementById('scanSearchBtn').addEventListener('click', toggleSearchScanner);
+      document.getElementById('stopSearchScan').addEventListener('click', () => stopScanner('search'));
+      
+      // Tabs
       document.querySelectorAll('#productTabs .tab').forEach(tab => {
         tab.addEventListener('click', function() {
           document.querySelectorAll('#productTabs .tab').forEach(t=>t.classList.remove('active'));
@@ -720,7 +817,9 @@
           document.getElementById('productTrackingView').style.display = productViewMode==='tracking'?'block':'none';
         });
       });
+      
       document.getElementById('addProductBtn').addEventListener('click', showAddProductModal);
+      
       document.getElementById('productSearch').addEventListener('input', function(){
         const t=this.value.toLowerCase();
         const filtered=products.filter(p=>(p.name||'').toLowerCase().includes(t)||(p.sku||'').toLowerCase().includes(t)||(p.bin||'').toLowerCase().includes(t));
@@ -729,6 +828,7 @@
         document.getElementById('productTrackingView').innerHTML=renderTrackingList(stats);
         attachListeners();
       });
+      
       attachListeners();
     }
 
@@ -740,7 +840,6 @@
 
     function showDetailModal(pid) {
       const p=products.find(x=>x.id===pid); if(!p)return;
-      const lvl=(p.stock||0)<=(p.minStock||5)?'danger':(p.stock||0)<=(p.minStock||5)*2?'warn':'good';
       showModal(`<h3>${p.name||'-'}</h3><div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;"><span class="badge badge-blue">SKU:${p.sku||'-'}</span><span class="badge badge-green">📦 Bin:${p.bin||'-'}</span></div><div class="stats-grid" style="margin-bottom:12px;"><div class="stat-card blue"><div class="stat-value">${p.stock||0}</div><div class="stat-label">Stok</div></div><div class="stat-card green"><div class="stat-value">${formatRupiah(p.price)}</div><div class="stat-label">Harga</div></div></div><div style="display:flex;gap:8px;"><button class="btn btn-primary" id="editBtn" style="flex:1;">✏️ Edit</button><button class="btn btn-danger btn-sm" id="delBtn" style="flex:1;">🗑️ Hapus</button></div><button class="btn btn-outline btn-block" id="closeBtn" style="margin-top:8px;">Tutup</button>`);
       document.getElementById('editBtn').addEventListener('click',()=>{closeModal();setTimeout(()=>showEditModal(pid),200);});
       document.getElementById('delBtn').addEventListener('click',async()=>{if(confirm('Hapus?')){await deleteDoc(doc(db,"products",pid));closeModal();await loadDashboardData();renderPage('products');toast('🗑️ Dihapus');}});
@@ -796,7 +895,7 @@
 
     document.getElementById('syncBtn').addEventListener('click',async()=>{toast('🔄 Sync...');await stopAllScanners();await loadDashboardData();await renderPage(currentPage);playSuccessSound();toast('✅ Tersinkron');});
     window.addEventListener('beforeunload',()=>stopAllScanners());
-    console.log('✅ InventoryPro - Bin System Active!');
+    console.log('✅ InventoryPro - Search Scan Active!');
     loadDashboardData();
   </script>
 </body>
