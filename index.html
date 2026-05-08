@@ -148,7 +148,7 @@
     .type-pos-badge { background:#d1fae5; color:#065f46; }
     .type-move-badge { background:#f5f3ff; color:#7c3aed; }
     /* Auth Page Styles */
-    .auth-page { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; padding:24px 20px; background:linear-gradient(160deg,#1e40af 0%,#3b82f6 40%,#f1f5f9 40%); }
+    .auth-page { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:calc(100vh - 0px); padding:24px 20px 40px; background:linear-gradient(160deg,#1e40af 0%,#3b82f6 40%,#f1f5f9 40%); margin:-16px; }
     .auth-logo { font-size:3.5rem; margin-bottom:6px; filter:drop-shadow(0 4px 16px rgba(0,0,0,0.18)); }
     .auth-brand { font-size:1.6rem; font-weight:800; color:white; margin-bottom:2px; letter-spacing:-0.5px; }
     .auth-tagline { font-size:0.82rem; color:rgba(255,255,255,0.8); margin-bottom:28px; }
@@ -237,7 +237,9 @@
     // ─── AUTH SCREENS ────────────────────────────────────────────────
     function showAuthScreen(tab='login') {
       document.getElementById('bottomNav').style.display='none';
-      document.getElementById('contentArea').innerHTML=`
+      const ca=document.getElementById('contentArea');
+      ca.style.paddingBottom='0';
+      ca.innerHTML=`
       <div class="auth-page">
         <div class="auth-logo">🏭</div>
         <div class="auth-brand">InventoryPro</div>
@@ -477,6 +479,8 @@
           const name = U._profile?.businessName || U._profile?.displayName || U.email.split('@')[0];
           hdr.innerHTML = `🏭 <span style="font-size:0.95rem;">${name}</span>`;
         }
+        // Restore content padding and show nav
+        document.getElementById('contentArea').style.paddingBottom='80px';
         document.getElementById('bottomNav').style.display='flex';
         await loadAll();
         renderPg('dashboard');
@@ -487,15 +491,14 @@
         showAuthScreen('login');
       }
     });
-    document.getElementById('logoutBtn').addEventListener('click',async()=>{if(confirm('Logout?')){await stopAll();await signOut(auth);}});
+    document.getElementById('logoutBtn')?.addEventListener('click',async()=>{if(confirm('Logout?')){await stopAll();await signOut(auth);}});
     document.querySelectorAll('.nav-item').forEach(b=>{b.addEventListener('click',async function(){await stopAll();document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));this.classList.add('active');page=this.dataset.page;renderPg(page);});});
 
-    async function renderPg(p) { const c = document.getElementById('contentArea'); c.scrollTop = 0; switch(p) { case 'dashboard': c.innerHTML = await dashH(); initDash(); break; case 'pos': c.innerHTML = await posH(); initPOS(); break; case 'transaction': c.innerHTML = await transH(); initTrans(); break; case 'products': c.innerHTML = await prodH(); initProd(); break; case 'reports': c.innerHTML = await repH(); initRep(); break; case 'profile': c.innerHTML = await profileH(); initProfile(); break; } }
+    async function renderPg(p) { const c = document.getElementById('contentArea'); c.scrollTop = 0; c.style.paddingBottom='80px'; switch(p) { case 'dashboard': c.innerHTML = await dashH(); initDash(); break; case 'pos': c.innerHTML = await posH(); initPOS(); break; case 'transaction': c.innerHTML = await transH(); initTrans(); break; case 'products': c.innerHTML = await prodH(); initProd(); break; case 'reports': c.innerHTML = await repH(); initRep(); break; case 'profile': c.innerHTML = await profileH(); initProfile(); break; } }
 
     async function loadAll() {
       if(!U) return;
       try {
-        const uCol = (name) => collection(db, "users", U.uid, name);
         const ps = await getDocs(uCol("products"));
         products=[]; ps.forEach(d=>products.push({id:d.id,...d.data()}));
         const iv = await getDocs(uCol("inventory"));
@@ -505,9 +508,9 @@
         console.log('Data loaded for',U.email,':', products.length, inv.length, trans.length);
       } catch(e) { console.error(e); }
     }
-    // Helper: collection for current user
-    const uCol = (name) => collection(db, "users", U.uid, name);
-    const uDoc = (name, id) => doc(db, "users", U.uid, name, id);
+    // Helper: collection/doc for current user (only call when U is set)
+    function uCol(name) { return collection(db, "users", U.uid, name); }
+    function uDoc(name, id) { return doc(db, "users", U.uid, name, id); }
     const bins = (pid) => inv.filter(i=>i.productId===pid).map(i=>({bin:i.bin,qty:i.qty,id:i.id}));
     const stock = (pid) => inv.filter(i=>i.productId===pid).reduce((s,i)=>s+(i.qty||0),0);
     const allBins = () => [...new Set(inv.map(i=>i.bin).filter(Boolean))].sort();
@@ -517,7 +520,7 @@
       const p = U._profile || {};
       const dn = p.displayName || U.displayName || U.email.split('@')[0];
       const initials = dn.split(' ').map(x=>x[0]).join('').toUpperCase().slice(0,2);
-      const since = p.createdAt?.toDate?()?p.createdAt.toDate():new Date(p.createdAt||Date.now());
+      const since = p.createdAt ? (typeof p.createdAt.toDate==='function' ? p.createdAt.toDate() : new Date(p.createdAt)) : new Date();
       const sinceStr = since.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});
       return `
       <div class="profile-header">
