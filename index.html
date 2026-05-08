@@ -147,6 +147,41 @@
     .type-out-badge { background:#fef2f2; color:#dc2626; }
     .type-pos-badge { background:#d1fae5; color:#065f46; }
     .type-move-badge { background:#f5f3ff; color:#7c3aed; }
+    /* Auth Page Styles */
+    .auth-page { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; padding:24px 20px; background:linear-gradient(160deg,#1e40af 0%,#3b82f6 40%,#f1f5f9 40%); }
+    .auth-logo { font-size:3.5rem; margin-bottom:6px; filter:drop-shadow(0 4px 16px rgba(0,0,0,0.18)); }
+    .auth-brand { font-size:1.6rem; font-weight:800; color:white; margin-bottom:2px; letter-spacing:-0.5px; }
+    .auth-tagline { font-size:0.82rem; color:rgba(255,255,255,0.8); margin-bottom:28px; }
+    .auth-card { background:white; border-radius:24px; padding:24px 20px; width:100%; max-width:400px; box-shadow:0 20px 60px rgba(0,0,0,0.15); }
+    .auth-tabs { display:flex; background:#f1f5f9; border-radius:12px; padding:3px; margin-bottom:20px; }
+    .auth-tab { flex:1; padding:10px; text-align:center; border-radius:10px; border:none; background:transparent; font-size:0.85rem; font-weight:600; cursor:pointer; color:#64748b; transition:all 0.2s; }
+    .auth-tab.active { background:white; color:#1e40af; box-shadow:0 1px 3px rgba(0,0,0,0.1); }
+    .auth-form { display:flex; flex-direction:column; gap:12px; }
+    .auth-divider { display:flex; align-items:center; gap:10px; color:#94a3b8; font-size:0.78rem; margin:4px 0; }
+    .auth-divider::before,.auth-divider::after { content:''; flex:1; height:1px; background:#e2e8f0; }
+    .password-wrap { position:relative; }
+    .password-wrap input { padding-right:44px; }
+    .pwd-toggle { position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; font-size:1.1rem; padding:4px; }
+    .input-icon-wrap { position:relative; }
+    .input-icon-wrap .input-icon { position:absolute; left:12px; top:50%; transform:translateY(-50%); font-size:1rem; pointer-events:none; }
+    .input-icon-wrap input { padding-left:36px; }
+    .auth-footer { text-align:center; margin-top:16px; font-size:0.8rem; color:#64748b; }
+    .auth-link { color:#1e40af; font-weight:600; cursor:pointer; text-decoration:none; }
+    .strength-bar { height:4px; border-radius:2px; background:#e2e8f0; margin-top:4px; overflow:hidden; }
+    .strength-fill { height:100%; border-radius:2px; transition:all 0.3s; }
+    .strength-text { font-size:0.7rem; margin-top:2px; }
+    .user-info-chip { display:flex; align-items:center; gap:8px; background:#eff6ff; border-radius:12px; padding:8px 12px; }
+    .user-avatar { width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,#1e40af,#3b82f6); display:flex; align-items:center; justify-content:center; color:white; font-weight:700; font-size:0.85rem; }
+    .loading-auth { display:flex; align-items:center; justify-content:center; gap:10px; padding:40px; color:#64748b; }
+    .spinner { width:24px; height:24px; border:3px solid #e2e8f0; border-top-color:#3b82f6; border-radius:50%; animation:spin 0.8s linear infinite; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .field-error { font-size:0.72rem; color:#dc2626; margin-top:3px; display:none; }
+    .field-error.show { display:block; }
+    .input-error { border-color:#dc2626 !important; }
+    .terms-check { display:flex; align-items:flex-start; gap:8px; font-size:0.78rem; color:#475569; }
+    .terms-check input[type=checkbox] { width:16px; height:16px; min-width:16px; padding:0; margin-top:2px; border-radius:4px; }
+    .profile-header { background:linear-gradient(135deg,#1e40af,#3b82f6); color:white; border-radius:20px; padding:20px; display:flex; align-items:center; gap:14px; margin-bottom:14px; }
+    .profile-avatar-lg { width:56px; height:56px; border-radius:50%; background:rgba(255,255,255,0.25); display:flex; align-items:center; justify-content:center; font-size:1.6rem; font-weight:800; flex-shrink:0; }
     /* Thermal Print Styles */
     @media print {
       .thermal-print-area { font-family:'Courier New',monospace!important; font-size:11px!important; width:58mm!important; max-width:58mm!important; margin:0 auto!important; padding:4px!important; }
@@ -163,6 +198,7 @@
       <button class="nav-item" data-page="transaction"><span class="icon">🔄</span>Transaksi</button>
       <button class="nav-item" data-page="products"><span class="icon">📦</span>Produk</button>
       <button class="nav-item" data-page="reports"><span class="icon">📋</span>Laporan</button>
+      <button class="nav-item" data-page="profile"><span class="icon">👤</span>Akun</button>
     </div>
     <div class="modal-overlay" id="modalOverlay"><div class="modal" id="modalContent"></div></div>
   </div>
@@ -172,8 +208,8 @@
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut, sendPasswordResetEmail, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit, doc, updateDoc, deleteDoc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const fc = { apiKey: "AIzaSyDpcYIgpUhU2kKnZiHCc1fVJmVjDx_VzXo", authDomain: "scan-barcode-7bb05.firebaseapp.com", projectId: "scan-barcode-7bb05" };
     const fapp = initializeApp(fc);
@@ -198,18 +234,370 @@
     document.getElementById('modalOverlay').addEventListener('click',function(e){if(e.target===this)closeM();});
     const stopAll = async () => { try{if(scanT?.isScanning)await scanT.stop();}catch(e){} scanT=null; try{if(scanTO?.isScanning)await scanTO.stop();}catch(e){} scanTO=null; try{if(scanS?.isScanning)await scanS.stop();}catch(e){} scanS=null; try{if(scanP?.isScanning)await scanP.stop();}catch(e){} scanP=null; };
 
-    onAuthStateChanged(auth, (u) => { if(u){U=u;document.getElementById('bottomNav').style.display='flex';loadAll().then(()=>renderPg('dashboard'));} else {U=null;document.getElementById('bottomNav').style.display='none';stopAll();document.getElementById('contentArea').innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:16px;padding:20px;"><div style="font-size:4rem;">🏭</div><h2>InventoryPro</h2><p>WMS + POS</p><div class="card" style="width:100%;"><div class="form-group"><label class="form-label">Email</label><input type="email" id="loginEmail"></div><div class="form-group"><label class="form-label">Password</label><input type="password" id="loginPassword"></div><button class="btn btn-primary btn-block" id="loginBtn">🔐 Masuk</button></div></div>`;document.getElementById('loginBtn').addEventListener('click',async()=>{const e=document.getElementById('loginEmail').value.trim(),p=document.getElementById('loginPassword').value;if(!e||!p){errS();return toast('⚠️');}try{await signInWithEmailAndPassword(auth,e,p);okS();}catch(x){errS();toast('❌ '+x.message);}});}});
+    // ─── AUTH SCREENS ────────────────────────────────────────────────
+    function showAuthScreen(tab='login') {
+      document.getElementById('bottomNav').style.display='none';
+      document.getElementById('contentArea').innerHTML=`
+      <div class="auth-page">
+        <div class="auth-logo">🏭</div>
+        <div class="auth-brand">InventoryPro</div>
+        <div class="auth-tagline">WMS + POS System</div>
+        <div class="auth-card">
+          <div class="auth-tabs">
+            <button class="auth-tab ${tab==='login'?'active':''}" id="tabLogin">🔐 Masuk</button>
+            <button class="auth-tab ${tab==='signup'?'active':''}" id="tabSignup">✨ Daftar</button>
+          </div>
+          <div id="loginForm" style="display:${tab==='login'?'block':'none'}">
+            <div class="auth-form">
+              <div class="form-group">
+                <label class="form-label">Email</label>
+                <div class="input-icon-wrap">
+                  <span class="input-icon">📧</span>
+                  <input type="email" id="loginEmail" placeholder="contoh@email.com" autocomplete="email">
+                </div>
+                <div class="field-error" id="loginEmailErr"></div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Password</label>
+                <div class="password-wrap">
+                  <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+                  <button class="pwd-toggle" id="loginPwdToggle" type="button">👁️</button>
+                </div>
+                <div class="field-error" id="loginPassErr"></div>
+              </div>
+              <button class="btn btn-primary btn-block" id="loginBtn" style="margin-top:4px;">🔐 Masuk</button>
+              <div class="auth-divider">atau</div>
+              <button class="btn btn-outline btn-block btn-sm" id="forgotBtn">🔑 Lupa Password?</button>
+            </div>
+          </div>
+          <div id="signupForm" style="display:${tab==='signup'?'block':'none'}">
+            <div class="auth-form">
+              <div class="input-row">
+                <div class="form-group">
+                  <label class="form-label">Nama Depan</label>
+                  <input type="text" id="suFirst" placeholder="Budi" autocomplete="given-name">
+                  <div class="field-error" id="suFirstErr"></div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Nama Belakang</label>
+                  <input type="text" id="suLast" placeholder="Santoso" autocomplete="family-name">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nama Bisnis / Toko</label>
+                <div class="input-icon-wrap">
+                  <span class="input-icon">🏪</span>
+                  <input type="text" id="suBusiness" placeholder="Toko Maju Jaya" autocomplete="organization">
+                </div>
+                <div class="field-error" id="suBizErr"></div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email</label>
+                <div class="input-icon-wrap">
+                  <span class="input-icon">📧</span>
+                  <input type="email" id="suEmail" placeholder="contoh@email.com" autocomplete="email">
+                </div>
+                <div class="field-error" id="suEmailErr"></div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Password</label>
+                <div class="password-wrap">
+                  <input type="password" id="suPass" placeholder="Min. 8 karakter" autocomplete="new-password">
+                  <button class="pwd-toggle" id="suPwdToggle" type="button">👁️</button>
+                </div>
+                <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+                <div class="strength-text" id="strengthText"></div>
+                <div class="field-error" id="suPassErr"></div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Konfirmasi Password</label>
+                <div class="password-wrap">
+                  <input type="password" id="suPass2" placeholder="Ulangi password" autocomplete="new-password">
+                  <button class="pwd-toggle" id="suPwd2Toggle" type="button">👁️</button>
+                </div>
+                <div class="field-error" id="suPass2Err"></div>
+              </div>
+              <label class="terms-check">
+                <input type="checkbox" id="suTerms">
+                <span>Saya menyetujui <span class="auth-link">Syarat & Ketentuan</span> dan <span class="auth-link">Kebijakan Privasi</span></span>
+              </label>
+              <div class="field-error" id="suTermsErr"></div>
+              <button class="btn btn-success btn-block" id="signupBtn" style="margin-top:4px;">✨ Buat Akun</button>
+            </div>
+          </div>
+          <div class="auth-footer" id="authFooter">
+            ${tab==='login'
+              ? 'Belum punya akun? <span class="auth-link" id="goSignup">Daftar sekarang</span>'
+              : 'Sudah punya akun? <span class="auth-link" id="goLogin">Masuk</span>'}
+          </div>
+        </div>
+      </div>`;
+      // Tab switching
+      document.getElementById('tabLogin').addEventListener('click',()=>showAuthScreen('login'));
+      document.getElementById('tabSignup').addEventListener('click',()=>showAuthScreen('signup'));
+      const goSU=document.getElementById('goSignup');
+      const goLI=document.getElementById('goLogin');
+      if(goSU)goSU.addEventListener('click',()=>showAuthScreen('signup'));
+      if(goLI)goLI.addEventListener('click',()=>showAuthScreen('login'));
+      if(tab==='login') initLoginForm();
+      else initSignupForm();
+    }
+
+    function initLoginForm() {
+      // Password toggle
+      const t=document.getElementById('loginPwdToggle');
+      const p=document.getElementById('loginPassword');
+      t.addEventListener('click',()=>{p.type=p.type==='password'?'text':'password';t.textContent=p.type==='password'?'👁️':'🙈';});
+      // Login
+      document.getElementById('loginBtn').addEventListener('click',async()=>{
+        const email=document.getElementById('loginEmail').value.trim();
+        const pass=document.getElementById('loginPassword').value;
+        let ok=true;
+        if(!email){showFErr('loginEmailErr','Email wajib diisi');ok=false;}else hideFErr('loginEmailErr');
+        if(!pass){showFErr('loginPassErr','Password wajib diisi');ok=false;}else hideFErr('loginPassErr');
+        if(!ok)return errS();
+        const btn=document.getElementById('loginBtn');
+        btn.disabled=true; btn.textContent='⏳ Memproses...';
+        try{
+          await signInWithEmailAndPassword(auth,email,pass);
+          okS();
+        }catch(x){
+          errS();
+          const msg=x.code==='auth/user-not-found'?'Email tidak ditemukan':
+                    x.code==='auth/wrong-password'?'Password salah':
+                    x.code==='auth/invalid-email'?'Format email tidak valid':
+                    x.code==='auth/too-many-requests'?'Terlalu banyak percobaan. Coba lagi nanti':'❌ '+x.message;
+          toast(msg);
+          btn.disabled=false; btn.textContent='🔐 Masuk';
+        }
+      });
+      // Forgot password
+      document.getElementById('forgotBtn').addEventListener('click',async()=>{
+        const email=document.getElementById('loginEmail').value.trim();
+        if(!email)return toast('⚠️ Masukkan email terlebih dahulu');
+        try{
+          await sendPasswordResetEmail(auth,email);
+          toast('📧 Link reset password dikirim ke email');
+        }catch(x){toast('❌ '+x.message);}
+      });
+      // Enter key
+      document.getElementById('loginPassword').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('loginBtn').click();});
+    }
+
+    function initSignupForm() {
+      // Password toggles
+      const ptoggle=(btnId,inpId)=>{
+        const b=document.getElementById(btnId),i=document.getElementById(inpId);
+        b.addEventListener('click',()=>{i.type=i.type==='password'?'text':'password';b.textContent=i.type==='password'?'👁️':'🙈';});
+      };
+      ptoggle('suPwdToggle','suPass');
+      ptoggle('suPwd2Toggle','suPass2');
+      // Password strength
+      document.getElementById('suPass').addEventListener('input',function(){
+        const v=this.value;
+        let s=0,txt='',color='';
+        if(v.length>=8)s++;
+        if(/[A-Z]/.test(v))s++;
+        if(/[0-9]/.test(v))s++;
+        if(/[^a-zA-Z0-9]/.test(v))s++;
+        if(s<=1){txt='Lemah';color='#dc2626';}
+        else if(s===2){txt='Cukup';color='#d97706';}
+        else if(s===3){txt='Kuat';color='#059669';}
+        else{txt='Sangat Kuat 💪';color='#059669';}
+        const fill=document.getElementById('strengthFill');
+        fill.style.width=(s/4*100)+'%';
+        fill.style.background=color;
+        const st=document.getElementById('strengthText');
+        st.textContent=v?'Kekuatan: '+txt:'';
+        st.style.color=color;
+      });
+      // Signup submit
+      document.getElementById('signupBtn').addEventListener('click',async()=>{
+        const first=document.getElementById('suFirst').value.trim();
+        const last=document.getElementById('suLast').value.trim();
+        const biz=document.getElementById('suBusiness').value.trim();
+        const email=document.getElementById('suEmail').value.trim();
+        const pass=document.getElementById('suPass').value;
+        const pass2=document.getElementById('suPass2').value;
+        const terms=document.getElementById('suTerms').checked;
+        let ok=true;
+        if(!first){showFErr('suFirstErr','Nama depan wajib diisi');ok=false;}else hideFErr('suFirstErr');
+        if(!biz){showFErr('suBizErr','Nama bisnis wajib diisi');ok=false;}else hideFErr('suBizErr');
+        if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showFErr('suEmailErr','Email tidak valid');ok=false;}else hideFErr('suEmailErr');
+        if(pass.length<8){showFErr('suPassErr','Password minimal 8 karakter');ok=false;}else hideFErr('suPassErr');
+        if(pass!==pass2){showFErr('suPass2Err','Password tidak sama');ok=false;}else hideFErr('suPass2Err');
+        if(!terms){showFErr('suTermsErr','Anda harus menyetujui syarat & ketentuan');ok=false;}else hideFErr('suTermsErr');
+        if(!ok)return errS();
+        const btn=document.getElementById('signupBtn');
+        btn.disabled=true; btn.textContent='⏳ Membuat akun...';
+        try{
+          const cred=await createUserWithEmailAndPassword(auth,email,pass);
+          const displayName=`${first} ${last}`.trim();
+          await updateProfile(cred.user,{displayName});
+          // Save user profile to Firestore users/{uid}
+          await setDoc(doc(db,"users",cred.user.uid),{
+            displayName, firstName:first, lastName:last,
+            businessName:biz, email, createdAt:new Date(), uid:cred.user.uid,
+            plan:'free'
+          });
+          okS();
+          toast(`✅ Selamat datang, ${first}! Akun berhasil dibuat.`);
+        }catch(x){
+          errS();
+          const msg=x.code==='auth/email-already-in-use'?'Email sudah terdaftar. Silakan masuk':
+                    x.code==='auth/invalid-email'?'Format email tidak valid':
+                    x.code==='auth/weak-password'?'Password terlalu lemah':'❌ '+x.message;
+          showFErr('suEmailErr',msg);
+          btn.disabled=false; btn.textContent='✨ Buat Akun';
+        }
+      });
+    }
+
+    const showFErr=(id,msg)=>{const el=document.getElementById(id);if(el){el.textContent=msg;el.classList.add('show');}};
+    const hideFErr=(id)=>{const el=document.getElementById(id);if(el){el.textContent='';el.classList.remove('show');}};
+
+    onAuthStateChanged(auth, async(u) => {
+      if(u){
+        U=u;
+        // Load user profile
+        try {
+          const uSnap = await getDoc(doc(db,"users",u.uid));
+          if(uSnap.exists()) {
+            U._profile = uSnap.data();
+          } else {
+            // Legacy user without profile doc — create minimal profile
+            const displayName = u.displayName || u.email.split('@')[0];
+            await setDoc(doc(db,"users",u.uid),{displayName,email:u.email,createdAt:new Date(),uid:u.uid,plan:'free'});
+            U._profile = {displayName,email:u.email,plan:'free'};
+          }
+        } catch(e) { console.warn('Profile load error',e); }
+        // Update header to show user info
+        const hdr = document.querySelector('.header h1');
+        if(hdr) {
+          const name = U._profile?.businessName || U._profile?.displayName || U.email.split('@')[0];
+          hdr.innerHTML = `🏭 <span style="font-size:0.95rem;">${name}</span>`;
+        }
+        document.getElementById('bottomNav').style.display='flex';
+        await loadAll();
+        renderPg('dashboard');
+      } else {
+        U=null;
+        document.getElementById('bottomNav').style.display='none';
+        stopAll();
+        showAuthScreen('login');
+      }
+    });
     document.getElementById('logoutBtn').addEventListener('click',async()=>{if(confirm('Logout?')){await stopAll();await signOut(auth);}});
     document.querySelectorAll('.nav-item').forEach(b=>{b.addEventListener('click',async function(){await stopAll();document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));this.classList.add('active');page=this.dataset.page;renderPg(page);});});
 
-    async function renderPg(p) { const c = document.getElementById('contentArea'); c.scrollTop = 0; switch(p) { case 'dashboard': c.innerHTML = await dashH(); initDash(); break; case 'pos': c.innerHTML = await posH(); initPOS(); break; case 'transaction': c.innerHTML = await transH(); initTrans(); break; case 'products': c.innerHTML = await prodH(); initProd(); break; case 'reports': c.innerHTML = await repH(); initRep(); break; } }
+    async function renderPg(p) { const c = document.getElementById('contentArea'); c.scrollTop = 0; switch(p) { case 'dashboard': c.innerHTML = await dashH(); initDash(); break; case 'pos': c.innerHTML = await posH(); initPOS(); break; case 'transaction': c.innerHTML = await transH(); initTrans(); break; case 'products': c.innerHTML = await prodH(); initProd(); break; case 'reports': c.innerHTML = await repH(); initRep(); break; case 'profile': c.innerHTML = await profileH(); initProfile(); break; } }
 
-    async function loadAll() { try { const ps = await getDocs(collection(db,"products")); products=[]; ps.forEach(d=>products.push({id:d.id,...d.data()})); const iv = await getDocs(collection(db,"inventory")); inv=[]; iv.forEach(d=>inv.push({id:d.id,...d.data()})); const ts = await getDocs(query(collection(db,"transactions"),orderBy("timestamp","desc"),limit(500))); trans=[]; ts.forEach(d=>trans.push({id:d.id,...d.data()})); console.log('Data loaded:', products.length, inv.length, trans.length); } catch(e) { console.error(e); } }
+    async function loadAll() {
+      if(!U) return;
+      try {
+        const uCol = (name) => collection(db, "users", U.uid, name);
+        const ps = await getDocs(uCol("products"));
+        products=[]; ps.forEach(d=>products.push({id:d.id,...d.data()}));
+        const iv = await getDocs(uCol("inventory"));
+        inv=[]; iv.forEach(d=>inv.push({id:d.id,...d.data()}));
+        const ts = await getDocs(query(uCol("transactions"),orderBy("timestamp","desc"),limit(500)));
+        trans=[]; ts.forEach(d=>trans.push({id:d.id,...d.data()}));
+        console.log('Data loaded for',U.email,':', products.length, inv.length, trans.length);
+      } catch(e) { console.error(e); }
+    }
+    // Helper: collection for current user
+    const uCol = (name) => collection(db, "users", U.uid, name);
+    const uDoc = (name, id) => doc(db, "users", U.uid, name, id);
     const bins = (pid) => inv.filter(i=>i.productId===pid).map(i=>({bin:i.bin,qty:i.qty,id:i.id}));
     const stock = (pid) => inv.filter(i=>i.productId===pid).reduce((s,i)=>s+(i.qty||0),0);
     const allBins = () => [...new Set(inv.map(i=>i.bin).filter(Boolean))].sort();
 
-    // DASHBOARD
+    // PROFILE PAGE
+    async function profileH() {
+      const p = U._profile || {};
+      const dn = p.displayName || U.displayName || U.email.split('@')[0];
+      const initials = dn.split(' ').map(x=>x[0]).join('').toUpperCase().slice(0,2);
+      const since = p.createdAt?.toDate?()?p.createdAt.toDate():new Date(p.createdAt||Date.now());
+      const sinceStr = since.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});
+      return `
+      <div class="profile-header">
+        <div class="profile-avatar-lg">${initials}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:1.1rem;font-weight:700;">${p.displayName||dn}</div>
+          <div style="font-size:0.8rem;opacity:0.85;">${U.email}</div>
+          <div style="font-size:0.72rem;opacity:0.7;margin-top:2px;">Bergabung: ${sinceStr}</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">🏪 Informasi Bisnis</div>
+        <div class="form-group" style="margin-top:10px;"><label class="form-label">Nama Bisnis</label><input type="text" id="proBiz" value="${p.businessName||''}"></div>
+        <div class="input-row">
+          <div class="form-group"><label class="form-label">Nama Depan</label><input type="text" id="proFirst" value="${p.firstName||''}"></div>
+          <div class="form-group"><label class="form-label">Nama Belakang</label><input type="text" id="proLast" value="${p.lastName||''}"></div>
+        </div>
+        <button class="btn btn-primary btn-block" id="saveProfileBtn">💾 Simpan Profil</button>
+      </div>
+      <div class="card">
+        <div class="card-title">🔒 Ubah Password</div>
+        <div class="form-group" style="margin-top:10px;"><label class="form-label">Password Lama</label><input type="password" id="proOldPwd" placeholder="••••••••"></div>
+        <div class="form-group"><label class="form-label">Password Baru</label><input type="password" id="proNewPwd" placeholder="Min. 8 karakter"></div>
+        <div class="form-group"><label class="form-label">Konfirmasi Password Baru</label><input type="password" id="proNewPwd2" placeholder="Ulangi password baru"></div>
+        <button class="btn btn-warning btn-block" id="changePwdBtn">🔒 Ubah Password</button>
+      </div>
+      <div class="card">
+        <div class="card-title">📊 Statistik Akun</div>
+        <div class="stats-grid-3" style="margin-top:10px;">
+          <div class="stat-card blue"><div class="stat-value-sm">${products.length}</div><div class="stat-label">Produk</div></div>
+          <div class="stat-card green"><div class="stat-value-sm">${inv.reduce((s,i)=>s+(i.qty||0),0)}</div><div class="stat-label">Total Stok</div></div>
+          <div class="stat-card orange"><div class="stat-value-sm">${trans.length}</div><div class="stat-label">Transaksi</div></div>
+        </div>
+        <div style="margin-top:10px;padding:10px;background:#f8fafc;border-radius:10px;font-size:0.78rem;color:#64748b;">
+          <div>🆔 User ID: <code style="font-size:0.7rem;color:#475569;">${U.uid}</code></div>
+          <div style="margin-top:4px;">🗄️ Database: <span style="color:#059669;font-weight:600;">Privat (Terisolasi)</span></div>
+        </div>
+      </div>
+      <button class="btn btn-danger btn-block" id="logoutBtnPro" style="margin-top:4px;">🚪 Keluar</button>`;
+    }
+    function initProfile() {
+      document.getElementById('saveProfileBtn').addEventListener('click',async()=>{
+        const biz=document.getElementById('proBiz').value.trim();
+        const first=document.getElementById('proFirst').value.trim();
+        const last=document.getElementById('proLast').value.trim();
+        const displayName=`${first} ${last}`.trim()||first||biz;
+        try{
+          await updateProfile(auth.currentUser,{displayName});
+          await updateDoc(doc(db,"users",U.uid),{businessName:biz,firstName:first,lastName:last,displayName,updatedAt:new Date()});
+          U._profile={...U._profile,businessName:biz,firstName:first,lastName:last,displayName};
+          const hdr=document.querySelector('.header h1');
+          if(hdr)hdr.innerHTML=`🏭 <span style="font-size:0.95rem;">${biz||displayName}</span>`;
+          okS();toast('✅ Profil berhasil disimpan');
+        }catch(e){errS();toast('❌ '+e.message);}
+      });
+      document.getElementById('changePwdBtn').addEventListener('click',async()=>{
+        const oldPwd=document.getElementById('proOldPwd').value;
+        const newPwd=document.getElementById('proNewPwd').value;
+        const newPwd2=document.getElementById('proNewPwd2').value;
+        if(!oldPwd||!newPwd){errS();return toast('⚠️ Lengkapi semua field');}
+        if(newPwd.length<8){errS();return toast('⚠️ Password baru minimal 8 karakter');}
+        if(newPwd!==newPwd2){errS();return toast('⚠️ Konfirmasi password tidak sama');}
+        try{
+          const cred=EmailAuthProvider.credential(U.email,oldPwd);
+          await reauthenticateWithCredential(auth.currentUser,cred);
+          await updatePassword(auth.currentUser,newPwd);
+          okS();toast('✅ Password berhasil diubah');
+          document.getElementById('proOldPwd').value='';
+          document.getElementById('proNewPwd').value='';
+          document.getElementById('proNewPwd2').value='';
+        }catch(e){
+          errS();
+          const msg=e.code==='auth/wrong-password'?'⚠️ Password lama salah':'❌ '+e.message;
+          toast(msg);
+        }
+      });
+      document.getElementById('logoutBtnPro').addEventListener('click',async()=>{
+        if(confirm('Yakin ingin keluar?')){await stopAll();await signOut(auth);}
+      });
+    }
     async function dashH() {
       const tp = products.length, ts = inv.reduce((s,i)=>s+(i.qty||0),0), tv = products.reduce((s,p)=>s+stock(p.id)*(p.price||0),0);
       const today = new Date(); today.setHours(0,0,0,0);
@@ -275,7 +663,7 @@
       const invNo=gINV();
       const cartForReceipt=[...posCart.map(i=>({...i}))];
       try{
-        for(const item of posCart){const bs=bins(item.productId);let rem=item.qty;for(const b of bs){if(rem<=0)break;const ded=Math.min(rem,b.qty);const ns=b.qty-ded;if(ns<=0)await deleteDoc(doc(db,"inventory",b.id));else await updateDoc(doc(db,"inventory",b.id),{qty:ns});rem-=ded;}await addDoc(collection(db,"transactions"),{type:'POS',productId:item.productId,productName:item.productName,sku:item.sku,qty:item.qty,sellPrice:item.sellPrice,totalAmount:item.sellPrice*item.qty,invoiceNo:invNo,payment,timestamp:new Date(),userId:U.uid,userEmail:U.email});}
+        for(const item of posCart){const bs=bins(item.productId);let rem=item.qty;for(const b of bs){if(rem<=0)break;const ded=Math.min(rem,b.qty);const ns=b.qty-ded;if(ns<=0)await deleteDoc(uDoc("inventory",b.id));else await updateDoc(uDoc("inventory",b.id),{qty:ns});rem-=ded;}await addDoc(uCol("transactions"),{type:'POS',productId:item.productId,productName:item.productName,sku:item.sku,qty:item.qty,sellPrice:item.sellPrice,totalAmount:item.sellPrice*item.qty,invoiceNo:invNo,payment,timestamp:new Date(),userId:U.uid,userEmail:U.email});}
         const strutHtml=rStruk(invNo,total,payment,change,cartForReceipt);
         document.getElementById('posReceiptContainer').style.display='block';
         document.getElementById('posReceiptContainer').innerHTML=`<div class="card-title">🧾 Struk</div><div class="pos-receipt" id="printStruk">${strutHtml}</div><button class="btn btn-outline btn-block btn-sm" id="printStrukBtn">🖨️ Cetak</button>`;
@@ -366,7 +754,7 @@
     async function toggleTS() { if(scanT?.isScanning){await stopTS();return;} document.getElementById('transScannerContainer').classList.add('active'); try{scanT=new Html5Qrcode("transScannerView");await scanT.start({facingMode:"environment"},{fps:10,qrbox:{width:250,height:250}},(d)=>{beep();document.getElementById('inSKU').value=d;lookIN();stopTS();},()=>{});}catch(e){toast('⚠️ Gagal');} }
     async function stopTS() { if(scanT?.isScanning)try{await scanT.stop();}catch(e){} scanT=null; document.getElementById('transScannerContainer').classList.remove('active'); }
     function lookIN() { const sku=document.getElementById('inSKU').value.trim();const d=document.getElementById('inProductInfo');if(!sku){d.style.display='none';return;}const p=products.find(x=>(x.sku||'').toLowerCase()===sku.toLowerCase());d.style.display='block';document.getElementById('inProductName').textContent=p?p.name:'🆕 Baru';document.getElementById('inTotalStock').textContent=p?stock(p.id):'0';document.getElementById('inBinsList').textContent=p?(bins(p.id).map(b=>`${b.bin}:${b.qty}`).join(',')||'-'):'-';d.dataset.productId=p?.id||'';if(p){const bs=bins(p.id);if(bs.length===1)document.getElementById('inBin').value=bs[0].bin;} }
-    async function saveIN() { const sku=document.getElementById('inSKU').value.trim(),qty=parseInt(document.getElementById('inQty').value)||0,bin=document.getElementById('inBin').value.trim(),noDO=document.getElementById('inNoDO').value.trim(),note=document.getElementById('inNote').value.trim();if(!sku||qty<1||!bin){errS();return toast('⚠️');}try{let pid=document.getElementById('inProductInfo').dataset.productId;if(!pid){const name=prompt('Nama:')||sku;const ref=await addDoc(collection(db,"products"),{sku,name,minStock:5,price:0,created:new Date(),userId:U.uid});pid=ref.id;products.push({id:pid,sku,name,minStock:5,price:0});}let ei=inv.find(i=>i.productId===pid&&i.bin.toLowerCase()===bin.toLowerCase());if(ei)await updateDoc(doc(db,"inventory",ei.id),{qty:(ei.qty||0)+qty});else await addDoc(collection(db,"inventory"),{productId:pid,sku,bin,qty,created:new Date(),userId:U.uid});await addDoc(collection(db,"transactions"),{type:'IN',productId:pid,productName:products.find(x=>x.id===pid)?.name||sku,sku,qty,bin,noDO,note,timestamp:new Date(),userId:U.uid,userEmail:U.email});okS();toast(`✅ +${qty} ke ${bin}`);document.getElementById('inSKU').value='';document.getElementById('inQty').value='1';document.getElementById('inBin').value='';document.getElementById('inNoDO').value='';document.getElementById('inNote').value='';document.getElementById('inProductInfo').style.display='none';await loadAll();refreshTP();}catch(e){errS();toast('❌ '+e.message);} }
+    async function saveIN() { const sku=document.getElementById('inSKU').value.trim(),qty=parseInt(document.getElementById('inQty').value)||0,bin=document.getElementById('inBin').value.trim(),noDO=document.getElementById('inNoDO').value.trim(),note=document.getElementById('inNote').value.trim();if(!sku||qty<1||!bin){errS();return toast('⚠️');}try{let pid=document.getElementById('inProductInfo').dataset.productId;if(!pid){const name=prompt('Nama:')||sku;const ref=await addDoc(uCol("products"),{sku,name,minStock:5,price:0,created:new Date(),userId:U.uid});pid=ref.id;products.push({id:pid,sku,name,minStock:5,price:0});}let ei=inv.find(i=>i.productId===pid&&i.bin.toLowerCase()===bin.toLowerCase());if(ei)await updateDoc(uDoc("inventory",ei.id),{qty:(ei.qty||0)+qty});else await addDoc(uCol("inventory"),{productId:pid,sku,bin,qty,created:new Date(),userId:U.uid});await addDoc(uCol("transactions"),{type:'IN',productId:pid,productName:products.find(x=>x.id===pid)?.name||sku,sku,qty,bin,noDO,note,timestamp:new Date(),userId:U.uid,userEmail:U.email});okS();toast(`✅ +${qty} ke ${bin}`);document.getElementById('inSKU').value='';document.getElementById('inQty').value='1';document.getElementById('inBin').value='';document.getElementById('inNoDO').value='';document.getElementById('inNote').value='';document.getElementById('inProductInfo').style.display='none';await loadAll();refreshTP();}catch(e){errS();toast('❌ '+e.message);} }
 
     async function toggleTO() { if(scanTO?.isScanning){await stopTO();return;} document.getElementById('toScannerContainer').classList.add('active'); try{scanTO=new Html5Qrcode("toScannerView");await scanTO.start({facingMode:"environment"},{fps:10,qrbox:{width:250,height:250}},(d)=>{beep();document.getElementById('outSKU').value=d;lookOUT();stopTO();},()=>{});}catch(e){toast('⚠️ Gagal');} }
     async function stopTO() { if(scanTO?.isScanning)try{await scanTO.stop();}catch(e){} scanTO=null; document.getElementById('toScannerContainer').classList.remove('active'); }
@@ -374,7 +762,7 @@
     function addTC() { const sku=document.getElementById('outSKU').value.trim(),qty=parseInt(document.getElementById('outQty').value)||0,bin=document.getElementById('outBin').value.trim(),pid=document.getElementById('outProductInfo').dataset.productId,pn=document.getElementById('outProductName').textContent;if(!sku||qty<1||!bin||!pid){errS();return toast('⚠️');}const iv2=inv.find(i=>i.productId===pid&&i.bin.toLowerCase()===bin.toLowerCase());if(!iv2||(iv2.qty||0)<qty){errS();return toast('⚠️ Stok kurang');}const ex=toCart.findIndex(i=>i.sku===sku&&i.bin.toLowerCase()===bin.toLowerCase());if(ex>=0)toCart[ex].qty+=qty;else toCart.push({sku,productName:pn,qty,bin,productId:pid});document.getElementById('outSKU').value='';document.getElementById('outQty').value='1';document.getElementById('outBin').value='';document.getElementById('outProductInfo').style.display='none';renderTC();okS(); }
     function renderTC() { const cl=document.getElementById('toCartList'),sm=document.getElementById('toCartSummary'),sb=document.getElementById('saveStockOut');if(!cl)return;if(!toCart.length){cl.innerHTML='<div style="text-align:center;padding:20px;">Belum ada item</div>';if(sm)sm.style.display='none';if(sb){sb.disabled=true;sb.textContent='📤 Simpan (0)';}return;}cl.innerHTML=toCart.map((i,idx)=>`<div class="to-cart-item"><span>📦</span><div class="item-info"><div style="font-weight:600;">${i.productName}</div><div style="font-size:0.7rem;">SKU:${i.sku} | Bin:${i.bin} | Qty:${i.qty}</div></div><button class="btn btn-danger btn-sm" onclick="window.rc2(${idx})">✕</button></div>`).join('');const tq=toCart.reduce((s,i)=>s+i.qty,0);if(sm)sm.style.display='flex';document.getElementById('toCartCount').textContent=toCart.length;document.getElementById('toCartTotalQty').textContent=tq;if(sb){sb.disabled=false;sb.textContent=`📤 Simpan (${toCart.length} item, ${tq} qty)`;} }
     window.rc2=function(idx){toCart.splice(idx,1);renderTC();};
-    async function saveTO() { if(!toCart.length)return;const note=document.getElementById('outNote').value.trim();if(!confirm(`Simpan ${toCart.length} item?`))return;const noTO=gTO();document.getElementById('outNoTO').value=noTO;try{for(const item of toCart){const iv2=inv.find(i=>i.productId===item.productId&&i.bin.toLowerCase()===item.bin.toLowerCase());if(!iv2||(iv2.qty||0)<item.qty){toast(`⚠️ ${item.productName} stok kurang`);continue;}const ns=(iv2.qty||0)-item.qty;if(ns<=0)await deleteDoc(doc(db,"inventory",iv2.id));else await updateDoc(doc(db,"inventory",iv2.id),{qty:ns,updatedAt:new Date()});await addDoc(collection(db,"transactions"),{type:'OUT',productId:item.productId,productName:item.productName,sku:item.sku,qty:item.qty,bin:item.bin,purpose:'Transfer Out',noTO,note,timestamp:new Date(),userId:U.uid,userEmail:U.email});}okS();toast(`✅ ${toCart.length} item berhasil (${noTO})`);toCart=[];document.getElementById('outNote').value='';const today3=new Date().toISOString().slice(0,10).replace(/-/g,'');document.getElementById('outNoTO').value=`TO-${today3}-????`;renderTC();await loadAll();refreshTP();}catch(e){errS();toast('❌ '+e.message);} }
+    async function saveTO() { if(!toCart.length)return;const note=document.getElementById('outNote').value.trim();if(!confirm(`Simpan ${toCart.length} item?`))return;const noTO=gTO();document.getElementById('outNoTO').value=noTO;try{for(const item of toCart){const iv2=inv.find(i=>i.productId===item.productId&&i.bin.toLowerCase()===item.bin.toLowerCase());if(!iv2||(iv2.qty||0)<item.qty){toast(`⚠️ ${item.productName} stok kurang`);continue;}const ns=(iv2.qty||0)-item.qty;if(ns<=0)await deleteDoc(uDoc("inventory",iv2.id));else await updateDoc(uDoc("inventory",iv2.id),{qty:ns,updatedAt:new Date()});await addDoc(uCol("transactions"),{type:'OUT',productId:item.productId,productName:item.productName,sku:item.sku,qty:item.qty,bin:item.bin,purpose:'Transfer Out',noTO,note,timestamp:new Date(),userId:U.uid,userEmail:U.email});}okS();toast(`✅ ${toCart.length} item berhasil (${noTO})`);toCart=[];document.getElementById('outNote').value='';const today3=new Date().toISOString().slice(0,10).replace(/-/g,'');document.getElementById('outNoTO').value=`TO-${today3}-????`;renderTC();await loadAll();refreshTP();}catch(e){errS();toast('❌ '+e.message);} }
     function refreshTP() { const today=new Date();today.setHours(0,0,0,0);const ti=trans.filter(t=>(t.type==='IN'||t.type==='MOVE_IN')&&(t.timestamp?.toDate?.()||new Date(t.timestamp))>=today);const to=trans.filter(t=>(t.type==='OUT'||t.type==='MOVE_OUT')&&(t.timestamp?.toDate?.()||new Date(t.timestamp))>=today);const il=document.getElementById('inHistoryList'),ol=document.getElementById('outHistoryList');if(il)il.innerHTML=rIH(ti);if(ol)ol.innerHTML=rOH(to);const ps=document.getElementById('printNoTO');if(ps){const cur=ps.value;ps.innerHTML='<option value="">Pilih</option>'+[...new Set(trans.filter(t=>t.type==='OUT'&&t.noTO).map(t=>t.noTO))].map(to=>`<option ${to===cur?'selected':''}>${to}</option>`).join('');} }
 
     function getPD(noTO){const items=trans.filter(t=>t.type==='OUT'&&t.noTO===noTO);if(!items.length)return null;console.log('Print data for', noTO, items.length);return{noTO,items,totalQty:items.reduce((s,i)=>s+(i.qty||0),0),date:items[0].timestamp?.toDate?.()||new Date(items[0].timestamp)};}
@@ -454,20 +842,20 @@
         try{
           const srcInv=inv.find(i=>i.id===invId);
           const newQty=(srcInv?.qty||0)-qty;
-          if(newQty<=0)await deleteDoc(doc(db,"inventory",invId));
-          else await updateDoc(doc(db,"inventory",invId),{qty:newQty,updatedAt:new Date()});
+          if(newQty<=0)await deleteDoc(uDoc("inventory",invId));
+          else await updateDoc(uDoc("inventory",invId),{qty:newQty,updatedAt:new Date()});
           const destInv=inv.find(i=>i.productId===pid&&i.bin.toLowerCase()===toBin.toLowerCase());
-          if(destInv)await updateDoc(doc(db,"inventory",destInv.id),{qty:(destInv.qty||0)+qty,updatedAt:new Date()});
-          else await addDoc(collection(db,"inventory"),{productId:pid,sku:srcInv?.sku||'',bin:toBin,qty,created:new Date(),userId:U.uid});
+          if(destInv)await updateDoc(uDoc("inventory",destInv.id),{qty:(destInv.qty||0)+qty,updatedAt:new Date()});
+          else await addDoc(uCol("inventory"),{productId:pid,sku:srcInv?.sku||'',bin:toBin,qty,created:new Date(),userId:U.uid});
           const pn=products.find(x=>x.id===pid)?.name||'';
-          await addDoc(collection(db,"transactions"),{type:'MOVE_OUT',productId:pid,productName:pn,sku:srcInv?.sku||'',qty,bin:fromBin,purpose:`Transfer ke ${toBin}`,note,timestamp:new Date(),userId:U.uid,userEmail:U.email});
-          await addDoc(collection(db,"transactions"),{type:'MOVE_IN',productId:pid,productName:pn,sku:srcInv?.sku||'',qty,bin:toBin,purpose:`Transfer dari ${fromBin}`,note,timestamp:new Date(),userId:U.uid,userEmail:U.email});
+          await addDoc(uCol("transactions"),{type:'MOVE_OUT',productId:pid,productName:pn,sku:srcInv?.sku||'',qty,bin:fromBin,purpose:`Transfer ke ${toBin}`,note,timestamp:new Date(),userId:U.uid,userEmail:U.email});
+          await addDoc(uCol("transactions"),{type:'MOVE_IN',productId:pid,productName:pn,sku:srcInv?.sku||'',qty,bin:toBin,purpose:`Transfer dari ${fromBin}`,note,timestamp:new Date(),userId:U.uid,userEmail:U.email});
           okS();toast(`✅ Transfer ${qty} unit ke ${toBin}`);closeM();await loadAll();renderPg('products');
         }catch(e){errS();toast('❌ '+e.message);}
       });
     }
-    function showDet(pid) { const p=products.find(x=>x.id===pid);if(!p)return;modal(`<h3>${p.name}</h3><span class="badge badge-blue">SKU:${p.sku}</span><div class="stats-grid" style="margin:8px 0;"><div class="stat-card blue"><div class="stat-value">${stock(pid)}</div><div class="stat-label">Stok</div></div></div><div style="display:flex;gap:6px;"><button class="btn btn-primary btn-sm" id="edBtn">✏️ Edit</button><button class="btn btn-danger btn-sm" id="dlBtn">🗑️ Hapus</button></div>`);document.getElementById('edBtn').addEventListener('click',()=>{closeM();setTimeout(()=>showEdit(pid),200);});document.getElementById('dlBtn').addEventListener('click',async()=>{if(confirm('Hapus?')){const ivs=inv.filter(i=>i.productId===pid);for(const iv of ivs)await deleteDoc(doc(db,"inventory",iv.id));await deleteDoc(doc(db,"products",pid));closeM();await loadAll();renderPg('products');}}); }
-    function showEdit(pid) { const p=products.find(x=>x.id===pid);if(!p)return;modal(`<h3>✏️ Edit</h3><div class="form-group"><label class="form-label">SKU</label><input type="text" id="eSKU" value="${p.sku}"></div><div class="form-group"><label class="form-label">Nama</label><input type="text" id="eName" value="${p.name}"></div><div class="input-row"><div class="form-group"><label class="form-label">Min</label><input type="number" id="eMin" value="${p.minStock||5}"></div><div class="form-group"><label class="form-label">Harga</label><input type="number" id="ePrice" value="${p.price||0}"></div></div><button class="btn btn-primary btn-block" id="svEdit">💾 Simpan</button>`);document.getElementById('svEdit').addEventListener('click',async()=>{await updateDoc(doc(db,"products",pid),{sku:document.getElementById('eSKU').value,name:document.getElementById('eName').value,minStock:parseInt(document.getElementById('eMin').value)||5,price:parseInt(document.getElementById('ePrice').value)||0});okS();closeM();await loadAll();renderPg('products');}); }
+    function showDet(pid) { const p=products.find(x=>x.id===pid);if(!p)return;modal(`<h3>${p.name}</h3><span class="badge badge-blue">SKU:${p.sku}</span><div class="stats-grid" style="margin:8px 0;"><div class="stat-card blue"><div class="stat-value">${stock(pid)}</div><div class="stat-label">Stok</div></div></div><div style="display:flex;gap:6px;"><button class="btn btn-primary btn-sm" id="edBtn">✏️ Edit</button><button class="btn btn-danger btn-sm" id="dlBtn">🗑️ Hapus</button></div>`);document.getElementById('edBtn').addEventListener('click',()=>{closeM();setTimeout(()=>showEdit(pid),200);});document.getElementById('dlBtn').addEventListener('click',async()=>{if(confirm('Hapus?')){const ivs=inv.filter(i=>i.productId===pid);for(const iv of ivs)await deleteDoc(uDoc("inventory",iv.id));await deleteDoc(uDoc("products",pid));closeM();await loadAll();renderPg('products');}}); }
+    function showEdit(pid) { const p=products.find(x=>x.id===pid);if(!p)return;modal(`<h3>✏️ Edit</h3><div class="form-group"><label class="form-label">SKU</label><input type="text" id="eSKU" value="${p.sku}"></div><div class="form-group"><label class="form-label">Nama</label><input type="text" id="eName" value="${p.name}"></div><div class="input-row"><div class="form-group"><label class="form-label">Min</label><input type="number" id="eMin" value="${p.minStock||5}"></div><div class="form-group"><label class="form-label">Harga</label><input type="number" id="ePrice" value="${p.price||0}"></div></div><button class="btn btn-primary btn-block" id="svEdit">💾 Simpan</button>`);document.getElementById('svEdit').addEventListener('click',async()=>{await updateDoc(uDoc("products",pid),{sku:document.getElementById('eSKU').value,name:document.getElementById('eName').value,minStock:parseInt(document.getElementById('eMin').value)||5,price:parseInt(document.getElementById('ePrice').value)||0});okS();closeM();await loadAll();renderPg('products');}); }
     function showTrk(pid) {
       const p=products.find(x=>x.id===pid);if(!p)return;
       const ptr=trans.filter(t=>t.productId===pid).sort((a,b)=>((b.timestamp?.toDate?.()||new Date(b.timestamp))-(a.timestamp?.toDate?.()||new Date(a.timestamp))));
