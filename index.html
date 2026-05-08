@@ -186,6 +186,22 @@
     @media print {
       .thermal-print-area { font-family:'Courier New',monospace!important; font-size:11px!important; width:58mm!important; max-width:58mm!important; margin:0 auto!important; padding:4px!important; }
     }
+    /* Admin PIN / Lock System */
+    .pin-modal { text-align:center; padding:8px 0; }
+    .pin-display { display:flex; justify-content:center; gap:12px; margin:20px 0 10px; }
+    .pin-dot { width:18px; height:18px; border-radius:50%; border:2px solid #cbd5e1; transition:all 0.2s; }
+    .pin-dot.filled { background:#1e40af; border-color:#1e40af; transform:scale(1.15); }
+    .pin-dot.error { background:#dc2626; border-color:#dc2626; }
+    .pin-dot.success { background:#059669; border-color:#059669; }
+    @keyframes pinShake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
+    @keyframes pinShake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
+    .pin-pad { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; max-width:240px; margin:16px auto 0; }
+    .pin-key { height:56px; border-radius:14px; border:1.5px solid #e2e8f0; background:white; font-size:1.3rem; font-weight:700; color:#1e293b; cursor:pointer; transition:all 0.15s; box-shadow:0 1px 3px rgba(0,0,0,0.06); display:flex; align-items:center; justify-content:center; }
+    .pin-key:active { background:#eff6ff; border-color:#3b82f6; transform:scale(0.94); }
+    .pin-key.del { font-size:1rem; color:#ef4444; }
+    .pin-key.zero { grid-column:2; }
+    .admin-badge { display:inline-flex; align-items:center; gap:4px; background:#fef3c7; color:#92400e; padding:3px 10px; border-radius:20px; font-size:0.72rem; font-weight:700; }
+    .lock-banner { background:#fff7ed; border:1px solid #fed7aa; border-radius:12px; padding:10px 14px; display:flex; align-items:center; gap:10px; margin-bottom:12px; font-size:0.8rem; color:#9a3412; }
   </style>
 </head>
 <body>
@@ -515,6 +531,147 @@
     const stock = (pid) => inv.filter(i=>i.productId===pid).reduce((s,i)=>s+(i.qty||0),0);
     const allBins = () => [...new Set(inv.map(i=>i.bin).filter(Boolean))].sort();
 
+    // ─── ADMIN PIN GUARD SYSTEM ──────────────────────────────────────
+    // PIN stored in Firestore: users/{uid}.adminPin (hashed with simple salt)
+    // Role: owner = full access, staff = no edit/delete product
+    let _adminUnlocked = false;      // session flag — unlocks for 5 min
+    let _unlockTimer = null;
+    const LOCK_TIMEOUT = 5 * 60 * 1000; // 5 minutes
+
+    function pinHash(pin) {
+      // Simple deterministic hash (not cryptographic, good enough for PIN)
+      let h = 0;
+      const s = pin + (U?.uid || 'salt');
+      for (let i = 0; i < s.length; i++) { h = ((h << 5) - h) + s.charCodeAt(i); h |= 0; }
+      return Math.abs(h).toString(36);
+    }
+
+    function getAdminPin() { return U?._profile?.adminPin || null; }
+    function isOwner() { return (U?._profile?.role || 'owner') === 'owner'; }
+
+    // Refresh lock timer every time action is done
+    function refreshLock() {
+      _adminUnlocked = true;
+      clearTimeout(_unlockTimer);
+      _unlockTimer = setTimeout(() => { _adminUnlocked = false; }, LOCK_TIMEOUT);
+    }
+
+    // Show PIN pad modal. onSuccess(action) called when PIN correct / no PIN set
+    function requirePin(title, icon, onSuccess) {
+      const pin = getAdminPin();
+
+      // No PIN set yet → prompt to set one first, then proceed
+      if (!pin) {
+        modal(`<div class="pin-modal">
+          <div style="font-size:2.5rem;">${icon}</div>
+          <h3 style="margin:8px 0 4px;">${title}</h3>
+          <p style="font-size:0.8rem;color:#64748b;margin-bottom:16px;">Belum ada PIN admin.<br>Set PIN sekarang untuk keamanan.</p>
+          <div class="form-group"><label class="form-label">PIN Baru (4–6 digit)</label>
+            <input type="password" id="newPinInp" placeholder="••••" maxlength="6" inputmode="numeric" style="text-align:center;letter-spacing:8px;font-size:1.4rem;">
+          </div>
+          <div class="form-group"><label class="form-label">Konfirmasi PIN</label>
+            <input type="password" id="newPinInp2" placeholder="••••" maxlength="6" inputmode="numeric" style="text-align:center;letter-spacing:8px;font-size:1.4rem;">
+          </div>
+          <button class="btn btn-primary btn-block" id="setPinAndGoBtn">🔐 Set PIN & Lanjutkan</button>
+          <button class="btn btn-outline btn-block btn-sm" id="skipPinBtn" style="margin-top:8px;">⏭️ Lewati (tanpa PIN)</button>
+        </div>`);
+        document.getElementById('setPinAndGoBtn').addEventListener('click', async () => {
+          const p1 = document.getElementById('newPinInp').value;
+          const p2 = document.getElementById('newPinInp2').value;
+          if (!/^\d{4,6}$/.test(p1)) return toast('⚠️ PIN harus 4–6 angka');
+          if (p1 !== p2) return toast('⚠️ Konfirmasi PIN tidak sama');
+          try {
+            await updateDoc(doc(db, "users", U.uid), { adminPin: pinHash(p1), role: 'owner' });
+            U._profile = { ...U._profile, adminPin: pinHash(p1), role: 'owner' };
+            refreshLock();
+            closeM();
+            toast('✅ PIN berhasil disimpan');
+            setTimeout(() => onSuccess(), 200);
+          } catch(e) { toast('❌ ' + e.message); }
+        });
+        document.getElementById('skipPinBtn').addEventListener('click', () => {
+          refreshLock(); closeM(); setTimeout(() => onSuccess(), 200);
+        });
+        return;
+      }
+
+      // Already unlocked in session
+      if (_adminUnlocked) { onSuccess(); return; }
+
+      // Show PIN pad
+      let entered = '';
+      const MAX = 6;
+      const render = () => {
+        const dots = Array.from({length:6}, (_,i) => `<div class="pin-dot ${i<entered.length?'filled':''}"></div>`).join('');
+        document.getElementById('pinDotsRow').innerHTML = dots;
+      };
+
+      modal(`<div class="pin-modal">
+        <div style="font-size:2.5rem;">${icon}</div>
+        <h3 style="margin:8px 0 2px;">${title}</h3>
+        <p style="font-size:0.78rem;color:#64748b;">Masukkan PIN Admin</p>
+        <div class="pin-display" id="pinDotsRow">
+          ${Array.from({length:6},(_,i)=>`<div class="pin-dot"></div>`).join('')}
+        </div>
+        <div id="pinErrMsg" style="font-size:0.78rem;color:#dc2626;min-height:18px;"></div>
+        <div class="pin-pad">
+          ${[1,2,3,4,5,6,7,8,9].map(n=>`<button class="pin-key" data-n="${n}">${n}</button>`).join('')}
+          <button class="pin-key del" id="pinDel">⌫</button>
+          <button class="pin-key zero" data-n="0">0</button>
+        </div>
+        <button class="btn btn-outline btn-sm" style="margin-top:16px;width:100%;" id="cancelPinBtn">Batal</button>
+      </div>`);
+
+      render();
+
+      document.getElementById('cancelPinBtn').addEventListener('click', () => closeM());
+      document.getElementById('pinDel').addEventListener('click', () => {
+        if (entered.length > 0) { entered = entered.slice(0, -1); render(); }
+      });
+      document.querySelectorAll('.pin-key[data-n]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (entered.length >= MAX) return;
+          entered += btn.dataset.n;
+          render();
+          if (entered.length >= 4) {
+            // Try match
+            setTimeout(() => {
+              if (pinHash(entered) === pin) {
+                // Success
+                document.querySelectorAll('.pin-dot').forEach(d => d.classList.add('success'));
+                document.getElementById('pinErrMsg').textContent = '';
+                refreshLock();
+                setTimeout(() => { closeM(); onSuccess(); }, 350);
+              } else if (entered.length === MAX) {
+                // Wrong
+                document.querySelectorAll('.pin-dot').forEach(d => { d.classList.remove('filled'); d.classList.add('error'); });
+                document.getElementById('pinDotsRow').style.animation = 'pinShake 0.4s';
+                document.getElementById('pinErrMsg').textContent = '❌ PIN salah';
+                errS();
+                setTimeout(() => {
+                  entered = '';
+                  document.getElementById('pinDotsRow').style.animation = '';
+                  render();
+                  document.getElementById('pinErrMsg').textContent = '';
+                }, 700);
+              }
+            }, 80);
+          }
+        });
+      });
+    }
+
+    // Guard wrapper — use before edit/delete/sensitive actions
+    function adminGuard(title, icon, action) {
+      if (!isOwner()) {
+        toast('🚫 Hanya Admin/Owner yang boleh melakukan ini');
+        errS();
+        return;
+      }
+      requirePin(title, icon, action);
+    }
+    // ─────────────────────────────────────────────────────────────────
+
     // PROFILE PAGE
     async function profileH() {
       const p = U._profile || {};
@@ -559,7 +716,48 @@
           <div style="margin-top:4px;">🗄️ Database: <span style="color:#059669;font-weight:600;">Privat (Terisolasi)</span></div>
         </div>
       </div>
-      <button class="btn btn-danger btn-block" id="logoutBtnPro" style="margin-top:4px;">🚪 Keluar</button>`;
+      <button class="btn btn-danger btn-block" id="logoutBtnPro" style="margin-top:4px;">🚪 Keluar</button>
+      <div class="card" style="margin-top:12px;">
+        <div class="card-title">🔐 Keamanan Admin</div>
+        <div style="margin-top:10px;">
+          ${getAdminPin()
+            ? `<div style="background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:10px;margin-bottom:10px;font-size:0.8rem;color:#065f46;">
+                ✅ PIN Admin sudah diatur &nbsp;<span style="background:#d1fae5;padding:2px 8px;border-radius:6px;">🔐 Aktif</span>
+               </div>`
+            : `<div class="lock-banner">⚠️ PIN Admin belum diatur — siapapun bisa edit produk</div>`
+          }
+          <div class="form-group"><label class="form-label">${getAdminPin()?'PIN Baru (ganti)':'PIN Admin Baru'} <span style="color:#64748b;">(4–6 digit angka)</span></label>
+            <input type="password" id="pinNewInp" placeholder="••••" maxlength="6" inputmode="numeric" style="text-align:center;letter-spacing:6px;font-size:1.3rem;">
+          </div>
+          <div class="form-group"><label class="form-label">Konfirmasi PIN</label>
+            <input type="password" id="pinNewInp2" placeholder="••••" maxlength="6" inputmode="numeric" style="text-align:center;letter-spacing:6px;font-size:1.3rem;">
+          </div>
+          ${getAdminPin()?`<div class="form-group"><label class="form-label">PIN Lama (verifikasi)</label>
+            <input type="password" id="pinOldInp" placeholder="••••" maxlength="6" inputmode="numeric" style="text-align:center;letter-spacing:6px;font-size:1.3rem;"></div>`:''}
+          <button class="btn btn-primary btn-block" id="savePinBtn">🔐 ${getAdminPin()?'Ganti PIN':'Set PIN Admin'}</button>
+          ${getAdminPin()?`<button class="btn btn-outline btn-block btn-sm" id="removePinBtn" style="margin-top:6px;">🗑️ Hapus PIN</button>`:''}
+        </div>
+      </div>
+      <div class="card" style="margin-top:12px;">
+        <div class="card-title">👥 Role & Akses</div>
+        <div style="margin-top:10px;font-size:0.82rem;color:#475569;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:#f8fafc;border-radius:10px;margin-bottom:6px;">
+            <span>👑 Owner / Admin</span>
+            <span style="font-size:0.75rem;color:#059669;">Edit + Hapus produk (butuh PIN)</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:#f8fafc;border-radius:10px;margin-bottom:6px;">
+            <span>👤 Staff</span>
+            <span style="font-size:0.75rem;color:#dc2626;">Hanya lihat & transaksi</span>
+          </div>
+          <div class="form-group" style="margin-top:10px;"><label class="form-label">Role Akun Ini</label>
+            <select id="roleSelect">
+              <option value="owner" ${p.role==='owner'||!p.role?'selected':''}>👑 Owner / Admin</option>
+              <option value="staff" ${p.role==='staff'?'selected':''}>👤 Staff</option>
+            </select>
+          </div>
+          <button class="btn btn-warning btn-block btn-sm" id="saveRoleBtn">💾 Simpan Role</button>
+        </div>
+      </div>`;
     }
     function initProfile() {
       document.getElementById('saveProfileBtn').addEventListener('click',async()=>{
@@ -599,6 +797,49 @@
       });
       document.getElementById('logoutBtnPro').addEventListener('click',async()=>{
         if(confirm('Yakin ingin keluar?')){await stopAll();await signOut(auth);}
+      });
+
+      // PIN Management
+      document.getElementById('savePinBtn')?.addEventListener('click', async () => {
+        const np1 = document.getElementById('pinNewInp').value;
+        const np2 = document.getElementById('pinNewInp2').value;
+        const oldPinInp = document.getElementById('pinOldInp');
+        if (!/^\d{4,6}$/.test(np1)) return toast('⚠️ PIN harus 4–6 angka');
+        if (np1 !== np2) return toast('⚠️ Konfirmasi PIN tidak sama');
+        if (oldPinInp) {
+          const op = oldPinInp.value;
+          if (!op) return toast('⚠️ Masukkan PIN lama untuk verifikasi');
+          if (pinHash(op) !== getAdminPin()) { errS(); return toast('❌ PIN lama salah'); }
+        }
+        try {
+          await updateDoc(doc(db,"users",U.uid), { adminPin: pinHash(np1) });
+          U._profile = { ...U._profile, adminPin: pinHash(np1) };
+          _adminUnlocked = false;
+          okS(); toast('✅ PIN berhasil ' + (getAdminPin()?'diperbarui':'disimpan'));
+          await renderPg('profile');
+        } catch(e) { errS(); toast('❌ ' + e.message); }
+      });
+
+      document.getElementById('removePinBtn')?.addEventListener('click', () => {
+        requirePin('Hapus PIN Admin','🗑️', async () => {
+          if (!confirm('Hapus PIN Admin?\nSiapapun bisa edit/hapus produk tanpa PIN.')) return;
+          try {
+            await updateDoc(doc(db,"users",U.uid), { adminPin: null });
+            U._profile = { ...U._profile, adminPin: null };
+            _adminUnlocked = false;
+            okS(); toast('🗑️ PIN dihapus');
+            await renderPg('profile');
+          } catch(e) { errS(); toast('❌ ' + e.message); }
+        });
+      });
+
+      document.getElementById('saveRoleBtn')?.addEventListener('click', async () => {
+        const role = document.getElementById('roleSelect').value;
+        try {
+          await updateDoc(doc(db,"users",U.uid), { role });
+          U._profile = { ...U._profile, role };
+          okS(); toast('✅ Role diperbarui ke ' + (role==='owner'?'Owner/Admin':'Staff'));
+        } catch(e) { errS(); toast('❌ ' + e.message); }
       });
     }
     async function dashH() {
@@ -857,8 +1098,61 @@
         }catch(e){errS();toast('❌ '+e.message);}
       });
     }
-    function showDet(pid) { const p=products.find(x=>x.id===pid);if(!p)return;modal(`<h3>${p.name}</h3><span class="badge badge-blue">SKU:${p.sku}</span><div class="stats-grid" style="margin:8px 0;"><div class="stat-card blue"><div class="stat-value">${stock(pid)}</div><div class="stat-label">Stok</div></div></div><div style="display:flex;gap:6px;"><button class="btn btn-primary btn-sm" id="edBtn">✏️ Edit</button><button class="btn btn-danger btn-sm" id="dlBtn">🗑️ Hapus</button></div>`);document.getElementById('edBtn').addEventListener('click',()=>{closeM();setTimeout(()=>showEdit(pid),200);});document.getElementById('dlBtn').addEventListener('click',async()=>{if(confirm('Hapus?')){const ivs=inv.filter(i=>i.productId===pid);for(const iv of ivs)await deleteDoc(uDoc("inventory",iv.id));await deleteDoc(uDoc("products",pid));closeM();await loadAll();renderPg('products');}}); }
-    function showEdit(pid) { const p=products.find(x=>x.id===pid);if(!p)return;modal(`<h3>✏️ Edit</h3><div class="form-group"><label class="form-label">SKU</label><input type="text" id="eSKU" value="${p.sku}"></div><div class="form-group"><label class="form-label">Nama</label><input type="text" id="eName" value="${p.name}"></div><div class="input-row"><div class="form-group"><label class="form-label">Min</label><input type="number" id="eMin" value="${p.minStock||5}"></div><div class="form-group"><label class="form-label">Harga</label><input type="number" id="ePrice" value="${p.price||0}"></div></div><button class="btn btn-primary btn-block" id="svEdit">💾 Simpan</button>`);document.getElementById('svEdit').addEventListener('click',async()=>{await updateDoc(uDoc("products",pid),{sku:document.getElementById('eSKU').value,name:document.getElementById('eName').value,minStock:parseInt(document.getElementById('eMin').value)||5,price:parseInt(document.getElementById('ePrice').value)||0});okS();closeM();await loadAll();renderPg('products');}); }
+    function showDet(pid) {
+      const p=products.find(x=>x.id===pid);if(!p)return;
+      const roleTag = isOwner() ? '<span class="admin-badge">👑 Owner</span>' : '<span class="admin-badge" style="background:#f1f5f9;color:#475569;">👤 Staff</span>';
+      modal(`<h3>${p.name}</h3><span class="badge badge-blue">SKU:${p.sku}</span>
+        <div class="stats-grid" style="margin:8px 0;">
+          <div class="stat-card blue"><div class="stat-value">${stock(pid)}</div><div class="stat-label">Stok</div></div>
+        </div>
+        <div style="margin-bottom:10px;">${roleTag}</div>
+        ${isOwner()
+          ? `<div style="display:flex;gap:6px;">
+              <button class="btn btn-primary btn-sm" id="edBtn">✏️ Edit</button>
+              <button class="btn btn-danger btn-sm" id="dlBtn">🗑️ Hapus</button>
+            </div>`
+          : `<div class="lock-banner">🔒 Edit & Hapus hanya untuk Admin/Owner</div>`
+        }`);
+      if (isOwner()) {
+        document.getElementById('edBtn').addEventListener('click',()=>{
+          closeM();
+          setTimeout(()=>adminGuard('Edit Produk','✏️',()=>showEdit(pid)),200);
+        });
+        document.getElementById('dlBtn').addEventListener('click',()=>{
+          adminGuard('Hapus Produk','🗑️', async ()=>{
+            if(!confirm(`Hapus produk "${p.name}"?\nSemua data stok akan ikut terhapus.`))return;
+            try {
+              const ivs=inv.filter(i=>i.productId===pid);
+              for(const iv of ivs)await deleteDoc(uDoc("inventory",iv.id));
+              await deleteDoc(uDoc("products",pid));
+              closeM();okS();toast('🗑️ Produk dihapus');
+              await loadAll();renderPg('products');
+            }catch(e){errS();toast('❌ '+e.message);}
+          });
+        });
+      }
+    }
+    function showEdit(pid) {
+      const p=products.find(x=>x.id===pid);if(!p)return;
+      modal(`<h3>✏️ Edit Produk</h3>
+        <div class="form-group"><label class="form-label">SKU</label><input type="text" id="eSKU" value="${p.sku}"></div>
+        <div class="form-group"><label class="form-label">Nama Produk</label><input type="text" id="eName" value="${p.name}"></div>
+        <div class="input-row">
+          <div class="form-group"><label class="form-label">Min Stok</label><input type="number" id="eMin" value="${p.minStock||5}"></div>
+          <div class="form-group"><label class="form-label">Harga</label><input type="number" id="ePrice" value="${p.price||0}"></div>
+        </div>
+        <button class="btn btn-primary btn-block" id="svEdit">💾 Simpan Perubahan</button>`);
+      document.getElementById('svEdit').addEventListener('click',async()=>{
+        const sku=document.getElementById('eSKU').value.trim();
+        const name=document.getElementById('eName').value.trim();
+        if(!sku||!name)return toast('⚠️ SKU dan Nama wajib diisi');
+        try{
+          await updateDoc(uDoc("products",pid),{sku,name,minStock:parseInt(document.getElementById('eMin').value)||5,price:parseInt(document.getElementById('ePrice').value)||0,updatedAt:new Date()});
+          okS();closeM();toast('✅ Produk diperbarui');
+          await loadAll();renderPg('products');
+        }catch(e){errS();toast('❌ '+e.message);}
+      });
+    }
     function showTrk(pid) {
       const p=products.find(x=>x.id===pid);if(!p)return;
       const ptr=trans.filter(t=>t.productId===pid).sort((a,b)=>((b.timestamp?.toDate?.()||new Date(b.timestamp))-(a.timestamp?.toDate?.()||new Date(a.timestamp))));
