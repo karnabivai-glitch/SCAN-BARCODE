@@ -202,6 +202,20 @@
     .pin-key.zero { grid-column:2; }
     .admin-badge { display:inline-flex; align-items:center; gap:4px; background:#fef3c7; color:#92400e; padding:3px 10px; border-radius:20px; font-size:0.72rem; font-weight:700; }
     .lock-banner { background:#fff7ed; border:1px solid #fed7aa; border-radius:12px; padding:10px 14px; display:flex; align-items:center; gap:10px; margin-bottom:12px; font-size:0.8rem; color:#9a3412; }
+    /* Logo & Store Settings */
+    .logo-upload-area { border:2px dashed #cbd5e1; border-radius:16px; padding:20px; text-align:center; cursor:pointer; transition:all 0.2s; background:#f8fafc; }
+    .logo-upload-area:hover { border-color:#3b82f6; background:#eff6ff; }
+    .logo-preview { width:80px; height:80px; object-fit:contain; border-radius:12px; border:1px solid #e2e8f0; background:white; padding:4px; }
+    .logo-preview-lg { max-width:160px; max-height:80px; object-fit:contain; display:block; margin:0 auto 4px; }
+    /* Reprint Modal */
+    .reprint-list { display:flex; flex-direction:column; gap:8px; max-height:60vh; overflow-y:auto; }
+    .reprint-item { display:flex; align-items:center; gap:10px; padding:10px 12px; border:1px solid #e2e8f0; border-radius:12px; cursor:pointer; transition:background 0.15s; }
+    .reprint-item:hover { background:#eff6ff; border-color:#3b82f6; }
+    .reprint-inv { font-weight:700; font-size:0.82rem; color:#1e40af; }
+    .reprint-meta { font-size:0.72rem; color:#64748b; }
+    .reprint-total { font-weight:700; font-size:0.85rem; color:#059669; margin-left:auto; white-space:nowrap; }
+    /* Receipt preview in modal */
+    .receipt-preview-wrap { background:#f8fafc; border-radius:12px; padding:12px; margin-top:10px; overflow-x:auto; }
   </style>
 </head>
 <body>
@@ -681,21 +695,41 @@
       const sinceStr = since.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});
       return `
       <div class="profile-header">
-        <div class="profile-avatar-lg">${initials}</div>
+        <div class="profile-avatar-lg">${p.storeLogo?`<img src="${p.storeLogo}" style="width:56px;height:56px;object-fit:contain;border-radius:50%;" />`:initials}</div>
         <div style="flex:1;min-width:0;">
-          <div style="font-size:1.1rem;font-weight:700;">${p.displayName||dn}</div>
+          <div style="font-size:1.1rem;font-weight:700;">${p.businessName||dn}</div>
           <div style="font-size:0.8rem;opacity:0.85;">${U.email}</div>
           <div style="font-size:0.72rem;opacity:0.7;margin-top:2px;">Bergabung: ${sinceStr}</div>
         </div>
       </div>
+
       <div class="card">
-        <div class="card-title">🏪 Informasi Bisnis</div>
-        <div class="form-group" style="margin-top:10px;"><label class="form-label">Nama Bisnis</label><input type="text" id="proBiz" value="${p.businessName||''}"></div>
+        <div class="card-title">🏪 Pengaturan Toko</div>
+        <div style="margin-top:10px;">
+          <label class="form-label">Logo Toko</label>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+            <div id="logoPreviewWrap" style="width:80px;height:80px;border:2px dashed #cbd5e1;border-radius:12px;display:flex;align-items:center;justify-content:center;background:#f8fafc;overflow:hidden;flex-shrink:0;">
+              ${p.storeLogo
+                ? `<img src="${p.storeLogo}" style="width:100%;height:100%;object-fit:contain;padding:4px;" id="logoPreviewImg" />`
+                : `<span style="font-size:2rem;opacity:0.4;" id="logoPlaceholder">🏪</span>`}
+            </div>
+            <div style="flex:1;">
+              <button class="btn btn-outline btn-sm btn-block" id="uploadLogoBtn">📷 Upload Logo</button>
+              ${p.storeLogo?`<button class="btn btn-outline btn-sm btn-block" style="margin-top:6px;color:#dc2626;" id="removeLogoBtn">🗑️ Hapus Logo</button>`:''}
+              <input type="file" id="logoFileInput" accept="image/*" style="display:none;">
+              <div style="font-size:0.7rem;color:#94a3b8;margin-top:4px;">JPG/PNG, maks 500KB.<br>Tampil di struk cetak.</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group"><label class="form-label">Nama Bisnis / Toko</label><input type="text" id="proBiz" value="${p.businessName||''}"></div>
+        <div class="form-group"><label class="form-label">Alamat Toko</label><input type="text" id="proAddress" placeholder="Jl. Contoh No.1, Kota" value="${p.storeAddress||''}"></div>
+        <div class="form-group"><label class="form-label">No. Telp / WhatsApp</label><input type="text" id="proPhone" placeholder="0812-3456-7890" value="${p.storePhone||''}"></div>
+        <div class="form-group"><label class="form-label">Pesan Footer Struk</label><input type="text" id="proFooter" placeholder="Terima kasih atas kunjungan Anda!" value="${p.storeFooter||''}"></div>
         <div class="input-row">
           <div class="form-group"><label class="form-label">Nama Depan</label><input type="text" id="proFirst" value="${p.firstName||''}"></div>
           <div class="form-group"><label class="form-label">Nama Belakang</label><input type="text" id="proLast" value="${p.lastName||''}"></div>
         </div>
-        <button class="btn btn-primary btn-block" id="saveProfileBtn">💾 Simpan Profil</button>
+        <button class="btn btn-primary btn-block" id="saveProfileBtn">💾 Simpan Pengaturan</button>
       </div>
       <div class="card">
         <div class="card-title">🔒 Ubah Password</div>
@@ -760,18 +794,52 @@
       </div>`;
     }
     function initProfile() {
+      // Logo Upload
+      document.getElementById('uploadLogoBtn')?.addEventListener('click',()=>document.getElementById('logoFileInput').click());
+      document.getElementById('logoFileInput')?.addEventListener('change',function(){
+        const file=this.files[0];
+        if(!file)return;
+        if(file.size>600*1024){errS();return toast('⚠️ Ukuran logo maks 500KB');}
+        const reader=new FileReader();
+        reader.onload=e=>{
+          const b64=e.target.result;
+          const wrap=document.getElementById('logoPreviewWrap');
+          wrap.innerHTML=`<img src="${b64}" style="width:100%;height:100%;object-fit:contain;padding:4px;" id="logoPreviewImg" />`;
+          wrap.dataset.logoData=b64;
+          toast('✅ Logo dipilih, klik Simpan untuk menyimpan');
+        };
+        reader.readAsDataURL(file);
+      });
+      document.getElementById('removeLogoBtn')?.addEventListener('click',async()=>{
+        if(!confirm('Hapus logo toko?'))return;
+        try{
+          await updateDoc(doc(db,"users",U.uid),{storeLogo:null});
+          U._profile={...U._profile,storeLogo:null};
+          okS();toast('🗑️ Logo dihapus');
+          await renderPg('profile');
+        }catch(e){errS();toast('❌ '+e.message);}
+      });
+
       document.getElementById('saveProfileBtn').addEventListener('click',async()=>{
         const biz=document.getElementById('proBiz').value.trim();
         const first=document.getElementById('proFirst').value.trim();
         const last=document.getElementById('proLast').value.trim();
+        const address=document.getElementById('proAddress').value.trim();
+        const phone=document.getElementById('proPhone').value.trim();
+        const footer=document.getElementById('proFooter').value.trim();
         const displayName=`${first} ${last}`.trim()||first||biz;
+        const logoWrap=document.getElementById('logoPreviewWrap');
+        const newLogo=logoWrap?.dataset.logoData || U._profile?.storeLogo || null;
+        const updates={businessName:biz,firstName:first,lastName:last,displayName,storeAddress:address,storePhone:phone,storeFooter:footer,updatedAt:new Date()};
+        if(newLogo!==undefined)updates.storeLogo=newLogo;
         try{
           await updateProfile(auth.currentUser,{displayName});
-          await updateDoc(doc(db,"users",U.uid),{businessName:biz,firstName:first,lastName:last,displayName,updatedAt:new Date()});
-          U._profile={...U._profile,businessName:biz,firstName:first,lastName:last,displayName};
+          await updateDoc(doc(db,"users",U.uid),updates);
+          U._profile={...U._profile,...updates};
           const hdr=document.querySelector('.header h1');
           if(hdr)hdr.innerHTML=`🏭 <span style="font-size:0.95rem;">${biz||displayName}</span>`;
-          okS();toast('✅ Profil berhasil disimpan');
+          okS();toast('✅ Pengaturan toko disimpan');
+          await renderPg('profile');
         }catch(e){errS();toast('❌ '+e.message);}
       });
       document.getElementById('changePwdBtn').addEventListener('click',async()=>{
@@ -865,7 +933,7 @@
       posCart = [];
       const today = new Date().toISOString().slice(0,10).replace(/-/g,'');
       const previewNo = `INV-${today}-????`;
-      return `<div class="card"><div class="card-header"><span class="card-title">💰 POS</span><span class="badge badge-green" id="posInvBadge">#${previewNo}</span></div>
+      return `<div class="card"><div class="card-header"><span class="card-title">💰 POS</span><div style="display:flex;gap:6px;align-items:center;"><span class="badge badge-green" id="posInvBadge">#${previewNo}</span><button class="btn btn-outline btn-sm" style="font-size:0.72rem;" id="reprintSalesBtn">🧾 Reprint</button></div></div>
         <div class="form-group"><label class="form-label">Scan SKU</label><div style="display:flex;gap:8px;"><input type="text" id="posSKU"><button class="btn btn-outline btn-sm" id="posScanBtn">📷</button></div></div>
         <div class="scanner-container" id="posScannerContainer"><div id="posScannerView"></div><button class="btn btn-sm btn-outline" id="stopPOSScan">❌ Tutup</button></div>
         <div id="posProductInfo" style="display:none;"><div style="background:#f8fafc;padding:12px;border-radius:12px;"><strong id="posProductName">-</strong><br><span style="font-size:0.8rem;">Stok: <span id="posStock">0</span> | Harga: <span id="posPrice">0</span></span></div></div>
@@ -878,8 +946,31 @@
         <div class="card" id="posReceiptContainer" style="display:none;"></div>
         <div class="card"><div class="card-title">📋 Riwayat POS</div><div class="list" id="posHistoryList">${rPH()}</div></div>`;
     }
-    function rPH() { const today = new Date(); today.setHours(0,0,0,0); const items = trans.filter(t=>t.type==='POS'&&(t.timestamp?.toDate?.()||new Date(t.timestamp))>=today); if(!items.length) return '<div style="text-align:center;padding:20px;">Belum ada</div>'; return items.map(i=>`<div class="list-item"><span>💰</span><div style="flex:1;"><div style="font-weight:600;">${i.productName} (x${i.qty})</div><div style="font-size:0.72rem;">${i.invoiceNo||''} | ${frp(i.totalAmount||0)} | ${fd(i.timestamp)}</div></div></div>`).join(''); }
+    function rPH() {
+      const today = new Date(); today.setHours(0,0,0,0);
+      const items = trans.filter(t=>t.type==='POS'&&(t.timestamp?.toDate?.()||new Date(t.timestamp))>=today);
+      if(!items.length) return '<div style="text-align:center;padding:20px;color:#94a3b8;">Belum ada transaksi hari ini</div>';
+      // Group by invoiceNo
+      const grouped = {};
+      items.forEach(i=>{
+        const k = i.invoiceNo||'unknown';
+        if(!grouped[k]) grouped[k]={invoiceNo:k,items:[],total:0,payment:i.payment||0,timestamp:i.timestamp};
+        grouped[k].items.push(i);
+        grouped[k].total += i.totalAmount||0;
+      });
+      return Object.values(grouped).map(g=>`
+        <div class="list-item" style="flex-wrap:wrap;gap:6px;">
+          <span>🧾</span>
+          <div style="flex:1;min-width:0;">
+            <div style="font-weight:700;color:#1e40af;">${g.invoiceNo}</div>
+            <div style="font-size:0.72rem;color:#64748b;">${g.items.length} item · ${fd(g.timestamp)}</div>
+            <div style="font-size:0.8rem;font-weight:600;color:#059669;">${frp(g.total)}</div>
+          </div>
+          <button class="btn btn-outline btn-sm" style="font-size:0.72rem;" onclick="window.reprintInv('${g.invoiceNo}')">🖨️ Reprint</button>
+        </div>`).join('');
+    }
     function initPOS() {
+      document.getElementById('reprintSalesBtn').addEventListener('click',()=>showReprintModal());
       document.getElementById('posScanBtn').addEventListener('click',()=>togglePS());
       document.getElementById('stopPOSScan').addEventListener('click',()=>stopPS());
       document.getElementById('posSKU').addEventListener('input',lookP);
@@ -916,36 +1007,126 @@
         posCart=[];document.getElementById('posPayment').value='';document.getElementById('posChange').style.display='none';renderPC();await loadAll();refreshPH();
       }catch(e){errS();toast('❌ '+e.message);}
     }
-    function rStruk(invNo,total,payment,change,cartItems) {
-      const items=cartItems||posCart;
-      const now=new Date();
-      const tgl=now.toLocaleDateString('id-ID',{day:'2-digit',month:'2-digit',year:'numeric'});
-      const jam=now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
-      return `<div style="font-family:'Courier New',monospace;font-size:11px;width:100%;max-width:300px;margin:0 auto;line-height:1.4;">
-<div style="text-align:center;border-bottom:1px dashed #000;padding-bottom:6px;margin-bottom:6px;">
-  <div style="font-size:14px;font-weight:bold;">🏭 INVENTORYPRO</div>
-  <div>================================</div>
-  <div>No: #${invNo}</div>
-  <div>${tgl}  ${jam}</div>
-  <div>================================</div>
+    function getStoreInfo() {
+      const p = U?._profile || {};
+      return {
+        name: p.businessName || p.displayName || 'InventoryPro',
+        address: p.storeAddress || '',
+        phone: p.storePhone || '',
+        footer: p.storeFooter || 'Terima kasih atas kunjungan Anda!',
+        logo: p.storeLogo || '',  // base64 data URL
+      };
+    }
+
+    function rStruk(invNo, total, payment, change, cartItems, tgl, jam) {
+      const items = cartItems || posCart;
+      const now = new Date();
+      tgl = tgl || now.toLocaleDateString('id-ID',{day:'2-digit',month:'2-digit',year:'numeric'});
+      jam = jam || now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+      const s = getStoreInfo();
+      const logoHtml = s.logo
+        ? `<img src="${s.logo}" style="max-width:120px;max-height:50px;object-fit:contain;margin-bottom:4px;" /><br>`
+        : '';
+      const w = '================================';
+      return `<div style="font-family:'Courier New',monospace;font-size:11px;width:100%;max-width:300px;margin:0 auto;line-height:1.5;">
+<div style="text-align:center;border-bottom:1px dashed #000;padding-bottom:8px;margin-bottom:6px;">
+  ${logoHtml}
+  <div style="font-size:13px;font-weight:bold;">${s.name.toUpperCase()}</div>
+  ${s.address?`<div style="font-size:10px;">${s.address}</div>`:''}
+  ${s.phone?`<div style="font-size:10px;">Telp: ${s.phone}</div>`:''}
+  <div>${w}</div>
+  <div>No: <b>${invNo}</b></div>
+  <div>${tgl} &nbsp; ${jam}</div>
+  <div>${w}</div>
 </div>
 <table style="width:100%;border-collapse:collapse;">
-  <tr><td style="font-weight:bold;">ITEM</td><td style="text-align:center;font-weight:bold;">QTY</td><td style="text-align:right;font-weight:bold;">HARGA</td></tr>
+  <tr>
+    <td style="font-weight:bold;width:50%;">ITEM</td>
+    <td style="text-align:center;font-weight:bold;width:15%;">QTY</td>
+    <td style="text-align:right;font-weight:bold;">HARGA</td>
+  </tr>
   <tr><td colspan="3"><div style="border-top:1px dashed #000;margin:3px 0;"></div></td></tr>
-  ${items.map(i=>`<tr><td style="max-width:120px;word-break:break-word;">${i.productName}</td><td style="text-align:center;">x${i.qty}</td><td style="text-align:right;white-space:nowrap;">${frp(i.sellPrice*i.qty)}</td></tr>`).join('')}
+  ${items.map(i=>`<tr>
+    <td style="max-width:110px;word-break:break-word;padding-right:4px;">${i.productName}</td>
+    <td style="text-align:center;">x${i.qty}</td>
+    <td style="text-align:right;white-space:nowrap;">${frp(i.sellPrice*i.qty)}</td>
+  </tr>
+  <tr><td colspan="3" style="font-size:9px;color:#555;padding-bottom:2px;">@ ${frp(i.sellPrice)}/pcs</td></tr>`).join('')}
 </table>
 <div style="border-top:1px dashed #000;margin:6px 0;"></div>
 <table style="width:100%;">
   <tr><td><b>TOTAL</b></td><td style="text-align:right;"><b>${frp(total)}</b></td></tr>
-  <tr><td>Bayar</td><td style="text-align:right;">${frp(payment)}</td></tr>
-  <tr><td><b>Kembali</b></td><td style="text-align:right;"><b>${frp(change)}</b></td></tr>
+  <tr><td>Tunai</td><td style="text-align:right;">${frp(payment)}</td></tr>
+  <tr style="border-top:1px dashed #000;"><td><b>Kembali</b></td><td style="text-align:right;"><b>${frp(change)}</b></td></tr>
 </table>
-<div style="border-top:1px dashed #000;margin:6px 0;text-align:center;padding-top:6px;">
-  <div>Terima kasih!</div>
-  <div style="font-size:10px;">Barang yang sudah dibeli</div>
-  <div style="font-size:10px;">tidak dapat dikembalikan</div>
-</div></div>`; }
+<div style="border-top:1px dashed #000;margin:8px 0 0;text-align:center;padding-top:6px;font-size:10px;">
+  <div style="font-weight:bold;margin-bottom:2px;">${s.footer}</div>
+  <div>Barang yang sudah dibeli</div>
+  <div>tidak dapat dikembalikan</div>
+  <div style="margin-top:6px;color:#555;">${w.slice(0,20)}</div>
+</div></div>`;
+    }
     function refreshPH() { const el=document.getElementById('posHistoryList');if(el)el.innerHTML=rPH(); }
+
+    // ─── REPRINT SYSTEM ──────────────────────────────────────────────
+    window.reprintInv = function(invoiceNo) {
+      const items = trans.filter(t=>t.type==='POS'&&t.invoiceNo===invoiceNo);
+      if(!items.length) return toast('⚠️ Data invoice tidak ditemukan');
+      const total = items.reduce((s,i)=>s+(i.totalAmount||0),0);
+      const payment = items[0].payment || total;
+      const change = payment - total;
+      const ts = items[0].timestamp?.toDate?.() || new Date(items[0].timestamp);
+      const tgl = ts.toLocaleDateString('id-ID',{day:'2-digit',month:'2-digit',year:'numeric'});
+      const jam = ts.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+      const cartItems = items.map(i=>({productName:i.productName,qty:i.qty,sellPrice:i.sellPrice||Math.round((i.totalAmount||0)/(i.qty||1))}));
+      const html = rStruk(invoiceNo, total, payment, change, cartItems, tgl, jam);
+      modal(`<h3>🧾 ${invoiceNo}</h3>
+        <div class="receipt-preview-wrap" id="reprintPreview">${html}</div>
+        <div style="display:flex;gap:8px;margin-top:12px;">
+          <button class="btn btn-primary btn-block" id="doPrintBtn">🖨️ Print Thermal</button>
+          <button class="btn btn-outline btn-block" id="doClosePrintBtn">✕ Tutup</button>
+        </div>`);
+      document.getElementById('doPrintBtn').addEventListener('click',()=>{
+        const w=window.open('','_blank','width=400,height=600');
+        w.document.write(`<!DOCTYPE html><html><head><title>${invoiceNo}</title><style>@page{size:58mm auto;margin:3mm}body{font-family:'Courier New',monospace;font-size:11px;margin:0;padding:4px;width:58mm;max-width:58mm;}*{box-sizing:border-box;}img{max-width:100%;}</style></head><body>${document.getElementById('reprintPreview').innerHTML}<script>window.onload=function(){window.print();};<\/script></body></html>`);
+        w.document.close();
+      });
+      document.getElementById('doClosePrintBtn').addEventListener('click',()=>closeM());
+    };
+
+    function showReprintModal() {
+      // Group all POS transactions by invoice
+      const grouped = {};
+      trans.filter(t=>t.type==='POS'&&t.invoiceNo).forEach(t=>{
+        const k=t.invoiceNo;
+        if(!grouped[k]) grouped[k]={invoiceNo:k,items:[],total:0,payment:t.payment||0,timestamp:t.timestamp};
+        grouped[k].items.push(t);
+        grouped[k].total += t.totalAmount||0;
+      });
+      const invoices = Object.values(grouped).sort((a,b)=>{
+        const da=a.timestamp?.toDate?.()|| new Date(a.timestamp);
+        const db=b.timestamp?.toDate?.()|| new Date(b.timestamp);
+        return db-da;
+      });
+      if(!invoices.length) return toast('⚠️ Belum ada riwayat penjualan');
+      modal(`<h3>🧾 Reprint Sales</h3>
+        <p style="font-size:0.8rem;color:#64748b;margin-bottom:10px;">${invoices.length} invoice ditemukan · Ketuk untuk reprint</p>
+        <div class="reprint-list">
+          ${invoices.map(g=>{
+            const ts=g.timestamp?.toDate?.()|| new Date(g.timestamp);
+            const dateStr=ts.toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+            return `<div class="reprint-item" onclick="closeM();setTimeout(()=>window.reprintInv('${g.invoiceNo}'),200);">
+              <span style="font-size:1.4rem;">🧾</span>
+              <div style="flex:1;min-width:0;">
+                <div class="reprint-inv">${g.invoiceNo}</div>
+                <div class="reprint-meta">${dateStr} · ${g.items.length} item</div>
+              </div>
+              <div class="reprint-total">${frp(g.total)}</div>
+            </div>`;
+          }).join('')}
+        </div>`);
+    }
+    // ────────────────────────────────────────────────────────────────
 
     // TRANSACTION
     async function transH() {
