@@ -495,7 +495,7 @@
         try {
           const uSnap = await getDoc(doc(db,"users",u.uid));
           if(uSnap.exists()) {
-            U._profile = uSnap.data();
+            U._profile = await migrateOldPin(uSnap.data());
           } else {
             // Legacy user without profile doc — create minimal profile
             const displayName = u.displayName || u.email.split('@')[0];
@@ -552,12 +552,20 @@
     let _unlockTimer = null;
     const LOCK_TIMEOUT = 5 * 60 * 1000; // 5 minutes
 
-    function pinHash(pin) {
-      // Simple deterministic hash (not cryptographic, good enough for PIN)
-      let h = 0;
+    async function pinHash(pin) {
+      // SHA-256 via Web Crypto API (built-in browser, no library needed)
       const s = pin + (U?.uid || 'salt');
-      for (let i = 0; i < s.length; i++) { h = ((h << 5) - h) + s.charCodeAt(i); h |= 0; }
-      return Math.abs(h).toString(36);
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+    }
+    async function migrateOldPin(profile) {
+      // Hash lama (base36) panjangnya < 32, SHA-256 selalu 64 karakter hex
+      if (!profile?.adminPin || profile.adminPin.length >= 32) return profile;
+      try {
+        await updateDoc(doc(db, "users", U.uid), { adminPin: null });
+        toast('🔐 Keamanan PIN diperbarui. Silakan set PIN baru di Pengaturan.');
+      } catch(e) { console.warn('Pin migration error', e); }
+      return { ...profile, adminPin: null };
     }
 
     function getAdminPin() { return U?._profile?.adminPin || null; }
@@ -595,8 +603,9 @@
           if (!/^\d{4,6}$/.test(p1)) return toast('⚠️ PIN harus 4–6 angka');
           if (p1 !== p2) return toast('⚠️ Konfirmasi PIN tidak sama');
           try {
-            await updateDoc(doc(db, "users", U.uid), { adminPin: pinHash(p1), role: 'owner' });
-            U._profile = { ...U._profile, adminPin: pinHash(p1), role: 'owner' };
+            const _hp1 = await pinHash(p1);
+            await updateDoc(doc(db, "users", U.uid), { adminPin: _hp1, role: 'owner' });
+            U._profile = { ...U._profile, adminPin: _hp1, role: 'owner' };
             refreshLock();
             closeM();
             toast('✅ PIN berhasil disimpan');
@@ -650,7 +659,7 @@
           if (entered.length >= 4) {
             // Try match
             setTimeout(() => {
-              if (pinHash(entered) === pin) {
+              if ((await pinHash(entered)) === pin) {
                 // Success
                 document.querySelectorAll('.pin-dot').forEach(d => d.classList.add('success'));
                 document.getElementById('pinErrMsg').textContent = '';
@@ -935,11 +944,12 @@
         if (oldPinInp) {
           const op = oldPinInp.value;
           if (!op) return toast('⚠️ Masukkan PIN lama untuk verifikasi');
-          if (pinHash(op) !== getAdminPin()) { errS(); return toast('❌ PIN lama salah'); }
+          if ((await pinHash(op)) !== getAdminPin()) { errS(); return toast('❌ PIN lama salah'); }
         }
         try {
-          await updateDoc(doc(db,"users",U.uid), { adminPin: pinHash(np1) });
-          U._profile = { ...U._profile, adminPin: pinHash(np1) };
+          const _hnp1 = await pinHash(np1);
+          await updateDoc(doc(db,"users",U.uid), { adminPin: _hnp1 });
+          U._profile = { ...U._profile, adminPin: _hnp1 };
           _adminUnlocked = false;
           okS(); toast('✅ PIN berhasil ' + (getAdminPin()?'diperbarui':'disimpan'));
           await renderPg('profile');
