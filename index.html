@@ -630,6 +630,7 @@
         document.getElementById('pinDotsRow').innerHTML = dots;
       };
 
+      let wrongCount = 0;
       modal(`<div class="pin-modal">
         <div style="font-size:2.5rem;">${icon}</div>
         <h3 style="margin:8px 0 2px;">${title}</h3>
@@ -644,11 +645,53 @@
           <button class="pin-key zero" data-n="0">0</button>
         </div>
         <button class="btn btn-outline btn-sm" style="margin-top:16px;width:100%;" id="cancelPinBtn">Batal</button>
+        <div id="forgotPinWrap" style="display:none;margin-top:10px;">
+          <div style="font-size:0.75rem;color:#64748b;margin-bottom:6px;">Verifikasi dengan password akun untuk reset PIN</div>
+          <div class="password-wrap">
+            <input type="password" id="forgotPinPass" placeholder="Password akun kamu" style="font-size:0.85rem;" autocomplete="current-password">
+            <button class="pwd-toggle" id="forgotPinPassToggle" type="button">👁️</button>
+          </div>
+          <button class="btn btn-danger btn-sm btn-block" style="margin-top:8px;" id="doForgotPinBtn">🔓 Reset PIN</button>
+        </div>
       </div>`);
 
       render();
 
       document.getElementById('cancelPinBtn').addEventListener('click', () => closeM());
+
+      // Toggle show/hide password lupa PIN
+      document.getElementById('forgotPinPassToggle').addEventListener('click', () => {
+        const inp = document.getElementById('forgotPinPass');
+        const btn = document.getElementById('forgotPinPassToggle');
+        inp.type = inp.type === 'password' ? 'text' : 'password';
+        btn.textContent = inp.type === 'password' ? '👁️' : '🙈';
+      });
+
+      // Reset PIN via verifikasi password akun
+      document.getElementById('doForgotPinBtn').addEventListener('click', async () => {
+        const pass = document.getElementById('forgotPinPass').value;
+        if (!pass) return toast('⚠️ Masukkan password akun kamu');
+        const btn = document.getElementById('doForgotPinBtn');
+        btn.disabled = true;
+        btn.textContent = '⏳ Memverifikasi...';
+        try {
+          const credential = EmailAuthProvider.credential(U.email, pass);
+          await reauthenticateWithCredential(U, credential);
+          await updateDoc(doc(db, 'users', U.uid), { adminPin: null });
+          U._profile = { ...U._profile, adminPin: null };
+          closeM();
+          toast('✅ PIN direset. Silakan set PIN baru di Pengaturan → Profil');
+        } catch(e) {
+          const msg = e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential'
+            ? '❌ Password salah'
+            : e.code === 'auth/too-many-requests'
+            ? '❌ Terlalu banyak percobaan. Coba lagi nanti'
+            : '❌ ' + e.message;
+          toast(msg);
+          btn.disabled = false;
+          btn.textContent = '🔓 Reset PIN';
+        }
+      });
       document.getElementById('pinDel').addEventListener('click', () => {
         if (entered.length > 0) { entered = entered.slice(0, -1); render(); }
       });
@@ -668,15 +711,22 @@
                 setTimeout(() => { closeM(); onSuccess(); }, 350);
               } else if (entered.length === MAX) {
                 // Wrong
+                wrongCount++;
                 document.querySelectorAll('.pin-dot').forEach(d => { d.classList.remove('filled'); d.classList.add('error'); });
                 document.getElementById('pinDotsRow').style.animation = 'pinShake 0.4s';
-                document.getElementById('pinErrMsg').textContent = '❌ PIN salah';
+                const remaining = 3 - wrongCount;
+                document.getElementById('pinErrMsg').textContent = wrongCount >= 3
+                  ? '❌ PIN salah 3x. Gunakan “Lupa PIN” di bawah'
+                  : `❌ PIN salah (${remaining}x lagi tampil opsi lupa PIN)`;
+                if (wrongCount >= 3) {
+                  document.getElementById('forgotPinWrap').style.display = 'block';
+                }
                 errS();
                 setTimeout(() => {
                   entered = '';
                   document.getElementById('pinDotsRow').style.animation = '';
                   render();
-                  document.getElementById('pinErrMsg').textContent = '';
+                  if (wrongCount < 3) document.getElementById('pinErrMsg').textContent = '';
                 }, 700);
               }
             }, 80);
