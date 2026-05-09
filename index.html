@@ -220,7 +220,7 @@
 </head>
 <body>
   <div class="app">
-    <div class="header"><h1>🏭 InventoryPro</h1><div class="header-actions"><button class="header-btn" id="syncBtn">🔄</button><button class="header-btn" id="logoutBtn">🚪</button></div></div>
+    <div class="header"><h1>🏭 InventoryPro</h1><div class="header-actions"><button class="header-btn" id="guideBtn" title="Panduan">📖</button><button class="header-btn" id="syncBtn">🔄</button><button class="header-btn" id="logoutBtn">🚪</button></div></div>
     <div class="content" id="contentArea"></div>
     <div class="bottom-nav" id="bottomNav" style="display:none;">
       <button class="nav-item active" data-page="dashboard"><span class="icon">📊</span>Dashboard</button>
@@ -1584,6 +1584,7 @@
         }
       }
     });
+    document.getElementById('guideBtn').addEventListener('click',()=>window.open('manual.html','_blank'));
     document.getElementById('syncBtn').addEventListener('click',async()=>{await stopAll();await loadAll();await renderPg(page);okS();toast('✅ Tersinkron');});
     window.addEventListener('beforeunload',()=>stopAll());
     loadAll();
