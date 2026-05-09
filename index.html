@@ -659,7 +659,7 @@
           render();
           if (entered.length >= 4) {
             // Try match
-            setTimeout(() => {
+            setTimeout(async () => {
               if ((await pinHash(entered)) === pin) {
                 // Success
                 document.querySelectorAll('.pin-dot').forEach(d => d.classList.add('success'));
