@@ -772,8 +772,28 @@
           ${getAdminPin()?`<button class="btn btn-outline btn-block btn-sm" id="removePinBtn" style="margin-top:6px;">🗑️ Hapus PIN</button>`:''}
         </div>
       </div>
-      <div class="card" style="margin-top:12px;">
-        <div class="card-title">👥 Role & Akses</div>
+      ${isOwner() ? `
+      <div class="card" style="margin-top:12px;border:2px solid #fee2e2;">
+        <div class="card-title" style="color:#dc2626;">⚠️ Zona Berbahaya</div>
+        <div style="margin-top:10px;font-size:0.82rem;color:#64748b;">
+          Tindakan di bawah ini <strong style="color:#dc2626;">tidak dapat dibatalkan</strong>. Lakukan dengan hati-hati.
+        </div>
+        <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px;">
+          <button class="btn btn-danger btn-sm" id="resetTransBtn" style="text-align:left;justify-content:flex-start;gap:8px;">
+            🗑️ Reset Semua Transaksi &nbsp;<span style="font-size:0.7rem;opacity:0.8;">(${trans.length} data)</span>
+          </button>
+          <button class="btn btn-danger btn-sm" id="resetStockBtn" style="text-align:left;justify-content:flex-start;gap:8px;">
+            📦 Reset Semua Stok / Inventori &nbsp;<span style="font-size:0.7rem;opacity:0.8;">(${inv.length} data)</span>
+          </button>
+          <button class="btn btn-danger btn-sm" id="resetProductBtn" style="text-align:left;justify-content:flex-start;gap:8px;">
+            🗂️ Reset Semua Produk &nbsp;<span style="font-size:0.7rem;opacity:0.8;">(${products.length} produk)</span>
+          </button>
+          <button class="btn btn-sm" id="resetAllBtn" style="background:#7f1d1d;color:white;text-align:left;justify-content:flex-start;gap:8px;">
+            💣 RESET TOTAL — Hapus Semua Data
+          </button>
+        </div>
+      </div>` : `
+      <div class="lock-banner" style="margin-top:12px;">🔒 Reset data hanya tersedia untuk Owner/Admin</div>`}
         <div style="margin-top:10px;font-size:0.82rem;color:#475569;">
           <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:#f8fafc;border-radius:10px;margin-bottom:6px;">
             <span>👑 Owner / Admin</span>
@@ -863,6 +883,44 @@
           toast(msg);
         }
       });
+      // ─── Reset Data Handlers ───────────────────────────────────────
+      async function doReset(label, collections, emoji) {
+        const totalDocs = collections.reduce((s, c) => {
+          if (c === 'transactions') return s + trans.length;
+          if (c === 'inventory') return s + inv.length;
+          if (c === 'products') return s + products.length;
+          return s;
+        }, 0);
+        // Double confirm with typed phrase
+        const phrase = 'HAPUS';
+        const answer = prompt(`⚠️ ${emoji} Reset ${label}\n\nIni akan menghapus ${totalDocs} data secara permanen.\n\nKetik "${phrase}" untuk konfirmasi:`);
+        if (answer !== phrase) return toast('❌ Dibatalkan');
+        adminGuard(`Reset ${label}`, emoji, async () => {
+          try {
+            let count = 0;
+            const btn = document.getElementById('resetAllBtn') || document.getElementById('resetTransBtn');
+            if(btn) { btn.disabled = true; btn.textContent = '⏳ Menghapus...'; }
+            for (const colName of collections) {
+              const snap = await getDocs(uCol(colName));
+              for (const d of snap.docs) { await deleteDoc(uDoc(colName, d.id)); count++; }
+            }
+            await loadAll();
+            okS();
+            toast(`✅ ${count} data berhasil dihapus`);
+            await renderPg('profile');
+          } catch(e) { errS(); toast('❌ ' + e.message); }
+        });
+      }
+
+      document.getElementById('resetTransBtn')?.addEventListener('click', () =>
+        doReset('Semua Transaksi', ['transactions'], '🗑️'));
+      document.getElementById('resetStockBtn')?.addEventListener('click', () =>
+        doReset('Semua Stok', ['inventory'], '📦'));
+      document.getElementById('resetProductBtn')?.addEventListener('click', () =>
+        doReset('Semua Produk', ['products', 'inventory'], '🗂️'));
+      document.getElementById('resetAllBtn')?.addEventListener('click', () =>
+        doReset('SEMUA DATA', ['transactions', 'inventory', 'products'], '💣'));
+
       document.getElementById('logoutBtnPro').addEventListener('click',async()=>{
         if(confirm('Yakin ingin keluar?')){await stopAll();await signOut(auth);}
       });
@@ -1001,8 +1059,8 @@
         for(const item of posCart){const bs=bins(item.productId);let rem=item.qty;for(const b of bs){if(rem<=0)break;const ded=Math.min(rem,b.qty);const ns=b.qty-ded;if(ns<=0)await deleteDoc(uDoc("inventory",b.id));else await updateDoc(uDoc("inventory",b.id),{qty:ns});rem-=ded;}await addDoc(uCol("transactions"),{type:'POS',productId:item.productId,productName:item.productName,sku:item.sku,qty:item.qty,sellPrice:item.sellPrice,totalAmount:item.sellPrice*item.qty,invoiceNo:invNo,payment,timestamp:new Date(),userId:U.uid,userEmail:U.email});}
         const strutHtml=rStruk(invNo,total,payment,change,cartForReceipt);
         document.getElementById('posReceiptContainer').style.display='block';
-        document.getElementById('posReceiptContainer').innerHTML=`<div class="card-title">🧾 Struk</div><div class="pos-receipt" id="printStruk">${strutHtml}</div><button class="btn btn-outline btn-block btn-sm" id="printStrukBtn">🖨️ Cetak</button>`;
-        document.getElementById('printStrukBtn').addEventListener('click',()=>{const w=window.open('','_blank','width=400,height=600');w.document.write(`<!DOCTYPE html><html><head><title>${invNo}</title><style>@page{size:58mm auto;margin:3mm}body{font-family:'Courier New',monospace;font-size:11px;margin:0;padding:4px;width:58mm;max-width:58mm;}*{box-sizing:border-box;}</style></head><body>${document.getElementById('printStruk').outerHTML}<script>window.onload=function(){window.print();};<\/script></body></html>`);w.document.close();});
+        document.getElementById('posReceiptContainer').innerHTML=`<div class="card-title">🧾 Struk</div><div class="pos-receipt" id="printStruk">${strutHtml}</div><button class="btn btn-outline btn-block btn-sm" id="printStrukBtn">🖨️ Cetak Struk</button>`;
+        document.getElementById('printStrukBtn').addEventListener('click',()=>doPrintThermal(invNo,'printStruk'));
         okS();toast(`✅ Berhasil! Kembali: ${frp(change)}`);
         posCart=[];document.getElementById('posPayment').value='';document.getElementById('posChange').style.display='none';renderPC();await loadAll();refreshPH();
       }catch(e){errS();toast('❌ '+e.message);}
@@ -1069,64 +1127,94 @@
     function refreshPH() { const el=document.getElementById('posHistoryList');if(el)el.innerHTML=rPH(); }
 
     // ─── REPRINT SYSTEM ──────────────────────────────────────────────
+    function doPrintThermal(invoiceNo, previewHtmlId) {
+      const el = document.getElementById(previewHtmlId);
+      if (!el) return toast('⚠️ Preview tidak ditemukan');
+      const html = el.innerHTML;
+      const w = window.open('', '_blank', 'width=420,height=650,toolbar=0,scrollbars=1');
+      if (!w) { return toast('⚠️ Popup diblokir browser. Izinkan popup untuk situs ini.'); }
+      w.document.open();
+      w.document.write(`<!DOCTYPE html><html><head><title>${invoiceNo}</title><style>@page{size:58mm auto;margin:2mm}body{font-family:'Courier New',monospace;font-size:11px;margin:0;padding:4px;width:58mm;max-width:58mm;background:white;}*{box-sizing:border-box;}img{max-width:100%;height:auto;}</style></head><body>${html}</body></html>`);
+      w.document.close();
+      // Wait for images to load then print
+      w.onload = function() { w.focus(); w.print(); };
+      // Fallback if onload doesn't fire
+      setTimeout(() => { try { w.focus(); w.print(); } catch(e) {} }, 800);
+    }
+
     window.reprintInv = function(invoiceNo) {
-      const items = trans.filter(t=>t.type==='POS'&&t.invoiceNo===invoiceNo);
-      if(!items.length) return toast('⚠️ Data invoice tidak ditemukan');
-      const total = items.reduce((s,i)=>s+(i.totalAmount||0),0);
+      const items = trans.filter(t => t.type === 'POS' && t.invoiceNo === invoiceNo);
+      if (!items.length) return toast('⚠️ Data invoice tidak ditemukan');
+      const total   = items.reduce((s, i) => s + (i.totalAmount || 0), 0);
       const payment = items[0].payment || total;
-      const change = payment - total;
-      const ts = items[0].timestamp?.toDate?.() || new Date(items[0].timestamp);
-      const tgl = ts.toLocaleDateString('id-ID',{day:'2-digit',month:'2-digit',year:'numeric'});
-      const jam = ts.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
-      const cartItems = items.map(i=>({productName:i.productName,qty:i.qty,sellPrice:i.sellPrice||Math.round((i.totalAmount||0)/(i.qty||1))}));
+      const change  = payment - total;
+      const ts  = items[0].timestamp?.toDate?.() || new Date(items[0].timestamp);
+      const tgl = ts.toLocaleDateString('id-ID', {day:'2-digit', month:'2-digit', year:'numeric'});
+      const jam = ts.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'});
+      const cartItems = items.map(i => ({
+        productName: i.productName,
+        qty: i.qty,
+        sellPrice: i.sellPrice || Math.round((i.totalAmount || 0) / (i.qty || 1))
+      }));
       const html = rStruk(invoiceNo, total, payment, change, cartItems, tgl, jam);
-      modal(`<h3>🧾 ${invoiceNo}</h3>
-        <div class="receipt-preview-wrap" id="reprintPreview">${html}</div>
-        <div style="display:flex;gap:8px;margin-top:12px;">
-          <button class="btn btn-primary btn-block" id="doPrintBtn">🖨️ Print Thermal</button>
-          <button class="btn btn-outline btn-block" id="doClosePrintBtn">✕ Tutup</button>
+      modal(`
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <span style="font-size:1.8rem;">🧾</span>
+          <div><div style="font-weight:700;color:#1e40af;font-size:1rem;">${invoiceNo}</div>
+          <div style="font-size:0.75rem;color:#64748b;">${tgl} ${jam}</div></div>
+        </div>
+        <div class="receipt-preview-wrap" id="reprintPreview${invoiceNo.replace(/[^a-z0-9]/gi,'')}">${html}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;">
+          <button class="btn btn-primary" id="doPrintBtnRp">🖨️ Print Thermal</button>
+          <button class="btn btn-outline" id="doClosePrintBtn">✕ Tutup</button>
         </div>`);
-      document.getElementById('doPrintBtn').addEventListener('click',()=>{
-        const w=window.open('','_blank','width=400,height=600');
-        w.document.write(`<!DOCTYPE html><html><head><title>${invoiceNo}</title><style>@page{size:58mm auto;margin:3mm}body{font-family:'Courier New',monospace;font-size:11px;margin:0;padding:4px;width:58mm;max-width:58mm;}*{box-sizing:border-box;}img{max-width:100%;}</style></head><body>${document.getElementById('reprintPreview').innerHTML}<script>window.onload=function(){window.print();};<\/script></body></html>`);
-        w.document.close();
+      const safeId = `reprintPreview${invoiceNo.replace(/[^a-z0-9]/gi,'')}`;
+      document.getElementById('doPrintBtnRp').addEventListener('click', () => {
+        doPrintThermal(invoiceNo, safeId);
       });
-      document.getElementById('doClosePrintBtn').addEventListener('click',()=>closeM());
+      document.getElementById('doClosePrintBtn').addEventListener('click', () => closeM());
     };
 
     function showReprintModal() {
-      // Group all POS transactions by invoice
       const grouped = {};
-      trans.filter(t=>t.type==='POS'&&t.invoiceNo).forEach(t=>{
-        const k=t.invoiceNo;
-        if(!grouped[k]) grouped[k]={invoiceNo:k,items:[],total:0,payment:t.payment||0,timestamp:t.timestamp};
+      trans.filter(t => t.type === 'POS' && t.invoiceNo).forEach(t => {
+        const k = t.invoiceNo;
+        if (!grouped[k]) grouped[k] = {invoiceNo:k, items:[], total:0, payment:t.payment||0, timestamp:t.timestamp};
         grouped[k].items.push(t);
-        grouped[k].total += t.totalAmount||0;
+        grouped[k].total += t.totalAmount || 0;
       });
-      const invoices = Object.values(grouped).sort((a,b)=>{
-        const da=a.timestamp?.toDate?.()|| new Date(a.timestamp);
-        const db=b.timestamp?.toDate?.()|| new Date(b.timestamp);
-        return db-da;
+      const invoices = Object.values(grouped).sort((a, b) => {
+        const da = a.timestamp?.toDate?.() || new Date(a.timestamp);
+        const db = b.timestamp?.toDate?.() || new Date(b.timestamp);
+        return db - da;
       });
-      if(!invoices.length) return toast('⚠️ Belum ada riwayat penjualan');
-      modal(`<h3>🧾 Reprint Sales</h3>
-        <p style="font-size:0.8rem;color:#64748b;margin-bottom:10px;">${invoices.length} invoice ditemukan · Ketuk untuk reprint</p>
-        <div class="reprint-list">
-          ${invoices.map(g=>{
-            const ts=g.timestamp?.toDate?.()|| new Date(g.timestamp);
-            const dateStr=ts.toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
-            return `<div class="reprint-item" onclick="closeM();setTimeout(()=>window.reprintInv('${g.invoiceNo}'),200);">
-              <span style="font-size:1.4rem;">🧾</span>
+      if (!invoices.length) return toast('⚠️ Belum ada riwayat penjualan');
+      modal(`
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <h3 style="margin:0;">🧾 Reprint Sales</h3>
+          <span style="font-size:0.75rem;color:#64748b;">${invoices.length} invoice</span>
+        </div>
+        <div class="reprint-list" id="reprintListContainer">
+          ${invoices.map(g => {
+            const ts = g.timestamp?.toDate?.() || new Date(g.timestamp);
+            const dateStr = ts.toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});
+            const timeStr = ts.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+            const safeInv = g.invoiceNo.replace(/'/g,"\\'");
+            return `<div class="reprint-item" data-inv="${g.invoiceNo}">
+              <span style="font-size:1.3rem;">🧾</span>
               <div style="flex:1;min-width:0;">
                 <div class="reprint-inv">${g.invoiceNo}</div>
-                <div class="reprint-meta">${dateStr} · ${g.items.length} item</div>
+                <div class="reprint-meta">${dateStr} ${timeStr} · ${g.items.length} produk</div>
               </div>
-              <div class="reprint-total">${frp(g.total)}</div>
+              <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+                <span class="reprint-total">${frp(g.total)}</span>
+                <button class="btn btn-primary btn-sm" style="font-size:0.7rem;padding:4px 10px;" onclick="event.stopPropagation();window.reprintInv('${safeInv}');">🖨️ Print</button>
+              </div>
             </div>`;
           }).join('')}
         </div>`);
     }
-    // ────────────────────────────────────────────────────────────────
+    // ─────────────────────────────────────────────────────────────────
 
     // TRANSACTION
     async function transH() {
