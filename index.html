@@ -563,7 +563,8 @@
       if (!profile?.adminPin || profile.adminPin.length >= 32) return profile;
       try {
         await updateDoc(doc(db, "users", U.uid), { adminPin: null });
-        toast('🔐 Keamanan PIN diperbarui. Silakan set PIN baru di Pengaturan.');
+        // Tunda toast sampai app sudah tampil
+        setTimeout(() => toast('🔐 Keamanan PIN diperbarui. Silakan set PIN baru di Pengaturan.'), 1500);
       } catch(e) { console.warn('Pin migration error', e); }
       return { ...profile, adminPin: null };
     }
